@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: testovac/tasks/admin.py:13
+msgid "all"
+msgstr "všetky"
+
+#: testovac/tasks/admin.py:16
+msgid "accessible for groups"
+msgstr ""
+
+#: testovac/tasks/admin.py:26
+msgid "visibility"
+msgstr ""
+
+#: testovac/tasks/models.py:20
+msgid "competition"
+msgstr "súťaž"
+
+#: testovac/tasks/models.py:21
+msgid "competitions"
+msgstr "súťaže"
+
+#: testovac/tasks/models.py:41
+msgid "contest"
+msgstr "súťažné kolo"
+
+#: testovac/tasks/models.py:42
+msgid "contests"
+msgstr "súťažné kolá"
+
+#: testovac/tasks/models.py:59
+msgid "task"
+msgstr "úloha"
+
+#: testovac/tasks/models.py:60
+msgid "tasks"
+msgstr "úlohy"
