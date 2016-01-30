@@ -3,7 +3,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import Group
 
-from datetime import datetime
+from django.utils import timezone
+
+from testovac.tasks.utils import default_contest_start_end_time
 
 
 @python_2_unicode_compatible
@@ -41,15 +43,15 @@ class Contest(models.Model):
     name = models.CharField(max_length=128)
     competition = models.ForeignKey(Competition)
     number = models.IntegerField()
-    start_time = models.DateTimeField(default=datetime.now().replace(minute=0, second=0, microsecond=0))
-    end_time = models.DateTimeField(default=datetime.now().replace(minute=0, second=0, microsecond=0))
+    start_time = models.DateTimeField(default=default_contest_start_end_time)
+    end_time = models.DateTimeField(default=default_contest_start_end_time)
     visible = models.BooleanField(default=False)
 
     def is_visible_for_user(self, user):
         return (
             user.is_superuser or
             user.is_staff or
-            (self.visible and datetime.now() > self.start_time and self.competition.is_visible_for_user(user))
+            (self.visible and timezone.now() > self.start_time and self.competition.is_visible_for_user(user))
         )
 
     class Meta:

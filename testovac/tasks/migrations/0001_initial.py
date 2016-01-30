@@ -2,8 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import datetime
-from django.utils.timezone import utc
+import testovac.tasks.utils
 
 
 class Migration(migrations.Migration):
@@ -32,8 +31,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=128)),
                 ('number', models.IntegerField()),
-                ('start_time', models.DateTimeField(default=datetime.datetime(2016, 1, 30, 17, 0, tzinfo=utc))),
-                ('end_time', models.DateTimeField(default=datetime.datetime(2016, 1, 30, 17, 0, tzinfo=utc))),
+                ('start_time', models.DateTimeField(default=testovac.tasks.utils.default_contest_start_end_time)),
+                ('end_time', models.DateTimeField(default=testovac.tasks.utils.default_contest_start_end_time)),
                 ('visible', models.BooleanField(default=False)),
                 ('competition', models.ForeignKey(to='tasks.Competition')),
             ],
