@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% include "testovac/header.html" %}
+    <div class="container">
+        <div class="row">
+            <div>{% include "testovac/menu.html" %}</div>
+            <div>{% block page_content %}{% endblock %}</div>
+        </div>
+    </div>
+    {% include "testovac/footer.html" %}
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "testovac/base.html" %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block page_content %}
+    <ul>
+        {% for contest in contests %}
+            <li>{{ contest.name }}</li>
+            <ul>
+                {% for task in contest.task_set.all %}
+                    <li><a href="{% url 'task_statement' task.id%}">{{task.name}}</a></li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+{% endblock %}

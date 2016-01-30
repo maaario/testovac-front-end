@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-01-30 18:41+0100\n"
 "Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: testovac/tasks/admin.py:13
-msgid "all"
-msgstr "všetky"
+#: testovac/admin.py:4
+msgid "Tester-site administration"
+msgstr "Administrácia stránky testovača"
 
-#: testovac/tasks/admin.py:16
-msgid "accessible for groups"
+#: testovac/tasks/admin.py:12
+msgid "all"
 msgstr ""
 
-#: testovac/tasks/admin.py:26
+#: testovac/tasks/admin.py:15
+msgid "accessible for group"
+msgstr ""
+
+#: testovac/tasks/admin.py:25
 msgid "visibility"
 msgstr ""
 
@@ -23,18 +30,18 @@ msgstr "súťaž"
 msgid "competitions"
 msgstr "súťaže"
 
-#: testovac/tasks/models.py:41
+#: testovac/tasks/models.py:56
 msgid "contest"
 msgstr "súťažné kolo"
 
-#: testovac/tasks/models.py:42
+#: testovac/tasks/models.py:57
 msgid "contests"
 msgstr "súťažné kolá"
 
-#: testovac/tasks/models.py:59
+#: testovac/tasks/models.py:77
 msgid "task"
 msgstr "úloha"
 
-#: testovac/tasks/models.py:60
+#: testovac/tasks/models.py:78
 msgid "tasks"
 msgstr "úlohy"

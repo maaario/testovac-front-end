@@ -1,19 +1,18 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import force_text
 
 from testovac.tasks.models import Competition, Contest, Task
 
 
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'get_access_groups')
+    list_display = ('name', 'get_access_group')
 
-    def get_access_groups(self, obj):
+    def get_access_group(self, obj):
         if obj.public:
             return _('all')
         else:
-            return ', '.join(force_text(x) for x in obj.user_groups.all())
-    get_access_groups.short_description = _('accessible for groups')
+            return obj.users_group
+    get_access_group.short_description = _('accessible for group')
 
 
 class ContestAdmin(admin.ModelAdmin):

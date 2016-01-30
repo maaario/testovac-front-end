@@ -10,15 +10,23 @@ from datetime import datetime
 class Competition(models.Model):
     """
     Independent competition, consists of contests.
-    Competition can be made accessible only to specific user grups.
+    Competition can be made accessible only to specific group of users.
     """
     name = models.CharField(max_length=128)
     public = models.BooleanField(default=True)
-    user_groups = models.ManyToManyField(Group, blank=True)
+    users_group = models.ForeignKey(Group, blank=True, null=True)
 
     class Meta:
         verbose_name = _('competition')
         verbose_name_plural = _('competitions')
+
+    def is_visible_for_user(self, user):
+        return (
+            self.public or
+            user.is_superuser or
+            user.is_staff or
+            self.users_group in user.groups.all()
+        )
 
     def __str__(self):
         return self.name
@@ -37,6 +45,13 @@ class Contest(models.Model):
     end_time = models.DateTimeField(default=datetime.now().replace(minute=0, second=0, microsecond=0))
     visible = models.BooleanField(default=False)
 
+    def is_visible_for_user(self, user):
+        return (
+            user.is_superuser or
+            user.is_staff or
+            (self.visible and datetime.now() > self.start_time and self.competition.is_visible_for_user(user))
+        )
+
     class Meta:
         verbose_name = _('contest')
         verbose_name_plural = _('contests')
@@ -54,6 +69,9 @@ class Task(models.Model):
     contest = models.ForeignKey(Contest)
     number = models.IntegerField()
     max_points = models.IntegerField()
+
+    def is_visible_for_user(self, user):
+        return self.contest.is_visible_for_user(user)
 
     class Meta:
         verbose_name = _('task')
