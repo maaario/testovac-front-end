@@ -1,0 +1,43 @@
+.navbar-brand{
+	font-size: x-large;
+} 
+
+.page{
+	max-width: 1080px;
+	padding: auto;
+	background: #eee;
+    bottom: 0;
+}
+
+.side-menu{
+	top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    border-right: 1px solid #ddd;
+}
+
+.login-form input{
+    margin-bottom: 5px;
+}
+
+.main-content{
+	padding: 20px;
+}
+
+.footer{
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #f5f5f5;
+	border-top: 1px solid #ddd;
+}
+
+.footer-text{
+	margin: 20px 0;
+	text-align: center;
+    color: #555;
+}

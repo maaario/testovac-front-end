@@ -1,6 +1,22 @@
-<ul>
-    <li>News</li>
-    <li>Tasks</li>
-    <li>Results</li>
-    <li>Wiki articles</li>
+<ul class="nav nav-sidebar">
+    <li><a href="">News</a></li>
+    <li><a href="">Tasks</a></li>
+    <li><a href="">Results</a></li>
+    <li><a href="">Wiki articles</a></li>
 </ul>
+
+{% if user.is_authenticated %}
+     <form method="post" action="{% url 'logout' %}" class="navbar-form login-form">
+         {% csrf_token %}
+         <button type="submit" class="btn btn-primary">Log out</button>
+         <input type="hidden" name="next" value="{% url 'contest_list' %}" />
+    </form>
+{% else %}
+    <form method="post" action="{% url 'login' %}" class="navbar-form login-form">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username" class="form-control">
+        <input type="password" name="password" placeholder="Password" class="form-control">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+        <input type="hidden" name="next" value="{% url 'contest_list' %}" />
+    </form>
+{% endif %}

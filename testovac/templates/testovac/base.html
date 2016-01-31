@@ -5,15 +5,22 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
 </head>
 <body>
     {% include "testovac/header.html" %}
-    <div class="container">
+    <div class="container page">
         <div class="row">
-            <div>{% include "testovac/menu.html" %}</div>
-            <div>{% block page_content %}{% endblock %}</div>
+            <div class="col-md-3 side-menu">{% include "testovac/menu.html" %}</div>
+            <div class="col-md-9 main-content">{% block page_content %}{% endblock %}</div>
         </div>
     </div>
     {% include "testovac/footer.html" %}
+
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script>
 </body>
 </html>
