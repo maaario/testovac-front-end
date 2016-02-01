@@ -20,6 +20,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Sites only needed for wiki
+SITE_ID = 1
+
+
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -33,6 +37,18 @@ INSTALLED_APPS = (
     'testovac',
     'testovac.tasks',
     'testovac.news',
+
+    # wiki dependencies
+    'django.contrib.sites',
+    'django_nyt',
+    'mptt',
+    'sekizai',
+    'sorl.thumbnail',
+    'wiki',
+    'wiki.plugins.attachments',
+    'wiki.plugins.notifications',
+    'wiki.plugins.images',
+    'wiki.plugins.macros',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,10 +71,15 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                "sekizai.context_processors.sekizai",
             ],
         },
     },
@@ -104,6 +125,12 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
 
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+MEDIA_ROOT = env('TESTOVAC_FRONT_MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+MEDIA_URL = env('TESTOVAC_FRONT_MEDIA_URL', '/media/')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
