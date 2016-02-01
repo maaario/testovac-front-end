@@ -14,7 +14,10 @@
     <div class="container page">
         <div class="row">
             <div class="col-md-3 side-menu">{% include "testovac/menu.html" %}</div>
-            <div class="col-md-9 main-content">{% block page_content %}{% endblock %}</div>
+            <div class="col-md-9 page-content">
+                <div class="page-header">{% block page_header %}{% endblock %}</div>
+                <div>{% block page_content %}{% endblock %}</div>
+            </div>
         </div>
     </div>
     {% include "testovac/footer.html" %}

@@ -1,15 +1,16 @@
 <ul class="nav nav-sidebar">
-    <li><a href="">News</a></li>
-    <li><a href="">Tasks</a></li>
+    <li><a href="{% url 'news' %}">News</a></li>
+    <li><a href="{% url 'contest_list' %}">Tasks</a></li>
     <li><a href="">Results</a></li>
     <li><a href="">Wiki articles</a></li>
 </ul>
 
 {% if user.is_authenticated %}
-     <form method="post" action="{% url 'logout' %}" class="navbar-form login-form">
-         {% csrf_token %}
-         <button type="submit" class="btn btn-primary">Log out</button>
-         <input type="hidden" name="next" value="{% url 'contest_list' %}" />
+    <p>Signed in as {{ user.username }}</p>
+    <form method="post" action="{% url 'logout' %}" class="navbar-form login-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Log out</button>
+        <input type="hidden" name="next" value="{% url 'contest_list' %}" />
     </form>
 {% else %}
     <form method="post" action="{% url 'login' %}" class="navbar-form login-form">
