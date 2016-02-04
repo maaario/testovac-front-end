@@ -34,9 +34,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'easy_select2',
+    'bootstrapform',
     'testovac',
     'testovac.tasks',
     'testovac.news',
+    'testovac.submit',
 
     # wiki dependencies
     'django.contrib.sites',

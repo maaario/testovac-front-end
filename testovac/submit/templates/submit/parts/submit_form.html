@@ -1,0 +1,36 @@
+{% load bootstrap %}
+{% if receiver.has_description %}
+    <form class="form-inline" enctype="multipart/form-data" method="post" action="{% url 'post_submit' receiver_id=receiver.id %}">
+        {% csrf_token %}
+        <div class="form-group" style="min-width:50px;"><label>Description</label></div>
+        {{ description_form | bootstrap_inline }}
+        <input type="hidden" name="type" value="{{ Submit.DESCRIPTION }}" />
+        <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </form>
+{% endif %}
+{% if receiver.has_source %}
+    <form class="form-inline" enctype="multipart/form-data" method="post" action="{% url 'post_submit' receiver_id=receiver.id %}">
+        {% csrf_token %}
+        <div class="form-group" style="min-width:50px;"><label>Source code</label></div>
+        {{ source_form | bootstrap_inline }}
+        <input type="hidden" name="type" value="{{ Submit.SOURCE }}" />
+        <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </form>
+{% endif %}
+{% if receiver.has_testable_zip %}
+    <form class="form-inline" enctype="multipart/form-data" method="post" action="{% url 'post_submit' receiver_id=receiver.id %}">
+        {% csrf_token %}
+        <div class="form-group" style="min-width:50px;"><label>Zip</label></div>
+        {{ testable_zip_form | bootstrap_inline }}
+        <input type="hidden" name="type" value="{{ Submit.TESTABLE_ZIP }}" />
+        <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </form>
+{% endif %}
+
+{% if receiver.has_external %}
+    <p>Use a special web page to submit.</p>
+    <a class="btn btn-primary" href="{{ receiver.external_submit_link }}">Page with external submit</a>
+{% endif %}
