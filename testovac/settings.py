@@ -2,6 +2,7 @@
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.contrib.messages import constants as message_constants
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -81,7 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                "sekizai.context_processors.sekizai",
+                'sekizai.context_processors.sekizai',
             ],
         },
     },
@@ -139,3 +140,11 @@ MEDIA_URL = env('TESTOVAC_FRONT_MEDIA_URL', '/media/')
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'auth.User'
+
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'alert-debug',
+    message_constants.INFO: 'alert-info',
+    message_constants.SUCCESS: 'alert-success',
+    message_constants.WARNING: 'alert-warning',
+    message_constants.ERROR: 'alert-error',
+}
