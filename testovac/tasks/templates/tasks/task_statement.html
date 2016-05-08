@@ -1,7 +1,10 @@
 {% extends "testovac/base.html" %}
+{% load submit_parts %}
 
 {% block title %}{{ task.name }}{% endblock %}
 
 {% block page_content %}
     {{ task.name }}
+    {% url 'task_statement' task.id as task_url %}
+    {% show_submit_form task.submit_receiver task_url %}
 {% endblock %}

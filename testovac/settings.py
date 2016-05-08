@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'testovac',
     'testovac.tasks',
     'testovac.news',
-    # 'testovac.submit',
+    'testovac.submit',
 
     # wiki dependencies
     'django.contrib.sites',

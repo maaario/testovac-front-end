@@ -8,13 +8,13 @@ from django_nyt.urls import get_pattern as get_nyt_pattern
 
 import testovac.tasks.urls
 import testovac.news.urls
-# import testovac.submit.urls
+import testovac.submit.urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^tasks/', include(testovac.tasks.urls)),
     url(r'^news/', include(testovac.news.urls)),
-    # url(r'^submit/', include(testovac.submit.urls)),
+    url(r'^submit/', include(testovac.submit.urls)),
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),
 ]

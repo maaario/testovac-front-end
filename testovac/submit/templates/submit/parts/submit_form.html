@@ -1,0 +1,15 @@
+{% load bootstrap %}
+
+{% if submit_form %}
+    <form class="form-inline" enctype="multipart/form-data" method="post" action="{% url 'post_submit' receiver.id %}">
+        {% csrf_token %}
+        {{ submit_form | bootstrap_inline }}
+        <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </form>
+{% endif %}
+
+{% if submit_link %}
+    <p>Use a special page to submit.</p>
+    <a class="btn btn-primary" href="{{ submit_link }}">Page with external submit</a>
+{% endif %}
