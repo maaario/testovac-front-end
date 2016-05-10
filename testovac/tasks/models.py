@@ -72,7 +72,7 @@ class Task(models.Model):
     contest = models.ForeignKey(Contest)
     number = models.IntegerField()
     max_points = models.IntegerField()
-    submit_receiver = models.ForeignKey(SubmitReceiver)
+    submit_receivers = models.ManyToManyField(SubmitReceiver)
 
     def is_visible_for_user(self, user):
         return self.contest.is_visible_for_user(user)
