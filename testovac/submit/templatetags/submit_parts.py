@@ -6,7 +6,7 @@ register = template.Library()
 
 
 @register.inclusion_tag('submit/parts/submit_form.html')
-def show_submit_form(receiver, redirect):
+def submit_form(receiver, redirect):
     """
     Renders submit form for specified SubmitReceiver.
     """

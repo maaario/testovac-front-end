@@ -6,5 +6,9 @@
 {% block page_content %}
     {{ task.name }}
     {% url 'task_statement' task.id as task_url %}
-    {% show_submit_form task.submit_receiver task_url %}
+    {% for receiver in task.submit_receivers.all %}
+        {% submit_form receiver task_url %}
+    {% empty %}
+        <p class="text-danger">Solutions for this task can't be submitted yet.</p>
+    {% endfor %}
 {% endblock %}
