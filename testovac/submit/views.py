@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_POST
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import SubmitReceiver, Submit
 from .forms import FileSubmitForm
@@ -39,3 +40,14 @@ def post_submit(request, receiver_id):
         return redirect(request.POST['redirect_to'])
     else:
         return redirect('/')
+
+
+@login_required
+def view_submit(request, submit_id):
+    submit = get_object_or_404(Submit, pk=submit_id)
+    if submit.user != request.user and not request.user.is_staff:
+        raise PermissionDenied()
+
+    data = {'submit': submit}
+
+    return render(request, 'submit/view_submit.html', data)
