@@ -1,45 +1,74 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import SubmitReceiver, Submit
 from .forms import FileSubmitForm
-from .submit_helpers import write_chunks_to_file
-from . import settings as submit_settings
+from .submit_helpers import create_submit, send_to_judge
+from django.views.generic import View
 
 
-@login_required
-@require_POST
-def post_submit(request, receiver_id):
-    receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
-    config = receiver.configuration
+class PostSubmitForm(View):
+    login_required = True
 
-    form = FileSubmitForm(request.POST, request.FILES, configuration=config['form'])
-    if form.is_valid():
-        sfile = request.FILES['submit_file']
+    def can_post_submit(self, receiver, user):
+        """
+        Override this method to set, who can submit to this receiver.
+        E.g. users not allowed in this competition can't submit solutions for this task.
+        """
+        return True
 
-        submit = Submit(receiver=receiver,
-                        user=request.user,
-                        filename=sfile.name)
-        submit_settings.SUBMIT_CALLBACK(request, submit)
+    def is_submit_accepted(self, submit):
+        """
+        Override this method to decide which submits will be accepted, penalized or not accepted.
+        This method is called after the submit is created, but before it is saved in database.
+        E.g. submits after deadline are not accepted.
+        """
+        return Submit.ACCEPTED
 
-        submit.save()
+    def get_success_message(self, submit):
+        """
+        This message will be added to `messages` after successful submit.
+        """
+        return 'Success'
 
-        write_chunks_to_file(submit.file_path(), sfile.chunks())
+    def send_to_judge(self, submit):
+        """
+        Override if you use a different judge.
+        """
+        send_to_judge(submit)
 
-        if 'send_to_judge' in config and config['send_to_judge']:
-            pass
-    else:
-        for field in form:
-            for error in field.errors:
-                messages.add_message(request, messages.ERROR, "%s: %s" % (field.label, error))
+    def post(self, request, receiver_id):
+        receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
+        config = receiver.configuration
 
-    if 'redirect_to' in request.POST and request.POST['redirect_to']:
-        return redirect(request.POST['redirect_to'])
-    else:
-        return redirect('/')
+        if not self.can_post_submit(receiver, request.user):
+            raise PermissionDenied()
+
+        if 'form' in config:
+            form = FileSubmitForm(request.POST, request.FILES, configuration=config['form'])
+        else:
+            raise PermissionDenied()
+
+        if form.is_valid():
+            submit = create_submit(user=request.user,
+                                   receiver=receiver,
+                                   is_accepted_method=self.is_submit_accepted,
+                                   sfile=request.FILES['submit_file'],
+                                   )
+            if 'send_to_judge' in config and config['send_to_judge']:
+                self.send_to_judge(submit)
+            messages.add_message(request, messages.SUCCESS, self.get_success_message(submit))
+        else:
+            for field in form:
+                for error in field.errors:
+                    messages.add_message(request, messages.ERROR, "%s: %s" % (field.label, error))
+
+        if 'redirect_to' in request.POST and request.POST['redirect_to']:
+            return redirect(request.POST['redirect_to'])
+        else:
+            return redirect('/')
 
 
 @login_required

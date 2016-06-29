@@ -30,7 +30,8 @@ class FileSubmitForm(forms.Form):
         if sfile:
             extension = os.path.splitext(sfile.name)[1].lower()
             if self.extensions is not None and extension not in self.extensions:
-                raise forms.ValidationError('Invalid file extension %s' % extension)
+                raise forms.ValidationError('Invalid file extension %s. Only following formats are allowed %s'
+                                            % (extension, ' '.join(self.extensions)))
             return sfile
         else:
             raise forms.ValidationError('No file')
