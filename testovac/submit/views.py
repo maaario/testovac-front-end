@@ -65,6 +65,9 @@ class PostSubmitForm(View):
                 for error in field.errors:
                     messages.add_message(request, messages.ERROR, "%s: %s" % (field.label, error))
 
+            for error in form.non_field_errors():
+                messages.add_message(request, messages.ERROR, error)
+
         if 'redirect_to' in request.POST and request.POST['redirect_to']:
             return redirect(request.POST['redirect_to'])
         else:
