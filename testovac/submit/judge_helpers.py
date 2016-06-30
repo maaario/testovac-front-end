@@ -52,3 +52,7 @@ def prepare_raw_file(review):
     )
 
     write_chunks_to_file(review.raw_path(), [raw_head, submitted_source])
+
+
+def prepare_protocol_data(protocol_path):
+    return {}

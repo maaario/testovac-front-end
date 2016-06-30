@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 from .models import SubmitReceiver, Submit, Review
 from .forms import FileSubmitForm
 from .submit_helpers import create_submit, write_chunks_to_file, send_file
-from .judge_helpers import send_to_judge
+from .judge_helpers import send_to_judge, prepare_protocol_data
 
 
 class PostSubmitForm(View):
@@ -102,6 +102,9 @@ def view_submit(request, submit_id):
         'submit': submit,
         'review': review,
     }
+
+    if review and review.protocol_exists():
+        data.update(prepare_protocol_data(review.protocol_path()))
 
     return render(request, 'submit/view_submit.html', data)
 

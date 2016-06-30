@@ -21,6 +21,7 @@
     {% if submit.file_exists %}
         <p>{% trans 'Submitted file' %}: <a href="{% url 'download_submit' submit.id %}">{{ submit.filename }}</a></p>
     {% endif %}
+
     {% if review %}
         <h3>{% trans 'Review' %}</h3>
         <p>{{ review.short_response }}</p>
@@ -30,6 +31,10 @@
         {% endif %}
         {% if review.file_exists %}
             <p>{% trans 'Reviewed file' %}: <a href="{% url 'download_review' review.id %}">{{ review.filename }}</a></p>
+        {% endif %}
+
+        {% if review.protocol_exists %}
+            {% include 'submit/protocol.html' %}
         {% endif %}
 
     {% else %}

@@ -119,6 +119,9 @@ class Review(models.Model):
     def protocol_path(self):
         return os.path.join(self.submit.dir_path(), str(self.id) + constants.TESTING_PROTOCOL_EXTENSION)
 
+    def protocol_exists(self):
+        return os.path.exists(self.protocol_path())
+
     class Meta:
         verbose_name = 'review'
         verbose_name_plural = 'reviews'
