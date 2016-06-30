@@ -80,6 +80,9 @@ def view_submit(request, submit_id):
     if submit.user != request.user and not request.user.is_staff:
         raise PermissionDenied()
 
-    data = {'submit': submit}
+    data = {
+        'submit': submit,
+        'review': submit.last_review(),
+    }
 
     return render(request, 'submit/view_submit.html', data)

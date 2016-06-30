@@ -73,6 +73,12 @@ class Submit(models.Model):
     def file_path(self):
         return os.path.join(self.dir_path(), str(self.id) + constants.SUBMITTED_FILE_EXTENSION)
 
+    def last_review(self):
+        reviews = self.review_set.order_by('-time')
+        if reviews:
+            return reviews[0]
+        return None
+
     class Meta:
         verbose_name = 'submit'
         verbose_name_plural = 'submits'

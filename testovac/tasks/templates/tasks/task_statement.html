@@ -8,6 +8,9 @@
     {% url 'task_statement' task.id as task_url %}
     {% for receiver in task.submit_receivers.all %}
         {% submit_form receiver task_url %}
+        {% if receiver.configuration.form %}
+            {% submit_list receiver user %}
+        {% endif %}
     {% empty %}
         <p class="text-danger">Solutions for this task can't be submitted yet.</p>
     {% endfor %}

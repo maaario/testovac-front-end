@@ -1,0 +1,26 @@
+{% load i18n %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>{% trans 'Time' %}</th>
+            <th>{% trans 'State' %}</th>
+            <th>{% trans 'Score' %}</th>
+            <th>{% trans 'Actions' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for submit, review in submits %}
+        <tr>
+            <td>{{ submit.time }}</a></td>
+            {% if review %}
+                <td>{% trans 'Reviewed' %}</td>
+                <td>{{ review.score }}</td>
+            {% else %}
+                <td>{% trans 'Not reviewed' %}</td>
+                <td>..</td>
+            {% endif %}
+            <td><a class="btn btn-primary btn-xs" href="{% url 'view_submit' submit_id=submit.id %}">{% trans 'View' %}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

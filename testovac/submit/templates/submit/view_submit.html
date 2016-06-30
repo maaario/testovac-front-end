@@ -1,7 +1,34 @@
 {% extends "submit/base.html" %}
 
-{% block title %}Submit {{ submit.id }}{% endblock title %}
+{% load submit_parts %}
+{% load i18n %}
+
+{% block title %}{% trans 'Submit' %} {{ submit.id }}{% endblock title %}
+
+{% block page_header %}
+    <h1>{% trans 'Submit details' %}</h1>
+    {% if user.is_staff %}
+        <a href="{% url 'admin:submit_submit_change' submit.id %}">
+            <span class="glyphicon glyphicon-pencil"></span> {% trans 'Edit and review' %}
+        </a>
+    {% endif %}
+{% endblock %}
 
 {% block page_content %}
-<p>Submit {{ submit.id }} by {{ submit.user }}</p>
+    <p>{% blocktrans with submit=submit.id user=submit.user %}Submit {{ submit }} by {{ user }}{% endblocktrans %}</p>
+    <p>{{ submit.time }}</p>
+    <p>{% trans 'Accepted' %}: {{ submit.get_is_accepted_display }}</p>
+
+    {% if review %}
+        <h3>{% trans 'Review' %}</h3>
+        <p>{{ review.short_response }}</p>
+        <p>{% trans 'Score' %}: {{ review.score }}</p>
+        {% if review.comment %}
+            <p>{% trans "Reviewer's comment" %}: {{ review.comment }}</p>
+        {% endif %}
+    {% else %}
+        <p>{% trans 'Not reviewed yet.' %}</p>
+    {% endif %}
+
+    {% submit_list submit.receiver user %}
 {% endblock page_content %}

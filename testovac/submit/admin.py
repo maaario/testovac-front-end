@@ -11,8 +11,16 @@ class SubmitReceiverAdmin(admin.ModelAdmin):
     pass
 
 
+class ReviewInline(admin.StackedInline):
+    model = Review
+    fields = ('time', 'score', 'short_response', 'comment')
+    readonly_fields = ('time',)
+    ordering = ('-time',)
+    extra = 0
+
+
 class SubmitAdmin(admin.ModelAdmin):
-    pass
+    inlines = [ReviewInline]
 
 
 class ReviewAdmin(admin.ModelAdmin):
