@@ -1,3 +1,5 @@
+import os
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -9,7 +11,7 @@ from django.views.decorators.http import require_POST
 
 from .models import SubmitReceiver, Submit, Review
 from .forms import FileSubmitForm
-from .submit_helpers import create_submit, write_chunks_to_file
+from .submit_helpers import create_submit, write_chunks_to_file, send_file
 from .judge_helpers import send_to_judge
 
 
@@ -95,12 +97,29 @@ def view_submit(request, submit_id):
     if submit.user != request.user and not request.user.is_staff:
         raise PermissionDenied()
 
+    review = submit.last_review()
     data = {
         'submit': submit,
-        'review': submit.last_review(),
+        'review': review,
     }
 
     return render(request, 'submit/view_submit.html', data)
+
+
+@login_required
+def download_submit(request, submit_id):
+    submit = get_object_or_404(Submit, pk=submit_id)
+    if submit.user != request.user and not request.user.is_staff:
+        raise PermissionDenied()
+    return send_file(request, submit.file_path(), submit.filename)
+
+
+@login_required
+def download_review(request, review_id):
+    review = get_object_or_404(Review, pk=review_id)
+    if review.submit.user != request.user and not request.user.is_staff:
+        raise PermissionDenied()
+    return send_file(request, review.file_path(), review.filename)
 
 
 @csrf_exempt

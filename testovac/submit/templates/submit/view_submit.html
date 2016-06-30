@@ -18,7 +18,9 @@
     <p>{% blocktrans with submit=submit.id user=submit.user %}Submit {{ submit }} by {{ user }}{% endblocktrans %}</p>
     <p>{{ submit.time }}</p>
     <p>{% trans 'Accepted' %}: {{ submit.get_is_accepted_display }}</p>
-
+    {% if submit.file_exists %}
+        <p>{% trans 'Submitted file' %}: <a href="{% url 'download_submit' submit.id %}">{{ submit.filename }}</a></p>
+    {% endif %}
     {% if review %}
         <h3>{% trans 'Review' %}</h3>
         <p>{{ review.short_response }}</p>
@@ -26,6 +28,10 @@
         {% if review.comment %}
             <p>{% trans "Reviewer's comment" %}: {{ review.comment }}</p>
         {% endif %}
+        {% if review.file_exists %}
+            <p>{% trans 'Reviewed file' %}: <a href="{% url 'download_review' review.id %}">{{ review.filename }}</a></p>
+        {% endif %}
+
     {% else %}
         <p>{% trans 'Not reviewed yet.' %}</p>
     {% endif %}

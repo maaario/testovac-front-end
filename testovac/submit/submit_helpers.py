@@ -1,8 +1,11 @@
 import os
 
-from .models import Submit
-from . import settings as submit_settings
+from django.http import Http404
+from sendfile import sendfile
+
 import constants
+from . import settings as submit_settings
+from .models import Submit
 
 
 def add_language_preference_to_filename(filename, language_preference, allowed_languages):
@@ -43,3 +46,22 @@ def create_submit(user, receiver, is_accepted_method, sfile = None):
     write_chunks_to_file(submit.file_path(), sfile.chunks())
     return submit
 
+
+def send_file(request, filepath, filename):
+    """
+    Display .txt and .pdf files in browser, offer download for other files
+    Returns a response object.
+    """
+    extension = os.path.splitext(filename)[1]
+    as_attachment = extension.lower() not in submit_settings.SUBMIT_VIEWABLE_EXTENSIONS
+    if os.path.exists(filepath):
+        response = sendfile(
+            request,
+            filepath,
+            attachment=as_attachment,
+            attachment_filename=filename,
+        )
+        response['Content-Disposition'] = 'inline; filename="%s"' % filename
+        return response
+    else:
+        raise Http404

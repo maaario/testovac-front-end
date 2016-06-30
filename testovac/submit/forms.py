@@ -1,7 +1,7 @@
+import os
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-
-import os
 
 from . import settings as submit_settings
 from .submit_helpers import add_language_preference_to_filename

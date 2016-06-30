@@ -1,9 +1,9 @@
-from django.db import models
-from django.conf import settings as django_settings
-from django.utils.encoding import python_2_unicode_compatible
-from django.contrib.postgres.fields import JSONField
-
 import os
+
+from django.conf import settings as django_settings
+from django.contrib.postgres.fields import JSONField
+from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 from . import settings as submit_settings
 from . import constants
@@ -74,6 +74,9 @@ class Submit(models.Model):
     def file_path(self):
         return os.path.join(self.dir_path(), str(self.id) + constants.SUBMITTED_FILE_EXTENSION)
 
+    def file_exists(self):
+        return os.path.exists(self.file_path())
+
     def last_review(self):
         reviews = self.review_set.order_by('-time')
         if reviews:
@@ -102,9 +105,13 @@ class Review(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     short_response = models.CharField(max_length=128, blank=True)
     comment = models.TextField(blank=True)
+    filename = models.CharField(max_length=128, blank=True)
 
     def file_path(self):
         return os.path.join(self.submit.dir_path(), str(self.id) + constants.REVIEWED_FILE_EXTENSION)
+
+    def file_exists(self):
+        return os.path.exists(self.file_path())
 
     def raw_path(self):
         return os.path.join(self.submit.dir_path(), str(self.id) + constants.TESTING_RAW_EXTENSION)
