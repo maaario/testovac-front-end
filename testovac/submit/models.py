@@ -68,7 +68,8 @@ class Submit(models.Model):
     is_accepted = models.IntegerField(default=ACCEPTED, choices=IS_ACCEPTED_CHOICES)
 
     def dir_path(self):
-        return os.path.join(submit_settings.SUBMIT_PATH, 'submits', str(self.user.id), str(self.receiver.id))
+        return os.path.join(submit_settings.SUBMIT_PATH, 'submits',
+                            str(self.user.id), str(self.receiver.id), str(self.id))
 
     def file_path(self):
         return os.path.join(self.dir_path(), str(self.id) + constants.SUBMITTED_FILE_EXTENSION)
@@ -101,6 +102,15 @@ class Review(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     short_response = models.CharField(max_length=128, blank=True)
     comment = models.TextField(blank=True)
+
+    def file_path(self):
+        return os.path.join(self.submit.dir_path(), str(self.id) + constants.REVIEWED_FILE_EXTENSION)
+
+    def raw_path(self):
+        return os.path.join(self.submit.dir_path(), str(self.id) + constants.TESTING_RAW_EXTENSION)
+
+    def protocol_path(self):
+        return os.path.join(self.submit.dir_path(), str(self.id) + constants.TESTING_PROTOCOL_EXTENSION)
 
     class Meta:
         verbose_name = 'review'

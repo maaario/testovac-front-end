@@ -1,12 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-
-from .models import SubmitReceiver, Submit
-from .forms import FileSubmitForm
-from .submit_helpers import create_submit, send_to_judge
 from django.views.generic import View
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+from .models import SubmitReceiver, Submit, Review
+from .forms import FileSubmitForm
+from .submit_helpers import create_submit, write_chunks_to_file
+from .judge_helpers import send_to_judge
 
 
 class PostSubmitForm(View):
@@ -39,6 +43,15 @@ class PostSubmitForm(View):
         """
         send_to_judge(submit)
 
+    def redirect_after_post(self, request):
+        """
+        Override to redirect to a different location after submit.
+        """
+        if 'redirect_to' in request.POST and request.POST['redirect_to']:
+            return request.POST['redirect_to']
+        else:
+            return '/'
+
     def post(self, request, receiver_id):
         receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
         config = receiver.configuration
@@ -57,21 +70,23 @@ class PostSubmitForm(View):
                                    is_accepted_method=self.is_submit_accepted,
                                    sfile=request.FILES['submit_file'],
                                    )
-            if 'send_to_judge' in config and config['send_to_judge']:
-                self.send_to_judge(submit)
-            messages.add_message(request, messages.SUCCESS, self.get_success_message(submit))
         else:
             for field in form:
                 for error in field.errors:
                     messages.add_message(request, messages.ERROR, "%s: %s" % (field.label, error))
-
             for error in form.non_field_errors():
                 messages.add_message(request, messages.ERROR, error)
+            return redirect(self.redirect_after_post(request))
 
-        if 'redirect_to' in request.POST and request.POST['redirect_to']:
-            return redirect(request.POST['redirect_to'])
-        else:
-            return redirect('/')
+        if 'send_to_judge' in config and config['send_to_judge']:
+            try:
+                self.send_to_judge(submit)
+            except Exception:
+                messages.add_message(request, messages.ERROR, 'Upload to judge was not successful.')
+                return redirect(self.redirect_after_post(request))
+
+        messages.add_message(request, messages.SUCCESS, self.get_success_message(submit))
+        return redirect(self.redirect_after_post(request))
 
 
 @login_required
@@ -86,3 +101,14 @@ def view_submit(request, submit_id):
     }
 
     return render(request, 'submit/view_submit.html', data)
+
+
+@csrf_exempt
+@require_POST
+def receive_protocol(request):
+    review_id = request.POST['submit_id']
+    review = get_object_or_404(Review, pk=review_id)
+    review.short_response = request.POST['result']
+    write_chunks_to_file(review.protocol_path(), [request.POST['log']])
+    review.save()
+    return HttpResponse("")

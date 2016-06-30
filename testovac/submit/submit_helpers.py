@@ -43,6 +43,3 @@ def create_submit(user, receiver, is_accepted_method, sfile = None):
     write_chunks_to_file(submit.file_path(), sfile.chunks())
     return submit
 
-
-def send_to_judge(submit):
-    pass

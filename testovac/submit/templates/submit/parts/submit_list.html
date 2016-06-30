@@ -13,7 +13,7 @@
         <tr>
             <td>{{ submit.time }}</a></td>
             {% if review %}
-                <td>{% trans 'Reviewed' %}</td>
+                <td>{{ review.short_response }}</td>
                 <td>{{ review.score }}</td>
             {% else %}
                 <td>{% trans 'Not reviewed' %}</td>
