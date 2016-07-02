@@ -17,17 +17,17 @@
                             success
                        {% elif review.short_response == response.SENDING_TO_JUDGE or review.short_response == response.SENT_TO_JUDGE %}
                             info
-                       {% elif review.score == 0 %}
-                            danger
-                       {% else %}
+                       {% elif review.score > 0 %}
                             warning
+                       {% else %}
+                            danger
                        {% endif %}">
         {% else %}
             <tr class="info">
         {% endif %}
             <td>{{ submit.time }}</td>
             {% if review %}
-                <td>{{ response|verbose:review.short_response }}</td>
+                <td>{{ review.verbose_response }}</td>
                 <td>{{ review.score }}</td>
             {% else %}
                 <td>{% trans 'Not reviewed' %}</td>

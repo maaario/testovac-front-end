@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">{% trans 'Submit' %}</div>
+    <div class="panel-body">
+    <table class="table-condensed">
+        <tr>
+            <th>ID:</th>
+            <td>{{ submit.id }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'User' %}:</th>
+            <td>{{ submit.user }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Time' %}:</th>
+            <td>{{ submit.time }}</td>
+        </tr>
+        <tr>
+            <th>{% trans 'Accepted' %}:</th>
+            <td>{{ submit.get_is_accepted_display }}</td>
+        </tr>
+        {% if submit.file_exists %}
+            <tr>
+                <th>{% trans 'Submitted file' %}:</th>
+                <td><a href="{% url 'download_submit' submit.id %}">{{ submit.filename }}</a></td>
+            </tr>
+        {% endif %}
+    </table>
+    </div>
+</div>

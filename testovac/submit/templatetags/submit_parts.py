@@ -8,13 +8,14 @@ register = template.Library()
 
 
 @register.inclusion_tag('submit/parts/submit_form.html')
-def submit_form(receiver, redirect):
+def submit_form(receiver, redirect, caption=None):
     """
     Renders submit form for specified SubmitReceiver.
     """
     data = {
         'receiver': receiver,
         'redirect_to': redirect,
+        'caption': caption,
     }
 
     conf = receiver.configuration
@@ -39,6 +40,6 @@ def submit_list(receiver, user):
 @register.filter
 def verbose(obj, msg):
     """
-    Use to print verbose versions of constants.JudgeTestResult, constants.ReviewResponse
+    Use to print verbose versions of constants.JudgeTestResult
     """
     return obj.verbose(msg)

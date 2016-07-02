@@ -7,6 +7,7 @@
 
 {% block page_header %}
     <h1>{% trans 'Submit details' %}</h1>
+
     {% if user.is_staff %}
         <a href="{% url 'admin:submit_submit_change' submit.id %}">
             <span class="glyphicon glyphicon-pencil"></span> {% trans 'Edit and review' %}
@@ -15,31 +16,20 @@
 {% endblock %}
 
 {% block page_content %}
-    <p>{% blocktrans with submit=submit.id user=submit.user %}Submit {{ submit }} by {{ user }}{% endblocktrans %}</p>
-    <p>{{ submit.time }}</p>
-    <p>{% trans 'Accepted' %}: {{ submit.get_is_accepted_display }}</p>
-    {% if submit.file_exists %}
-        <p>{% trans 'Submitted file' %}: <a href="{% url 'download_submit' submit.id %}">{{ submit.filename }}</a></p>
+    <div class="row">
+        <div class="col col-md-6">
+            {% include 'submit/submit_info.html' %}
+        </div>
+        <div class="col col-md-6">
+            {% include 'submit/review_info.html' %}
+        </div>
+    </div>
+
+    <h3>{% trans 'Protocol' %}</h3>
+    {% if review and protocol_expected %}
+        {% include 'submit/protocol.html' %}
     {% endif %}
 
-    {% if review %}
-        <h3>{% trans 'Review' %}</h3>
-        <p>{{ review.short_response }}</p>
-        <p>{% trans 'Score' %}: {{ review.score }}</p>
-        {% if review.comment %}
-            <p>{% trans "Reviewer's comment" %}: {{ review.comment }}</p>
-        {% endif %}
-        {% if review.file_exists %}
-            <p>{% trans 'Reviewed file' %}: <a href="{% url 'download_review' review.id %}">{{ review.filename }}</a></p>
-        {% endif %}
-
-        {% if protocol_expected %}
-            {% include 'submit/protocol.html' %}
-        {% endif %}
-
-    {% else %}
-        <p>{% trans 'Not reviewed yet.' %}</p>
-    {% endif %}
-
+    <h3>{% trans 'All submits' %}</h3>
     {% submit_list submit.receiver user %}
 {% endblock page_content %}

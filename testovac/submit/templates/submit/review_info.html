@@ -1,0 +1,37 @@
+{% load i18n %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">{% trans 'Review' %}</div>
+    <div class="panel-body">
+        {% if review %}
+            <table class="table-condensed">
+                <tr>
+                    <th>{% trans 'Result' %}:</th>
+                    <td>{{ review.verbose_response }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans 'Score' %}:</th>
+                    <td>{{ review.score }}</td>
+                </tr>
+                {% if review.file_exists %}
+                    <tr>
+                        <th>{% trans 'Reviewed file' %}:</th>
+                        <td><a href="{% url 'download_review' review.id %}">{{ review.filename }}</a></td>
+                    </tr>
+                {% endif %}
+                {% if review.comment %}
+                    <tr>
+                        <th>{% trans "Reviewer's comment" %}:</th>
+                        <td></td>
+                    </tr>
+
+                {% endif %}
+            </table>
+            {% if review.comment %}
+                <p>{{ review.comment|linebreaks }}</p>
+            {% endif %}
+        {% else %}
+            <p>{% trans 'Not reviewed yet.' %}</p>
+        {% endif %}
+    </div>
+</div>

@@ -107,6 +107,9 @@ class Review(models.Model):
     comment = models.TextField(blank=True)
     filename = models.CharField(max_length=128, blank=True)
 
+    def verbose_response(self):
+        return constants.ReviewResponse.verbose(self.short_response)
+
     def file_path(self):
         return os.path.join(self.submit.dir_path(), str(self.id) + constants.REVIEWED_FILE_EXTENSION)
 
