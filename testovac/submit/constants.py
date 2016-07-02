@@ -4,7 +4,9 @@ SUBMITTED_FILE_EXTENSION = '.submit'
 REVIEWED_FILE_EXTENSION = '.review'
 TESTING_PROTOCOL_EXTENSION = '.protocol'
 TESTING_RAW_EXTENSION = '.raw'
+
 DEDUCE_LANGUAGE_AUTOMATICALLY_OPTION = '.'
+DEDUCE_LANGUAGE_AUTOMATICALLY_VERBOSE = _('Deduce from extension')
 
 
 class JudgeTestResult(object):
@@ -47,10 +49,10 @@ class ReviewResponse(JudgeTestResult):
     REVIEWED = 'Reviewed'
 
     VERBOSE_RESPONSE = {
-        SENDING_TO_JUDGE: _(SENDING_TO_JUDGE),
-        SENT_TO_JUDGE: _(SENT_TO_JUDGE),
-        JUDGE_UNAVAILABLE: _(JUDGE_UNAVAILABLE),
-        REVIEWED: _(REVIEWED),
+        SENDING_TO_JUDGE: _('Sending to judge'),
+        SENT_TO_JUDGE: _('Sent to judge'),
+        JUDGE_UNAVAILABLE: _('Judge unavailable'),
+        REVIEWED: _('Reviewed'),
     }
 
     @classmethod

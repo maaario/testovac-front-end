@@ -6,7 +6,6 @@
     "configuration": {
       "form": {
         "languages": [
-          [".", "Automatically"],
           [".cc", "C++ (.cpp/.cc)"],
           [".pas", "Pascal (.pas/.dpr)"],
           [".c", "C (.c)"],

@@ -3,6 +3,7 @@ import os
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from . import constants
 from . import settings as submit_settings
 from .submit_helpers import add_language_preference_to_filename
 
@@ -20,7 +21,8 @@ class FileSubmitForm(forms.Form):
         self.languages = config.get('languages', None)
 
         if self.languages is not None:
-            self.fields['language'] = forms.ChoiceField(label='language', choices=self.languages)
+            automatic = [[constants.DEDUCE_LANGUAGE_AUTOMATICALLY_OPTION, constants.DEDUCE_LANGUAGE_AUTOMATICALLY_VERBOSE]]
+            self.fields['language'] = forms.ChoiceField(label=_('Language'), choices=automatic + self.languages)
 
     submit_file = forms.FileField(
         max_length=submit_settings.SUBMIT_UPLOADED_FILENAME_MAXLENGTH,

@@ -10,7 +10,8 @@ register = template.Library()
 @register.inclusion_tag('submit/parts/submit_form.html')
 def submit_form(receiver, redirect, caption=None):
     """
-    Renders submit form for specified SubmitReceiver.
+    Renders submit form (or link) for specified SubmitReceiver.
+    If the receiver doesn't have form (or link), nothing will be rendered.
     """
     data = {
         'receiver': receiver,
@@ -29,6 +30,9 @@ def submit_form(receiver, redirect, caption=None):
 
 @register.inclusion_tag('submit/parts/submit_list.html')
 def submit_list(receiver, user):
+    """
+    List of all submits for specified user and receiver.
+    """
     submits = Submit.objects.filter(receiver=receiver, user=user).order_by('-time')
     data = {
         'submits': [(submit, submit.last_review()) for submit in submits],

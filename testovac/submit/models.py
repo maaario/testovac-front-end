@@ -4,6 +4,7 @@ from django.conf import settings as django_settings
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
 
 from . import settings as submit_settings
 from . import constants
@@ -61,9 +62,9 @@ class Submit(models.Model):
     ACCEPTED_WITH_PENALIZATION = 1
     ACCEPTED = 2
     IS_ACCEPTED_CHOICES = [
-        (NOT_ACCEPTED, 'no'),
-        (ACCEPTED_WITH_PENALIZATION, 'with penalization'),
-        (ACCEPTED, 'yes'),
+        (NOT_ACCEPTED, _('no')),
+        (ACCEPTED_WITH_PENALIZATION, _('with penalization')),
+        (ACCEPTED, _('yes')),
     ]
     is_accepted = models.IntegerField(default=ACCEPTED, choices=IS_ACCEPTED_CHOICES)
 
