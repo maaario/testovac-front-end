@@ -46,12 +46,15 @@ class ReviewResponse(JudgeTestResult):
     SENDING_TO_JUDGE = 'Sending to judge'
     SENT_TO_JUDGE = 'Sent to judge'
     JUDGE_UNAVAILABLE = 'Judge unavailable'
+    PROTOCOL_CORRUPTED = 'Protocol corrupted'
     REVIEWED = 'Reviewed'
 
     VERBOSE_RESPONSE = {
+        # strings are here as literals so `manage.py makemessages` will include them into django.po file
         SENDING_TO_JUDGE: _('Sending to judge'),
         SENT_TO_JUDGE: _('Sent to judge'),
         JUDGE_UNAVAILABLE: _('Judge unavailable'),
+        PROTOCOL_CORRUPTED: _('Protocol corrupted'),
         REVIEWED: _('Reviewed'),
     }
 

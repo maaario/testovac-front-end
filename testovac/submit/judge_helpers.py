@@ -52,13 +52,13 @@ def parse_protocol(protocol_path, force_show_details=False):
     try:
         tree = ET.parse(protocol_path)
     except:
-        # don't throw error if protocol is corrupted. (should only happen while protocol is being uploaded)
+        # Protocol is either corrupted or just upload is not finished
         data['ready'] = False
         return data
 
     clog = tree.find('compileLog')
     data['compile_log_present'] = clog is not None
-    data['compile_log'] = clog or ''
+    data['compile_log'] = clog.text or ''
 
     tests = []
     runlog = tree.find('runLog')
