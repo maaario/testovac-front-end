@@ -23,7 +23,16 @@
         {% if submit.file_exists %}
             <tr>
                 <th>{% trans 'Submitted file' %}:</th>
-                <td><a href="{% url 'download_submit' submit.id %}">{{ submit.filename }}</a></td>
+                <td>{{ submit.filename }}</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    {% if show_submitted_file %}
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapse-submitted-file">{% trans 'Show' %}</a>
+                    {% endif %}
+                     <a class="btn btn-primary" href="{% url 'download_submit' submit.id %}">{% trans 'Download' %}</a>
+                </td>
             </tr>
         {% endif %}
     </table>

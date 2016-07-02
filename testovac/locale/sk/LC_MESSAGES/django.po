@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 17:50+0200\n"
+"POT-Creation-Date: 2016-07-02 20:32+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
@@ -178,7 +178,7 @@ msgid "Not reviewed yet."
 msgstr "Zatiaľ neohodnotené."
 
 #: testovac/submit/templates/submit/submit_info.html:4
-#: testovac/submit/templates/submit/view_submit.html:6
+#: testovac/submit/templates/submit/view_submit.html:7
 msgid "Submit"
 msgstr "Submit"
 
@@ -194,19 +194,27 @@ msgstr "Akceptované"
 msgid "Submitted file"
 msgstr "Odovzdaný súbor"
 
-#: testovac/submit/templates/submit/view_submit.html:9
+#: testovac/submit/templates/submit/submit_info.html:32
+msgid "Show"
+msgstr "Ukáž"
+
+#: testovac/submit/templates/submit/submit_info.html:34
+msgid "Download"
+msgstr "Stiahni"
+
+#: testovac/submit/templates/submit/view_submit.html:27
 msgid "Submit details"
 msgstr "Detaily submitu"
 
-#: testovac/submit/templates/submit/view_submit.html:13
+#: testovac/submit/templates/submit/view_submit.html:31
 msgid "Edit and review"
 msgstr "Uprav a ohodnoť"
 
-#: testovac/submit/templates/submit/view_submit.html:28
+#: testovac/submit/templates/submit/view_submit.html:51
 msgid "Protocol"
 msgstr "Protokol"
 
-#: testovac/submit/templates/submit/view_submit.html:33
+#: testovac/submit/templates/submit/view_submit.html:55
 msgid "All submits"
 msgstr "Všetky submity"
 

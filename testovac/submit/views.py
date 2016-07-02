@@ -102,15 +102,21 @@ def view_submit(request, submit_id):
     if submit.user != request.user and not request.user.is_staff:
         raise PermissionDenied()
 
+    conf = submit.receiver.configuration
     review = submit.last_review()
     data = {
         'submit': submit,
         'review': review,
-        'protocol_expected': submit.receiver.configuration.get('send_to_judge', False),
+        'protocol_expected': conf.get('send_to_judge', False),
+        'show_submitted_file': conf.get('send_to_judge', False) and not conf.get('testable_zip', False),
     }
 
-    if review and review.protocol_exists():
-        force_show_details = submit.receiver.configuration.get('testable_zip', False) or request.user.is_staff
+    if data['show_submitted_file']:
+        with open(submit.file_path(), 'r') as submitted_file:
+            data['submitted_file'] = submitted_file.read().decode('utf-8', 'replace')
+
+    if data['protocol_expected'] and review and review.protocol_exists():
+        force_show_details = conf.get('testable_zip', False) or request.user.is_staff
         data['protocol'] = parse_protocol(review.protocol_path(), force_show_details)
         data['result'] = JudgeTestResult
 
