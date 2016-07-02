@@ -52,15 +52,6 @@ class PostSubmitForm(View):
         """
         send_to_judge(submit)
 
-    def redirect_after_post(self, request):
-        """
-        Override to redirect to a different location after submit.
-        """
-        if 'redirect_to' in request.POST and request.POST['redirect_to']:
-            return request.POST['redirect_to']
-        else:
-            return '/'
-
     def post(self, request, receiver_id):
         receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
         config = receiver.configuration
@@ -85,17 +76,17 @@ class PostSubmitForm(View):
                     messages.add_message(request, messages.ERROR, "%s: %s" % (field.label, error))
             for error in form.non_field_errors():
                 messages.add_message(request, messages.ERROR, error)
-            return redirect(self.redirect_after_post(request))
+            return redirect(request.POST['redirect_to'])
 
         if config.get('send_to_judge', False):
             try:
                 self.send_to_judge(submit)
             except:
                 messages.add_message(request, messages.ERROR, 'Upload to judge was not successful.')
-                return redirect(self.redirect_after_post(request))
+                return redirect(request.POST['redirect_to'])
 
         messages.add_message(request, messages.SUCCESS, self.get_success_message(submit))
-        return redirect(self.redirect_after_post(request))
+        return redirect(request.POST['redirect_to'])
 
 
 @login_required
