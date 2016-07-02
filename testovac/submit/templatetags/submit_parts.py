@@ -1,5 +1,6 @@
 from django import template
 
+from ..constants import ReviewResponse
 from ..forms import FileSubmitForm
 from ..models import Submit
 
@@ -27,8 +28,17 @@ def submit_form(receiver, redirect):
 
 @register.inclusion_tag('submit/parts/submit_list.html')
 def submit_list(receiver, user):
-    submits = Submit.objects.filter(receiver=receiver, user=user)
+    submits = Submit.objects.filter(receiver=receiver, user=user).order_by('-time')
     data = {
-        'submits': [(submit, submit.last_review()) for submit in submits]
+        'submits': [(submit, submit.last_review()) for submit in submits],
+        'response': ReviewResponse,
     }
     return data
+
+
+@register.filter
+def verbose(obj, msg):
+    """
+    Use to print verbose versions of constants.JudgeTestResult, constants.ReviewResponse
+    """
+    return obj.verbose(msg)

@@ -1,22 +1,25 @@
 import os
 import time
 import socket
+import xml.etree.ElementTree as ET
+from decimal import Decimal
 
 from .models import Review
+from .constants import JudgeTestResult, ReviewResponse
 from . import settings as submit_settings
 from .submit_helpers import write_chunks_to_file
 
 
 def send_to_judge(submit):
-    review = Review(submit=submit, score=0, short_response='sending to judge')
+    review = Review(submit=submit, score=0, short_response=ReviewResponse.SENDING_TO_JUDGE)
     review.save()
     prepare_raw_file(review)
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        sock.connect(('127.0.0.1', 12347))
+        sock.connect((submit_settings.JUDGE_ADDRESS, submit_settings.JUDGE_PORT))
     except socket.error:
-        review.short_response = 'judge unavailable'
+        review.short_response = ReviewResponse.JUDGE_UNAVAILABLE
         review.save()
         raise Exception
 
@@ -24,7 +27,7 @@ def send_to_judge(submit):
         sock.send(raw.read())
     sock.close()
 
-    review.short_response = 'sent to judge'
+    review.short_response = ReviewResponse.SENT_TO_JUDGE
     review.save()
 
 
@@ -54,5 +57,51 @@ def prepare_raw_file(review):
     write_chunks_to_file(review.raw_path(), [raw_head, submitted_source])
 
 
-def prepare_protocol_data(protocol_path):
-    return {}
+def parse_protocol(protocol_path, force_show_details=False):
+    data = dict()
+    data['ready'] = True
+
+    try:
+        tree = ET.parse(protocol_path)
+    except:
+        # don't throw error if protocol is corrupted. (should only happen while protocol is being uploaded)
+        data['ready'] = False
+        return data
+
+    clog = tree.find('compileLog')
+    data['compile_log_present'] = clog is not None
+    data['compile_log'] = clog or ''
+
+    tests = []
+    runlog = tree.find('runLog')
+    if runlog is not None:
+        for runtest in runlog:
+            # Test log format in protocol is: name, resultCode, resultMsg, time, details
+            if runtest.tag != 'test':
+                continue
+            test = dict()
+            test['name'] = runtest[0].text
+            test['result'] = runtest[2].text
+            test['time'] = runtest[3].text
+            details = runtest[4].text if len(runtest) > 4 else None
+            test['details'] = details
+            test['show_details'] = details is not None and ('sample' in test['name'] or force_show_details)
+            tests.append(test)
+    data['tests'] = tests
+    data['have_tests'] = len(tests) > 0
+
+    try:
+        data['score'] = Decimal(tree.find('runLog/score').text)
+    except:
+        data['score'] = 0
+
+    if data['compile_log_present']:
+        data['final_result'] = JudgeTestResult.COMPILATION_ERROR
+    else:
+        data['final_result'] = JudgeTestResult.OK
+        for test in data['tests']:
+            if test['result'] != JudgeTestResult.OK:
+                data['final_result'] = test['result']
+                break
+
+    return data

@@ -1,18 +1,20 @@
-import os
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
+from django.utils.html import format_html
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from .constants import JudgeTestResult
 from .models import SubmitReceiver, Submit, Review
 from .forms import FileSubmitForm
 from .submit_helpers import create_submit, write_chunks_to_file, send_file
-from .judge_helpers import send_to_judge, prepare_protocol_data
+from .judge_helpers import send_to_judge, parse_protocol
 
 
 class PostSubmitForm(View):
@@ -37,7 +39,12 @@ class PostSubmitForm(View):
         """
         This message will be added to `messages` after successful submit.
         """
-        return 'Success'
+        if submit.receiver.configuration.get('send_to_judge', False):
+            return format_html(
+                    _('Submit successful. Testing protocol will be soon available <a href="{link}">here</a>.'),
+                    link=reverse('view_submit', args=[submit.id])
+            )
+        return _('Submit successful.')
 
     def send_to_judge(self, submit):
         """
@@ -80,10 +87,10 @@ class PostSubmitForm(View):
                 messages.add_message(request, messages.ERROR, error)
             return redirect(self.redirect_after_post(request))
 
-        if 'send_to_judge' in config and config['send_to_judge']:
+        if config.get('send_to_judge', False):
             try:
                 self.send_to_judge(submit)
-            except Exception:
+            except:
                 messages.add_message(request, messages.ERROR, 'Upload to judge was not successful.')
                 return redirect(self.redirect_after_post(request))
 
@@ -101,10 +108,13 @@ def view_submit(request, submit_id):
     data = {
         'submit': submit,
         'review': review,
+        'protocol_expected': submit.receiver.configuration.get('send_to_judge', False),
     }
 
     if review and review.protocol_exists():
-        data.update(prepare_protocol_data(review.protocol_path()))
+        force_show_details = submit.receiver.configuration.get('testable_zip', False) or request.user.is_staff
+        data['protocol'] = parse_protocol(review.protocol_path(), force_show_details)
+        data['result'] = JudgeTestResult
 
     return render(request, 'submit/view_submit.html', data)
 
@@ -130,7 +140,11 @@ def download_review(request, review_id):
 def receive_protocol(request):
     review_id = request.POST['submit_id']
     review = get_object_or_404(Review, pk=review_id)
-    review.short_response = request.POST['result']
-    write_chunks_to_file(review.protocol_path(), [request.POST['log']])
+    write_chunks_to_file(review.protocol_path(), [request.POST['protocol']])
+
+    protocol_data = parse_protocol(review.protocol_path())
+    review.score = protocol_data['score']
+    review.short_response = protocol_data['final_result']
     review.save()
+
     return HttpResponse("")

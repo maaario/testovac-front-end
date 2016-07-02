@@ -33,7 +33,7 @@
             <p>{% trans 'Reviewed file' %}: <a href="{% url 'download_review' review.id %}">{{ review.filename }}</a></p>
         {% endif %}
 
-        {% if review.protocol_exists %}
+        {% if protocol_expected %}
             {% include 'submit/protocol.html' %}
         {% endif %}
 
