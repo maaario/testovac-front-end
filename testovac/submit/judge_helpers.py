@@ -4,31 +4,19 @@ import socket
 import xml.etree.ElementTree as ET
 from decimal import Decimal
 
-from .models import Review
-from .constants import JudgeTestResult, ReviewResponse
+from .constants import JudgeTestResult
 from . import settings as submit_settings
 from .submit_helpers import write_chunks_to_file
 
 
-def send_to_judge(submit):
-    review = Review(submit=submit, score=0, short_response=ReviewResponse.SENDING_TO_JUDGE)
-    review.save()
-    prepare_raw_file(review)
-
+def send_to_judge(review):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         sock.connect((submit_settings.JUDGE_ADDRESS, submit_settings.JUDGE_PORT))
-    except socket.error:
-        review.short_response = ReviewResponse.JUDGE_UNAVAILABLE
-        review.save()
-        raise Exception
-
-    with open(review.raw_path(), 'r') as raw:
-        sock.send(raw.read())
-    sock.close()
-
-    review.short_response = ReviewResponse.SENT_TO_JUDGE
-    review.save()
+        with open(review.raw_path(), 'r') as raw:
+            sock.send(raw.read())
+    finally:
+        sock.close()
 
 
 def prepare_raw_file(review):

@@ -10,11 +10,11 @@ from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .constants import JudgeTestResult
+from .constants import JudgeTestResult, ReviewResponse
 from .models import SubmitReceiver, Submit, Review
 from .forms import FileSubmitForm
 from .submit_helpers import create_submit, write_chunks_to_file, send_file
-from .judge_helpers import send_to_judge, parse_protocol
+from .judge_helpers import prepare_raw_file, send_to_judge, parse_protocol
 
 
 class PostSubmitForm(View):
@@ -47,10 +47,17 @@ class PostSubmitForm(View):
         return _('Submit successful.')
 
     def send_to_judge(self, submit):
-        """
-        Override if you use a different judge.
-        """
-        send_to_judge(submit)
+        review = Review(submit=submit, score=0, short_response=ReviewResponse.SENDING_TO_JUDGE)
+        review.save()
+        prepare_raw_file(review)
+        try:
+            send_to_judge(review)
+            review.short_response = ReviewResponse.SENT_TO_JUDGE
+        except:
+            review.short_response = ReviewResponse.JUDGE_UNAVAILABLE
+            raise Exception
+        finally:
+            review.save()
 
     def post(self, request, receiver_id):
         receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
@@ -82,7 +89,7 @@ class PostSubmitForm(View):
             try:
                 self.send_to_judge(submit)
             except:
-                messages.add_message(request, messages.ERROR, 'Upload to judge was not successful.')
+                messages.add_message(request, messages.ERROR, _('Upload to judge was not successful.'))
                 return redirect(request.POST['redirect_to'])
 
         messages.add_message(request, messages.SUCCESS, self.get_success_message(submit))
