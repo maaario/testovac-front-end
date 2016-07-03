@@ -35,10 +35,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'easy_select2',
+    'taggit',
     'bootstrapform',
     'testovac',
     'testovac.tasks',
-    'testovac.news',
     'testovac.submit',
 
     # wiki dependencies
@@ -52,6 +52,8 @@ INSTALLED_APPS = (
     'wiki.plugins.notifications',
     'wiki.plugins.images',
     'wiki.plugins.macros',
+
+    'news',
 )
 
 MIDDLEWARE_CLASSES = (
