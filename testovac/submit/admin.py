@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 
 from models import SubmitReceiverTemplate, SubmitReceiver, Submit, Review
 
@@ -7,8 +8,27 @@ class SubmitReceiverTemplateAdmin(admin.ModelAdmin):
     pass
 
 
+class LoadConfigurationFromTemplate(forms.Select):
+    class Media:
+        js = ('submit/load-configuration-from-template.js', )
+
+
+class SubmitReceiverForm(forms.ModelForm):
+    receiver_template = forms.ChoiceField(
+        choices=((x.id, str(x)) for x in SubmitReceiverTemplate.objects.all()),
+        widget=LoadConfigurationFromTemplate()
+    )
+
+    class Meta:
+        model = SubmitReceiver
+        fields = ('receiver_template', 'configuration')
+        widgets = {
+            'configuration': forms.Textarea(attrs={'rows': 15, 'cols': 40})
+        }
+
+
 class SubmitReceiverAdmin(admin.ModelAdmin):
-    pass
+    form = SubmitReceiverForm
 
 
 class ReviewInline(admin.StackedInline):

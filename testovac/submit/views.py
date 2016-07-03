@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .constants import JudgeTestResult, ReviewResponse
-from .models import SubmitReceiver, Submit, Review
+from .models import SubmitReceiverTemplate, SubmitReceiver, Submit, Review
 from .forms import FileSubmitForm
 from .submit_helpers import create_submit, write_chunks_to_file, send_file
 from .judge_helpers import prepare_raw_file, send_to_judge, parse_protocol
@@ -155,3 +155,12 @@ def receive_protocol(request):
     review.save()
 
     return HttpResponse("")
+
+
+@login_required
+def get_receiver_templates(request):
+    if not request.user.is_staff:
+        raise PermissionDenied()
+    templates = SubmitReceiverTemplate.objects.all()
+    templates = {template.id: template.configuration for template in templates}
+    return JsonResponse(templates)
