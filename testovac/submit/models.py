@@ -7,17 +7,23 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
+from jsonschema import validate
 
 
 from . import settings as submit_settings
 from . import constants
 
 
+def configuration_validator(value):
+    validate(value, submit_settings.SUBMIT_CONFIG_JSON_SCHEMA)
+
+
 class SubmitConfig(models.Model):
     """
     This is an abstract model providing JSONField to store submit configurations.
     """
-    configuration = JSONField(default=dict)
+
+    configuration = JSONField(default=dict, validators=[configuration_validator])
 
     class Meta:
         abstract = True

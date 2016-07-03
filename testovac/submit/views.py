@@ -1,5 +1,3 @@
-import urlparse
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -12,6 +10,7 @@ from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from . import settings as submit_settings
 from .constants import JudgeTestResult, ReviewResponse
 from .models import SubmitReceiverTemplate, SubmitReceiver, Submit, Review
 from .forms import FileSubmitForm
@@ -159,3 +158,10 @@ def get_receiver_templates(request):
     templates = SubmitReceiverTemplate.objects.all()
     templates = {template.id: template.configuration for template in templates}
     return JsonResponse(templates)
+
+
+@login_required
+def get_schema(request):
+    if not request.user.is_staff:
+        raise PermissionDenied()
+    return JsonResponse(submit_settings.SUBMIT_CONFIG_JSON_SCHEMA)

@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+from django.forms import Widget
+from django.utils.html import format_html
 
 from models import SubmitReceiverTemplate, SubmitReceiver, Submit, Review
 
@@ -14,6 +16,23 @@ class LoadConfigurationFromTemplate(forms.Select):
         js = ('submit/load-configuration-from-template.js', )
 
 
+class JSONEditorWidget(Widget):
+    def render(self, name, value, attrs=None):
+        return format_html('<div id="editor_holder"></div>')
+
+    class Media:
+        js = (
+            '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+            '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js',
+            'submit/jsoneditor.min.js',
+            'submit/jsoneditorwidget.js',
+        )
+
+        css = {
+            'all': ('//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', ),
+        }
+
+
 class SubmitReceiverForm(forms.ModelForm):
     receiver_template = forms.ChoiceField(
         choices=((x.id, str(x)) for x in SubmitReceiverTemplate.objects.all()),
@@ -24,7 +43,7 @@ class SubmitReceiverForm(forms.ModelForm):
         model = SubmitReceiver
         fields = ('receiver_template', 'configuration')
         widgets = {
-            'configuration': forms.Textarea(attrs={'rows': 15, 'cols': 40})
+            'configuration': JSONEditorWidget(),    # forms.Textarea(attrs={'rows': 15, 'cols': 40})
         }
 
 

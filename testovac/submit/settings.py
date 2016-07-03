@@ -48,3 +48,79 @@ SUBMIT_CAN_POST_SUBMIT = getattr(django_settings, 'SUBMIT_CAN_POST_SUBMIT',
                                  'testovac.submit.defaults.can_post_submit')
 SUBMIT_HAS_ADMIN_PRIVILEGES_FOR_RECEIVER = getattr(django_settings, 'SUBMIT_HAS_ADMIN_PRIVILEGES_FOR_RECEIVER',
                                                    'testovac.submit.defaults.has_admin_privileges_for_receiver')
+
+
+SUBMIT_CONFIG_JSON_SCHEMA = getattr(django_settings, 'SUBMIT_CONFIG_JSON_SCHEMA',
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        # "version": {
+        #     "type": "string",
+        #     "enum": ["1.0", ],
+        #     "default": "1.0",
+        #     "description": "Version of submit receiver configuration for backwards compatibility."
+        # },
+        "form": {
+            "type": "object",
+            "description": "Form to upload submits will be rendered for this receiver.",
+            "properties": {
+                "extensions": {
+                    "type": "array",
+                    "format": "table",
+                    "description": "Extensions that can be submitted. Leave empty to allow any extension.",
+                    "items": {"$ref": "#definitions/extension"},
+                },
+                "languages": {
+                    "type": "array",
+                    "description": "Programming languages that can be submitted in format (extension, description).",
+                    "items": {
+                        "type": "array",
+                        "items": [
+                            {"$ref": "#definitions/extension"},
+                            {
+                                "type": "string",
+                                "description": "Description",
+                                "maxLength": 25,
+                            }
+                        ],
+                        "additionalItems": False
+                    }
+                }
+            },
+            "additionalProperties": False,
+        },
+        "send_to_judge": {
+            "type": "boolean",
+            "default": False
+        },
+        "show_submitted_file": {
+            "type": "boolean",
+            "default": False,
+            "description": "Display text of submitted file (source code) in browser at the submit page."
+        },
+        "show_all_details": {
+            "type": "boolean",
+            "default": False,
+            "description": "Anyone can see details of testing protocol"
+                           "(e.g. comparison of expected and provided outputs)"
+        },
+        "link": {
+            "type": "string",
+            "description": "Link to page with external submit. A button with link will be rendered for this receiver."
+        }
+    },
+
+    "additionalProperties": False,
+
+    "definitions": {
+        "extension": {
+            "type": "string",
+            "minLength": 2,
+            "pattern": "^\.[^.]+$",
+        }
+    },
+
+    "vesions": {}
+}
+)

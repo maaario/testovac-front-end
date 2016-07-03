@@ -14,3 +14,4 @@ Unidecode==0.4.19
 django-dotenv
 django-debug-toolbar
 django-sortedm2m
+jsonschema

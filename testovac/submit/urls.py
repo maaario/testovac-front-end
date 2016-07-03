@@ -2,8 +2,9 @@ from django.conf.urls import url
 from django.utils.module_loading import import_string
 
 from . import settings as submit_settings
-from .views import view_submit, receive_protocol, download_submit, download_review, get_receiver_templates
-from .commands import rejudge_submit, rejudge_receiver_submits
+from .views import view_submit, receive_protocol, download_submit, download_review, get_receiver_templates, get_schema
+from .commands import rejudge_submit
+
 
 urlpatterns = [
     url(r'^post/(?P<receiver_id>\d+)/$',
@@ -22,4 +23,5 @@ urlpatterns = [
     #url(r'^commands/rejudge/receiver/(?P<receiver_id>\d+)/$', rejudge_receiver_submits, name='rejudge_receiver_submits'),
 
     url(r'^ajax/get_receiver_templates/', get_receiver_templates),
+    url(r'^ajax/get_schema/$', get_schema)
 ]
