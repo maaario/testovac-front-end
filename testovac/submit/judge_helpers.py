@@ -58,7 +58,7 @@ def parse_protocol(protocol_path, force_show_details=False):
 
     clog = tree.find('compileLog')
     data['compile_log_present'] = clog is not None
-    data['compile_log'] = clog.text or ''
+    data['compile_log'] = clog.text if clog is not None else ''
 
     tests = []
     runlog = tree.find('runLog')

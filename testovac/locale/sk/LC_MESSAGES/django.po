@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 21:24+0200\n"
+"POT-Creation-Date: 2016-07-03 10:05+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
@@ -160,8 +160,8 @@ msgid "Run time"
 msgstr "Čas behu"
 
 #: testovac/submit/templates/submit/protocol.html:34
-msgid "Output comparison"
-msgstr "Porovnaj výstupy"
+msgid "Show details"
+msgstr "Zobraz detaily"
 
 #: testovac/submit/templates/submit/review_info.html:4
 msgid "Review"
@@ -284,3 +284,6 @@ msgstr "K tejto úlohe sa zatiaľ nedajú odovzdávať riešenia."
 #: testovac/templates/wiki/base.html:23
 msgid "This article was last modified:"
 msgstr ""
+
+#~ msgid "Output comparison"
+#~ msgstr "Porovnaj výstupy"

@@ -15,7 +15,8 @@
           [".java", "Java (.java)"]
         ]
       },
-      "send_to_judge": true
+      "send_to_judge": true,
+      "show_submitted_file": true
     },
     "name": "source"
   }

@@ -107,8 +107,8 @@ def view_submit(request, submit_id):
     data = {
         'submit': submit,
         'review': review,
+        'show_submitted_file': conf.get('show_submitted_file', False),
         'protocol_expected': conf.get('send_to_judge', False),
-        'show_submitted_file': conf.get('send_to_judge', False) and not conf.get('testable_zip', False),
     }
 
     if data['show_submitted_file']:
@@ -116,7 +116,7 @@ def view_submit(request, submit_id):
             data['submitted_file'] = submitted_file.read().decode('utf-8', 'replace')
 
     if data['protocol_expected'] and review and review.protocol_exists():
-        force_show_details = conf.get('testable_zip', False) or request.user.is_staff
+        force_show_details = conf.get('show_all_details', False) or request.user.is_staff
         data['protocol'] = parse_protocol(review.protocol_path(), force_show_details)
         data['result'] = JudgeTestResult
 

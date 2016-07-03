@@ -31,7 +31,7 @@
                                {% endif %}">
                         <td>{{ test.name }}
                             {% if test.show_details %}
-                                <a class="pull-right" data-toggle="collapse" href="#collapse{{ forloop.counter0 }}">{% trans 'Output comparison' %}</a>
+                                <a class="pull-right" data-toggle="collapse" href="#collapse{{ forloop.counter0 }}">{% trans 'Show details' %}</a>
                             {% endif %}
                         </td>
                         <td><span data-toggle="tooltip" data-placement="auto" title="{{ test.result }}">{{ result|verbose:test.result }}</span></td>
