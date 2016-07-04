@@ -38,8 +38,9 @@ INSTALLED_APPS = (
     'taggit',
     'bootstrapform',
     'testovac',
-    'testovac.tasks',
+    'testovac.login',
     'testovac.submit',
+    'testovac.tasks',
 
     # wiki dependencies
     'django.contrib.sites',

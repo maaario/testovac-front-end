@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if user.is_authenticated %}
+    <p>{% trans 'Signed in as' %} {{ user.username }}</p>
+    <form method="post" action="{% url 'logout' %}" class="navbar-form login-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">{% trans 'Log out' %}</button>
+        <input type="hidden" name="next" value="{% url 'wiki:root' %}" />
+    </form>
+{% else %}
+    <form method="post" action="{% url 'login' %}" class="navbar-form login-form">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="{% trans 'Username' %}" class="form-control">
+        <input type="password" name="password" placeholder="{% trans 'Password' %}" class="form-control">
+        <button type="submit" class="btn btn-primary">{% trans 'Sign in' %}</button>
+    </form>
+{% endif %}
