@@ -37,6 +37,10 @@ li>h1{
     color: #fff;
 }
 
+.nav>li.active>a:hover{
+    background-color: #286090;
+}
+
 .login-form-text{
     padding: 10px 15px;
 }
@@ -76,14 +80,11 @@ li>h1{
 }
 
 /* Wiki */
+.modal-backdrop{ z-index: -5; }
+.modal-dialog{ height: 90%; }
+.modal-dialog>.modal-content{ height: 100%; }
+.modal-dialog>.modal-content>.modal-body{ height: 85%; }
 
-.wiki-article-bottom {
-    margin-top: 50px;
-    padding-top: 10px;
-    border-top: 1px solid #ccc;
-}
-
-/* Editor textarea */
-#id_content {
-    width: 100%;
+textarea.markItUp.markItUpEditor{
+    min-height: 300px;
 }
