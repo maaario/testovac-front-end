@@ -10,7 +10,7 @@ from wiki.models import URLPath
 register = template.Library()
 
 
-def static_menu_items():
+def static_menu_items(request):
     items = [
         {
             'url_regex': r'^/news',
@@ -23,6 +23,13 @@ def static_menu_items():
             'link': reverse('contest_list'),
         },
     ]
+
+    if request.user.is_staff:
+        items.append({
+            'url_regex': r'^/admin',
+            'text': 'Admin',
+            'link': reverse('admin:index'),
+        })
 
     return items
 
@@ -45,7 +52,7 @@ def wiki_articles_in_menu(request):
 @register.inclusion_tag('menu/menu.html', takes_context=True)
 def menu(context):
     request = context.get('request')
-    items = static_menu_items() + wiki_articles_in_menu(request)
+    items = static_menu_items(request) + wiki_articles_in_menu(request)
     for item in items:
         item['is_active'] = bool(re.search(item['url_regex'], request.path))
     return {'items': items}
