@@ -14,5 +14,5 @@
         <input type="password" name="password" placeholder="{% trans 'Password' %}" class="form-control">
         <button type="submit" class="btn btn-primary">{% trans 'Log in' %}</button>
     </form>
-    <p class="login-form-text">{% trans "Don't have account yet?" %} <a href="{% url 'registration' %}">{% trans 'Register' %}</a></p>
+    <p class="login-form-text">{% trans "Don't have account yet?" %}<br /><a href="{% url 'registration' %}">{% trans 'Register' %}</a></p>
 {% endif %}

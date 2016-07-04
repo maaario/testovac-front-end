@@ -7,8 +7,25 @@ body{
     margin-bottom: 60px;
 }
 
+/* Top panel */
+
 .navbar-brand{
     font-size: x-large;
+}
+
+/* Page header */
+
+li>h1{
+    margin-top: 0;
+}
+
+/* Left panel */
+
+.side-menu{
+    padding: 20px;
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+    border-right: 1px solid #ccc;
 }
 
 .nav>li>a{
@@ -20,21 +37,6 @@ body{
     color: #fff;
 }
 
-.page{
-    max-width: 1080px;
-    padding: auto;
-    background: #eee;
-    bottom: 0;
-    display: table;
-}
-
-.side-menu{
-    padding: 20px;
-    overflow-x: hidden;
-    background-color: #f5f5f5;
-    border-right: 1px solid #ccc;
-}
-
 .login-form-text{
     padding: 10px 15px;
 }
@@ -43,8 +45,20 @@ body{
     margin-bottom: 5px;
 }
 
+/* Content panel */
+
+.page{
+    max-width: 1080px;
+    padding: auto;
+    background: #eee;
+    bottom: 0;
+    display: table;
+}
+
 .page-content{
 }
+
+/* Footer */
 
 .footer{
     position: absolute;
