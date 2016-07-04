@@ -1,0 +1,20 @@
+{% extends 'testovac/base.html' %}
+
+{% load bootstrap %}
+{% load i18n %}
+
+{% block page_title %}{% trans 'Registration' %}{% endblock %}
+
+{% block page_header %}<h1>{% trans 'Register' %}</h1>{% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form" method="post" action="{% url 'registration' %}">
+                {% csrf_token %}
+                {{ form | bootstrap }}
+                <input class="btn btn-primary" type="submit" value="{% trans 'Register' %}" />
+            </form>
+        </div>
+    </div>
+{% endblock %}
