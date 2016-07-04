@@ -11,6 +11,15 @@ body{
     font-size: x-large;
 }
 
+.nav>li>a{
+    border-radius: 4px;
+}
+
+.nav>li.active>a{
+    background-color: #337ab7;
+    color: #fff;
+}
+
 .page{
     max-width: 1080px;
     padding: auto;

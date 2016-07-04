@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load menu_tags %}
 
 <html lang="en">
 <head>
@@ -14,7 +15,10 @@
     {% include "testovac/header.html" %}
     <div class="container page">
         <div class="row">
-            <div class="col-md-3 side-menu">{% include "testovac/menu.html" %}</div>
+            <div class="col-md-3 side-menu">
+                {% menu %}
+                {% include 'login/login_form.html' %}
+            </div>
             <div class="col-md-9 page-content">
 
                 <div class="page-header">{% block page_header %}{% endblock %}</div>

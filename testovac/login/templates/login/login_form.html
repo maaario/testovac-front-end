@@ -5,7 +5,7 @@
     <form method="post" action="{% url 'logout' %}" class="navbar-form login-form">
         {% csrf_token %}
         <button type="submit" class="btn btn-primary">{% trans 'Log out' %}</button>
-        <input type="hidden" name="next" value="{% url 'wiki:root' %}" />
+        <input type="hidden" name="next" value="{% url 'root' %}" />
     </form>
 {% else %}
     <form method="post" action="{% url 'login' %}" class="navbar-form login-form">

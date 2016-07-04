@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'bootstrapform',
     'testovac',
     'testovac.login',
+    'testovac.menu',
     'testovac.submit',
     'testovac.tasks',
 
