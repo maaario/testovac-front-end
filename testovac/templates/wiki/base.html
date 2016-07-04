@@ -2,24 +2,18 @@
 
 {% load sekizai_tags i18n wiki_tags staticfiles %}
 
-{% block title %}{{ article.current_revision.title }}{% endblock %}
+{% block title %}{% block wiki_pagetitle %}{% endblock %}{% endblock %}
 
-{% block page_header %}
-    <h1>{{ article.current_revision.title }}</h1>
-{% endblock %}
-
+{% block stylesheets %}{{ block.super }}{% endblock %}
 
 {% block page_content %}
-    {% if user.is_authenticated and article|can_write:user %}
-        {% include "wiki/includes/breadcrumbs.html" %}
-    {% endif %}
-
-    <div>{% block wiki_contents_tab %}{% endblock %}</div>
-
-    <div class="wiki-article-bottom">
-        {% if user.is_authenticated and article|can_write:user %}
-            <ul class="list-inline pull-right">{% include "wiki/includes/article_menu.html" %}</ul>
-        {% endif %}
-        <p><em>{% trans "This article was last modified:" %} {{ article.current_revision.modified }}</em></p>
-    </div>
+    {% block wiki_body %}
+        {% block wiki_breadcrumbs %}{% endblock %}
+        {% block wiki_contents %}{% endblock %}
+    {% endblock %}
+    {% block wiki_footer_prepend %}{% endblock %}
 {% endblock %}
+
+{% addtoblock "js" %}
+    <script src="{{ STATIC_URL }}wiki/js/core.js"></script>
+{% endaddtoblock %}
