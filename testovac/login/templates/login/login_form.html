@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% if user.is_authenticated %}
-    <p>{% trans 'Signed in as' %} {{ user.username }}</p>
+    <p class="login-form-text">{% trans 'Signed in as' %} {{ user.username }}<br />({{ user.first_name }} {{ user.last_name }})</p>
     <form method="post" action="{% url 'logout' %}" class="navbar-form login-form">
         {% csrf_token %}
         <button type="submit" class="btn btn-primary">{% trans 'Log out' %}</button>
@@ -13,7 +13,6 @@
         <input type="text" name="username" placeholder="{% trans 'Username' %}" class="form-control">
         <input type="password" name="password" placeholder="{% trans 'Password' %}" class="form-control">
         <button type="submit" class="btn btn-primary">{% trans 'Log in' %}</button>
-        <a class="btn btn-primary" href="{% url 'registration' %}">{% trans 'Register' %}</a>
     </form>
-
+    <p class="login-form-text">{% trans "Don't have account yet?" %} <a href="{% url 'registration' %}">{% trans 'Register' %}</a></p>
 {% endif %}

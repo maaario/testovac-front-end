@@ -26,6 +26,10 @@ body{
     border-right: 1px solid #ccc;
 }
 
+.login-form-text{
+    padding: 10px 15px;
+}
+
 .login-form input{
     margin-bottom: 5px;
 }
