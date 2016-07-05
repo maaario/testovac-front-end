@@ -1,0 +1,35 @@
+{% extends "wiki/base.html" %}
+
+{% load sekizai_tags i18n wiki_tags staticfiles %}
+
+{% block title %}{{ article.current_revision.title }}{% endblock %}
+
+{% block page_header %}
+    <h1>{{ article.current_revision.title }}
+        <small style="font-size: 14px;">
+            {% if article.current_revision.locked %}
+                <span class="glyphicon glyphicon-lock"></span> {% trans "locked" %}
+            {% endif %}
+        </small>
+    </h1>
+    {% if user.is_authenticated and article|can_write:user %}
+        {% include "wiki/includes/breadcrumbs.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block wiki_contents %}
+    <div id="article-container">
+        <div>
+            {% block wiki_contents_tab %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block wiki_footer_prepend %}
+    <div class="wiki-article-bottom">
+        {% if user.is_authenticated and article|can_write:user %}
+            <ul class="list-inline pull-right">{% include "wiki/includes/article_menu.html" %}</ul>
+        {% endif %}
+        <p><em>{% trans 'This article was last modified:' %} {{ article.current_revision.modified }}</em></p>
+    </div>
+{% endblock %}

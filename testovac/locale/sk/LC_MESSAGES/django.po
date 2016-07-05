@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-03 10:05+0200\n"
+"POT-Creation-Date: 2016-07-04 20:17+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
@@ -10,13 +10,51 @@ msgstr ""
 msgid "Tester-site administration"
 msgstr "Administrácia stránky testovača"
 
-#: testovac/news/models.py:25
-msgid "announcement"
-msgstr "oznam"
+#: testovac/login/templates/login/login_form.html:4
+msgid "Signed in as"
+msgstr "Prihlásené ako"
 
-#: testovac/news/models.py:26
-msgid "announcements"
-msgstr "oznamy"
+#: testovac/login/templates/login/login_form.html:7
+msgid "Log out"
+msgstr ""
+
+#: testovac/login/templates/login/login_form.html:13
+msgid "Username"
+msgstr "Meno"
+
+#: testovac/login/templates/login/login_form.html:14
+msgid "Password"
+msgstr "Heslo"
+
+#: testovac/login/templates/login/login_form.html:15
+msgid "Log in"
+msgstr "Prihlásiť"
+
+#: testovac/login/templates/login/login_form.html:17
+msgid "Don't have account yet?"
+msgstr "Ešte nemáš účet?"
+
+#: testovac/login/templates/login/login_form.html:17
+#: testovac/login/templates/login/registration.html:8
+#: testovac/login/templates/login/registration.html:16
+msgid "Register"
+msgstr "Zaregistruj sa"
+
+#: testovac/login/templates/login/registration.html:6
+msgid "Registration"
+msgstr "Registrácia"
+
+#: testovac/login/views.py:66
+msgid "Thanks for registering. You are now logged in."
+msgstr "Vďaka za registráciu."
+
+#: testovac/menu/templatetags/menu_tags.py:17
+msgid "News"
+msgstr "Novinky"
+
+#: testovac/menu/templatetags/menu_tags.py:22
+msgid "Tasks"
+msgstr "Úlohy"
 
 #: testovac/submit/constants.py:9
 msgid "Deduce from extension"
@@ -239,15 +277,15 @@ msgstr "Pri odosielaní na testovač nastala chyba."
 
 #: testovac/tasks/admin.py:12
 msgid "all"
-msgstr ""
+msgstr "všetky"
 
 #: testovac/tasks/admin.py:15
 msgid "accessible for group"
-msgstr ""
+msgstr "prístupné pre skupinu"
 
 #: testovac/tasks/admin.py:25
 msgid "visibility"
-msgstr ""
+msgstr "viditeľnosť"
 
 #: testovac/tasks/models.py:23
 msgid "competition"
@@ -281,9 +319,18 @@ msgstr "Riešenie"
 msgid "Solutions for this task can't be submitted yet."
 msgstr "K tejto úlohe sa zatiaľ nedajú odovzdávať riešenia."
 
-#: testovac/templates/wiki/base.html:23
+#: testovac/templates/news/parts/news_list.html:16
+msgid "Edit"
+msgstr "Upraviť"
+
+#: testovac/templates/news/parts/news_list.html:29
+msgid "There are no news yet"
+msgstr "Zatiaľ nemáme žiadne novinky"
+
+#: testovac/templates/wiki/article.html:11
+msgid "locked"
+msgstr "zamknuté"
+
+#: testovac/templates/wiki/article.html:33
 msgid "This article was last modified:"
 msgstr ""
-
-#~ msgid "Output comparison"
-#~ msgstr "Porovnaj výstupy"

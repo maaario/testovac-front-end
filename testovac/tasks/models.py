@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import Group
 
 from django.utils import timezone
@@ -44,15 +45,20 @@ class Contest(models.Model):
     name = models.CharField(max_length=128)
     competition = models.ForeignKey(Competition)
     number = models.IntegerField()
-    start_time = models.DateTimeField(default=default_contest_start_end_time)
-    end_time = models.DateTimeField(default=default_contest_start_end_time)
+    start_time = models.DateTimeField(default=default_contest_start_end_time, blank=True, null=True)
+    end_time = models.DateTimeField(default=default_contest_start_end_time, blank=True, null=True)
     visible = models.BooleanField(default=False)
+
+    def is_running(self):
+        has_started = self.start_time is None or timezone.now() > self.start_time
+        has_finished = self.end_time and timezone.now() > self.end_time
+        return has_started and not has_finished
 
     def is_visible_for_user(self, user):
         return (
             user.is_superuser or
             user.is_staff or
-            (self.visible and timezone.now() > self.start_time and self.competition.is_visible_for_user(user))
+            (self.visible and self.competition.is_visible_for_user(user))
         )
 
     class Meta:
@@ -61,6 +67,13 @@ class Contest(models.Model):
 
     def __str__(self):
         return '%i. %s, %s' % (self.number, self.name, self.competition)
+
+
+class TaskManager(models.Manager):
+    def get_queryset(self):
+        return super(TaskManager, self).get_queryset().order_by('number')
+
+    use_for_related_fields = True
 
 
 @python_2_unicode_compatible
@@ -73,6 +86,11 @@ class Task(models.Model):
     number = models.IntegerField()
     max_points = models.IntegerField()
     submit_receivers = models.ManyToManyField(SubmitReceiver)
+
+    objects = TaskManager()
+
+    def get_absolute_url(self):
+        return reverse('testovac.tasks.views.task_statement', kwargs=dict(task_id=self.id))
 
     def is_visible_for_user(self, user):
         return self.contest.is_visible_for_user(user)

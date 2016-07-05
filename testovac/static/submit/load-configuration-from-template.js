@@ -13,6 +13,9 @@ function update_config() {
 $(document).ready(function() {
     $.getJSON("/submit/ajax/get_receiver_templates/", function (data) {
         submit_receiver_configuration_templates = data;
+        if ($("#id_configuration").val() == "{}") {
+            update_config();
+        }
     });
 
     $("#id_receiver_template").change(update_config);

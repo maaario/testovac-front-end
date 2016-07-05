@@ -2,24 +2,32 @@
 
 {% load sekizai_tags i18n wiki_tags staticfiles %}
 
-{% block title %}{{ article.current_revision.title }}{% endblock %}
+{% block title %}{% block wiki_pagetitle %}{% endblock %}{% endblock %}
 
-{% block page_header %}
-    <h1>{{ article.current_revision.title }}</h1>
+{% block stylesheets %}
+    {{ block.super }}
+    <link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
 {% endblock %}
 
-
 {% block page_content %}
-    {% if user.is_authenticated and article|can_write:user %}
-        {% include "wiki/includes/breadcrumbs.html" %}
-    {% endif %}
+    {% block wiki_body %}
+        {% block wiki_breadcrumbs %}{% endblock %}
+        {% block wiki_contents %}{% endblock %}
+    {% endblock %}
+    {% block wiki_footer_prepend %}{% endblock %}
+{% endblock %}
 
-    <div>{% block wiki_contents_tab %}{% endblock %}</div>
-
-    <div class="wiki-article-bottom">
-        {% if user.is_authenticated and article|can_write:user %}
-            <ul class="list-inline pull-right">{% include "wiki/includes/article_menu.html" %}</ul>
-        {% endif %}
-        <p><em>{% trans "This article was last modified:" %} {{ article.current_revision.modified }}</em></p>
-    </div>
+{% block js %}
+    <script src="{% static "wiki/js/jquery.min.js" %}"></script>
+    <script src="{% static "wiki/js/core.js" %}"></script>
+    <script src="{% static "wiki/bootstrap/js/bootstrap.min.js" %}"></script>
+    <script>
+        /* Make editor window bigger */
+        $(document).ready(function(){
+            var editor_col = $('#article-container>div>div.row>div.col-lg-8');
+            var sidebar_col = $('#wiki-edit-sidebar');
+            editor_col.removeClass('col-lg-8').addClass('col-lg-12');
+            sidebar_col.removeClass('col-lg-4').addClass('col-lg-12');
+        });
+    </script>
 {% endblock %}

@@ -1,0 +1,7 @@
+<ul class="nav nav-sidebar">
+    {% for item in items %}
+        <li class="{% if item.is_active %}active{% endif %}">
+            <a href="{{ item.link }}">{{ item.text }}</a>
+        </li>
+    {% endfor %}
+</ul>

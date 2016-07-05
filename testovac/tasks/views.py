@@ -5,9 +5,9 @@ from testovac.tasks.models import Contest, Task
 
 
 def contest_list(request):
-    contests = Contest.objects.all()
+    contests = Contest.objects.order_by('-number')
     template_data = {
-        'contests': contests
+        'contests': (contest for contest in contests if contest.is_visible_for_user(request.user))
     }
     return render(
         request,

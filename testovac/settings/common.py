@@ -1,10 +1,13 @@
 # Django settings for testovac project.
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from django.contrib.messages import constants as message_constants
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+import testovac
+
+PROJECT_DIR, PROJECT_MODULE_NAME = os.path.split(
+    os.path.dirname(os.path.realpath(testovac.__file__))
+)
 
 
 def env(name, default):
@@ -24,7 +27,6 @@ ALLOWED_HOSTS = []
 # Sites only needed for wiki
 SITE_ID = 1
 
-
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -35,11 +37,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'easy_select2',
+    'taggit',
     'bootstrapform',
     'testovac',
-    'testovac.tasks',
-    'testovac.news',
+    'testovac.login',
+    'testovac.menu',
     'testovac.submit',
+    'testovac.tasks',
 
     # wiki dependencies
     'django.contrib.sites',
@@ -52,6 +56,8 @@ INSTALLED_APPS = (
     'wiki.plugins.notifications',
     'wiki.plugins.images',
     'wiki.plugins.macros',
+
+    'news',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -70,7 +76,6 @@ ROOT_URLCONF = 'testovac.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,11 +130,11 @@ USE_L10N = True
 USE_TZ = True
 
 LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale'),
+    os.path.join(PROJECT_DIR, 'locale'),
 )
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
-MEDIA_ROOT = env('TESTOVAC_FRONT_MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
+MEDIA_ROOT = env('TESTOVAC_FRONT_MEDIA_ROOT', os.path.join(PROJECT_DIR, 'media'))
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -147,4 +152,16 @@ MESSAGE_TAGS = {
     message_constants.SUCCESS: 'alert-success',
     message_constants.WARNING: 'alert-warning',
     message_constants.ERROR: 'alert-danger',
+}
+
+# Wiki settings
+USE_SENDFILE = True
+WIKI_ATTACHMENTS_PATH = env(
+    'TESTOVAC_WIKI_ATTACHMENTS_PATH',
+    os.path.join(MEDIA_ROOT, 'wiki_attachments/%aid/')
+)
+WIKI_ATTACHMENTS_EXTENSIONS = ['pdf', 'doc', 'odt', 'docx', 'txt', 'jpg', 'png', 'gif']
+WIKI_MARKDOWN_KWARGS = {
+    'safe_mode': False,
+    'output_format': 'html5',
 }

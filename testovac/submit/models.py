@@ -44,8 +44,20 @@ class SubmitReceiver(SubmitConfig):
         verbose_name = 'submit receiver'
         verbose_name_plural = 'submit receivers'
 
+    def get_help_type(self):
+        """
+        Serves only as a help text for admin interface.
+        """
+        if self.configuration.get('send_to_judge', False):
+            return 'source'
+        if 'link' in self.configuration:
+            return 'link'
+        if 'form' in self.configuration:
+            return 'description'
+        return 'other'
+
     def __str__(self):
-        return '%d' % (self.id,)
+        return '%d (%s)' % (self.id, self.get_help_type())
 
 
 @python_2_unicode_compatible
