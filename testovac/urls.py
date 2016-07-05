@@ -11,6 +11,17 @@ import news.urls
 import testovac.login.urls
 import testovac.tasks.urls
 import testovac.submit.urls
+from testovac.admin import admin_site_custom_index_view
+
+
+def create_custom_admin_urls(urls):
+    def get_admin_urls():
+        return [
+            url(r'^$', admin.site.admin_view(admin_site_custom_index_view))
+        ] + urls
+    return get_admin_urls
+
+admin.site.get_urls = create_custom_admin_urls(admin.site.get_urls())
 
 
 urlpatterns = [

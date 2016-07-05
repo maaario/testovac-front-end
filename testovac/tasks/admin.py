@@ -15,9 +15,17 @@ class CompetitionAdmin(admin.ModelAdmin):
     get_access_group.short_description = _('accessible for group')
 
 
+class TaskInline(admin.TabularInline):
+    model = Task
+    extra = 0
+    show_change_link = True
+    readonly_fields = ('submit_receivers',)
+
+
 class ContestAdmin(admin.ModelAdmin):
     list_display = ('name', 'number', 'competition', 'start_time', 'end_time', 'is_visible')
     list_filter = ('competition', )
+    inlines = [TaskInline]
 
     def is_visible(self, obj):
         return obj.visible
