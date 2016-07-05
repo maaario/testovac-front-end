@@ -1,7 +1,24 @@
 {% extends "testovac/base.html" %}
+{% load submit_parts %}
+{% load i18n %}
 
 {% block title %}{{ task.name }}{% endblock %}
 
+{% block page_header %}
+<h1>{{ task.name }}</h1>
+{% endblock %}
+
 {% block page_content %}
-    {{ task.name }}
+    {% url 'task_statement' task.id as task_url %}
+    {% for receiver in task.submit_receivers.all %}
+        <div class="well">
+            {% submit_form receiver task_url _('Solution') %}
+            <p></p>
+            {% if 'form' in receiver.configuration %}
+                {% submit_list receiver user %}
+            {% endif %}
+        </div>
+    {% empty %}
+        <p class="text-danger">{% trans "Solutions for this task can't be submitted yet." %}</p>
+    {% endfor %}
 {% endblock %}

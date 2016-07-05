@@ -1,0 +1,57 @@
+{% extends "submit/base.html" %}
+
+{% load submit_parts %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}{% trans 'Submit' %} {{ submit.id }}{% endblock title %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'submit/google-code-prettify/prettify.css' %}" type="text/css" />
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'submit/google-code-prettify/prettify.js' %}" type="text/javascript"></script>
+    <script>
+        !function ($) {
+            $(function(){
+            window.prettyPrint && prettyPrint()
+            })
+        }(window.jQuery)
+    </script>
+{% endblock %}
+
+{% block page_header %}
+    <h1>{% trans 'Submit details' %}</h1>
+
+    {% if user.is_staff %}
+        <a href="{% url 'admin:submit_submit_change' submit.id %}">
+            <span class="glyphicon glyphicon-pencil"></span> {% trans 'Edit and review' %}
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col col-md-6">
+            {% include 'submit/submit_info.html' %}
+        </div>
+        <div class="col col-md-6">
+            {% include 'submit/review_info.html' %}
+        </div>
+    </div>
+
+    {% if show_submitted_file %}
+        <pre class="prettyprint collapse" id="collapse-submitted-file">{{ submitted_file }}</pre>
+    {% endif %}
+
+    {% if review and protocol_expected %}
+        <h3>{% trans 'Protocol' %}</h3>
+        {% include 'submit/protocol.html' %}
+    {% endif %}
+
+    <h3>{% trans 'All submits' %}</h3>
+    {% submit_list submit.receiver user %}
+{% endblock page_content %}

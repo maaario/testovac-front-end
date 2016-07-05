@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-30 18:41+0100\n"
+"POT-Creation-Date: 2016-07-03 10:05+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
@@ -9,6 +9,233 @@ msgstr ""
 #: testovac/admin.py:4
 msgid "Tester-site administration"
 msgstr "Administrácia stránky testovača"
+
+#: testovac/news/models.py:25
+msgid "announcement"
+msgstr "oznam"
+
+#: testovac/news/models.py:26
+msgid "announcements"
+msgstr "oznamy"
+
+#: testovac/submit/constants.py:9
+msgid "Deduce from extension"
+msgstr "Zisti podľa prípony"
+
+#: testovac/submit/constants.py:26
+msgid "OK"
+msgstr "OK"
+
+#: testovac/submit/constants.py:27
+msgid "Wrong answer"
+msgstr "Zlá odpoveď"
+
+#: testovac/submit/constants.py:28
+msgid "Time limit exceeded"
+msgstr "Prekročený časový limit"
+
+#: testovac/submit/constants.py:29
+msgid "Runtime exception"
+msgstr "Chyba počas behu programu"
+
+#: testovac/submit/constants.py:30
+msgid "Security exception"
+msgstr "Pokus o narušenie bezpečnosti"
+
+#: testovac/submit/constants.py:31
+msgid "Ignored"
+msgstr "Ignorované"
+
+#: testovac/submit/constants.py:32
+msgid "Compilation error"
+msgstr "Chyba počas kompilácie"
+
+#: testovac/submit/constants.py:54
+msgid "Sending to judge"
+msgstr "Odosielam na testovač"
+
+#: testovac/submit/constants.py:55
+msgid "Sent to judge"
+msgstr "Odoslané na testovač"
+
+#: testovac/submit/constants.py:56
+msgid "Judge unavailable"
+msgstr "Testovač je nedostupný"
+
+#: testovac/submit/constants.py:57
+msgid "Protocol corrupted"
+msgstr "Protokol je nečitateľný"
+
+#: testovac/submit/constants.py:58
+msgid "Reviewed"
+msgstr "Hodnotenie"
+
+#: testovac/submit/forms.py:25
+msgid "Language"
+msgstr "Jazyk"
+
+#: testovac/submit/forms.py:37
+#, python-format
+msgid "Invalid file extension %(extension)s"
+msgstr "Typ súboru %(extension)s nie je podporovaný"
+
+#: testovac/submit/forms.py:42
+msgid "No file was submitted"
+msgstr "Nebol odovzdaný žiadny súbor"
+
+#: testovac/submit/forms.py:53
+msgid "Automatic language discovery failed. Unknown language extension."
+msgstr ""
+"Automatické určenie jazyka zlyhalo kvôli neznámej/nepodporovanej koncovke."
+
+#: testovac/submit/models.py:65
+msgid "no"
+msgstr "nie"
+
+#: testovac/submit/models.py:66
+msgid "with penalization"
+msgstr "s penalizáciou"
+
+#: testovac/submit/models.py:67
+msgid "yes"
+msgstr "áno"
+
+#: testovac/submit/templates/submit/parts/submit_form.html:12
+msgid "Submit solution"
+msgstr "Odovzdaj riešenie"
+
+#: testovac/submit/templates/submit/parts/submit_form.html:17
+msgid "Use a special page to submit."
+msgstr "Na odovzdávanie slúži samostatná stránka."
+
+#: testovac/submit/templates/submit/parts/submit_form.html:18
+msgid "Page with external submit"
+msgstr "Stránka s odovzdávaním"
+
+#: testovac/submit/templates/submit/parts/submit_list.html:7
+#: testovac/submit/templates/submit/submit_info.html:16
+msgid "Time"
+msgstr "Čas"
+
+#: testovac/submit/templates/submit/parts/submit_list.html:8
+msgid "State"
+msgstr "Stav"
+
+#: testovac/submit/templates/submit/parts/submit_list.html:9
+#: testovac/submit/templates/submit/review_info.html:13
+msgid "Score"
+msgstr "Body"
+
+#: testovac/submit/templates/submit/parts/submit_list.html:10
+msgid "Actions"
+msgstr "Akcie"
+
+#: testovac/submit/templates/submit/parts/submit_list.html:33
+msgid "Not reviewed"
+msgstr "Neohodnotené"
+
+#: testovac/submit/templates/submit/parts/submit_list.html:36
+msgid "View"
+msgstr "Detaily"
+
+#: testovac/submit/templates/submit/protocol.html:7
+msgid "Protocol is not available."
+msgstr "Protokol nie je dostupný."
+
+#: testovac/submit/templates/submit/protocol.html:11
+msgid "Compiler output"
+msgstr "Výstup z kompilátora"
+
+#: testovac/submit/templates/submit/protocol.html:18
+msgid "Test case"
+msgstr "Vstup"
+
+#: testovac/submit/templates/submit/protocol.html:19
+#: testovac/submit/templates/submit/review_info.html:9
+msgid "Result"
+msgstr "Výsledok"
+
+#: testovac/submit/templates/submit/protocol.html:20
+msgid "Run time"
+msgstr "Čas behu"
+
+#: testovac/submit/templates/submit/protocol.html:34
+msgid "Show details"
+msgstr "Zobraz detaily"
+
+#: testovac/submit/templates/submit/review_info.html:4
+msgid "Review"
+msgstr "Hodnotenie"
+
+#: testovac/submit/templates/submit/review_info.html:18
+msgid "Reviewed file"
+msgstr "Opravneé riešenie"
+
+#: testovac/submit/templates/submit/review_info.html:24
+msgid "Reviewer's comment"
+msgstr "Komentár opravovateľa"
+
+#: testovac/submit/templates/submit/review_info.html:34
+msgid "Not reviewed yet."
+msgstr "Zatiaľ neohodnotené."
+
+#: testovac/submit/templates/submit/submit_info.html:4
+#: testovac/submit/templates/submit/view_submit.html:7
+msgid "Submit"
+msgstr "Submit"
+
+#: testovac/submit/templates/submit/submit_info.html:12
+msgid "User"
+msgstr "Používateľ"
+
+#: testovac/submit/templates/submit/submit_info.html:20
+msgid "Accepted"
+msgstr "Akceptované"
+
+#: testovac/submit/templates/submit/submit_info.html:25
+msgid "Submitted file"
+msgstr "Odovzdaný súbor"
+
+#: testovac/submit/templates/submit/submit_info.html:32
+msgid "Show"
+msgstr "Ukáž"
+
+#: testovac/submit/templates/submit/submit_info.html:34
+msgid "Download"
+msgstr "Stiahni"
+
+#: testovac/submit/templates/submit/view_submit.html:27
+msgid "Submit details"
+msgstr "Detaily submitu"
+
+#: testovac/submit/templates/submit/view_submit.html:31
+msgid "Edit and review"
+msgstr "Uprav a ohodnoť"
+
+#: testovac/submit/templates/submit/view_submit.html:51
+msgid "Protocol"
+msgstr "Protokol"
+
+#: testovac/submit/templates/submit/view_submit.html:55
+msgid "All submits"
+msgstr "Všetky submity"
+
+#: testovac/submit/views.py:44
+#, python-brace-format
+msgid ""
+"Submit successful. Testing protocol will be soon available <a href="
+"\"{link}\">here</a>."
+msgstr ""
+"Úspešne odovzdané. Protokol z testovania bude čoskoro dostupný <a href="
+"\"{link}\">tu</a>."
+
+#: testovac/submit/views.py:47
+msgid "Submit successful."
+msgstr "Úspešne odovzdané."
+
+#: testovac/submit/views.py:92
+msgid "Upload to judge was not successful."
+msgstr "Pri odosielaní na testovač nastala chyba."
 
 #: testovac/tasks/admin.py:12
 msgid "all"
@@ -22,26 +249,41 @@ msgstr ""
 msgid "visibility"
 msgstr ""
 
-#: testovac/tasks/models.py:20
+#: testovac/tasks/models.py:23
 msgid "competition"
 msgstr "súťaž"
 
-#: testovac/tasks/models.py:21
+#: testovac/tasks/models.py:24
 msgid "competitions"
 msgstr "súťaže"
 
-#: testovac/tasks/models.py:56
+#: testovac/tasks/models.py:59
 msgid "contest"
 msgstr "súťažné kolo"
 
-#: testovac/tasks/models.py:57
+#: testovac/tasks/models.py:60
 msgid "contests"
 msgstr "súťažné kolá"
 
-#: testovac/tasks/models.py:77
+#: testovac/tasks/models.py:81
 msgid "task"
 msgstr "úloha"
 
-#: testovac/tasks/models.py:78
+#: testovac/tasks/models.py:82
 msgid "tasks"
 msgstr "úlohy"
+
+#: testovac/tasks/templates/tasks/task_statement.html:15
+msgid "Solution"
+msgstr "Riešenie"
+
+#: testovac/tasks/templates/tasks/task_statement.html:22
+msgid "Solutions for this task can't be submitted yet."
+msgstr "K tejto úlohe sa zatiaľ nedajú odovzdávať riešenia."
+
+#: testovac/templates/wiki/base.html:23
+msgid "This article was last modified:"
+msgstr ""
+
+#~ msgid "Output comparison"
+#~ msgstr "Porovnaj výstupy"

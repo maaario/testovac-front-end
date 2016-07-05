@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from django.utils import timezone
 
 from testovac.tasks.utils import default_contest_start_end_time
+from testovac.submit.models import SubmitReceiver
 
 
 @python_2_unicode_compatible
@@ -71,6 +72,7 @@ class Task(models.Model):
     contest = models.ForeignKey(Contest)
     number = models.IntegerField()
     max_points = models.IntegerField()
+    submit_receivers = models.ManyToManyField(SubmitReceiver)
 
     def is_visible_for_user(self, user):
         return self.contest.is_visible_for_user(user)

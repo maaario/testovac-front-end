@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load submit_parts %}
+
+{% if not protocol or not protocol.ready %}
+    <div class="alert alert-info">
+        <span class="glyphicon glyphicon-refresh glyphicon-animate-rotate"></span>
+        {% trans 'Protocol is not available.'%}
+    </div>
+{% else %}
+    {% if protocol.compile_log_present %}
+        <h4>{% trans 'Compiler output' %}</h4>
+        <pre>{{ protocol.compile_log }}</pre>
+    {% endif %}
+    {% if protocol.have_tests %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans 'Test case' %}</th>
+                    <th>{% trans 'Result' %}</th>
+                    <th>{% trans 'Run time' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test in protocol.tests %}
+                    <tr class="{% if test.result == result.OK %}
+                                    success
+                               {% elif test.result == result.IGN %}
+                                    warning
+                               {% else %}
+                                    danger
+                               {% endif %}">
+                        <td>{{ test.name }}
+                            {% if test.show_details %}
+                                <a class="pull-right" data-toggle="collapse" href="#collapse{{ forloop.counter0 }}">{% trans 'Show details' %}</a>
+                            {% endif %}
+                        </td>
+                        <td><span data-toggle="tooltip" data-placement="auto" title="{{ test.result }}">{{ result|verbose:test.result }}</span></td>
+                        <td>{{ test.time }} ms</td>
+                    </tr>
+
+                    {% if test.show_details %}
+                        <tr>
+                            <td colspan="3"  style="padding:0">
+                                <div class="collapse" id="collapse{{ forloop.counter0 }}"> {{ test.details|linebreaksbr }}</div>
+                            </td>
+                        </tr>
+                       {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endif %}

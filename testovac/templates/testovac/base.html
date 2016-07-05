@@ -5,9 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
-    <link href="{% static 'custom.css' %}" rel="stylesheet">
+    {% block stylesheets %}
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+        <link href="{% static 'custom.css' %}" rel="stylesheet">
+    {% endblock %}
 </head>
 <body>
     {% include "testovac/header.html" %}
@@ -15,8 +16,20 @@
         <div class="row">
             <div class="col-md-3 side-menu">{% include "testovac/menu.html" %}</div>
             <div class="col-md-9 page-content">
+
                 <div class="page-header">{% block page_header %}{% endblock %}</div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
+                            <a class="close" data-dismiss="alert" href="#">&times;</a>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
                 <div>{% block page_content %}{% endblock %}</div>
+
             </div>
         </div>
     </div>
