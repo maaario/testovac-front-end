@@ -5,7 +5,7 @@ from testovac.tasks.models import Contest, Task
 
 
 def contest_list(request):
-    contests = Contest.objects.order_by('number')
+    contests = Contest.objects.order_by('-number')
     template_data = {
         'contests': (contest for contest in contests if contest.is_visible_for_user(request.user))
     }

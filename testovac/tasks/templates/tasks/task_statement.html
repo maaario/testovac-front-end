@@ -12,16 +12,20 @@
 {% endblock %}
 
 {% block page_content %}
-    {% url 'task_statement' task.id as task_url %}
-    {% for receiver in task.submit_receivers.all %}
-        <div class="well">
-            {% submit_form receiver task_url _('Solution') %}
-            <p></p>
-            {% if 'form' in receiver.configuration %}
-                {% submit_list receiver user %}
-            {% endif %}
-        </div>
-    {% empty %}
-        <p class="text-danger">{% trans "Solutions for this task can't be submitted yet." %}</p>
-    {% endfor %}
+    {% if user.is_authenticated %}
+        {% url 'task_statement' task.id as task_url %}
+        {% for receiver in task.submit_receivers.all %}
+            <div class="well">
+                {% submit_form receiver task_url _('Solution') %}
+                <p></p>
+                {% if 'form' in receiver.configuration %}
+                    {% submit_list receiver user %}
+                {% endif %}
+            </div>
+        {% empty %}
+            <p class="text-danger">{% trans "Solutions for this task can't be submitted yet." %}</p>
+        {% endfor %}
+    {% else %}
+        {% trans "You must log in to submit a solution." %}
+    {% endif %}
 {% endblock %}
