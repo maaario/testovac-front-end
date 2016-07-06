@@ -4,7 +4,9 @@ from django.conf import settings as django_settings
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
+
 
 from . import settings as submit_settings
 from . import constants
@@ -44,20 +46,8 @@ class SubmitReceiver(SubmitConfig):
         verbose_name = 'submit receiver'
         verbose_name_plural = 'submit receivers'
 
-    def get_help_type(self):
-        """
-        Serves only as a help text for admin interface.
-        """
-        if self.configuration.get('send_to_judge', False):
-            return 'source'
-        if 'link' in self.configuration:
-            return 'link'
-        if 'form' in self.configuration:
-            return 'description'
-        return 'other'
-
     def __str__(self):
-        return '%d (%s)' % (self.id, self.get_help_type())
+        return import_string(submit_settings.SUBMIT_DISPLAY_SUBMIT_RECEIVER_NAME)(self)
 
 
 @python_2_unicode_compatible
@@ -119,6 +109,9 @@ class Review(models.Model):
     short_response = models.CharField(max_length=128, blank=True)
     comment = models.TextField(blank=True)
     filename = models.CharField(max_length=128, blank=True)
+
+    def display_score(self):
+        return import_string(submit_settings.SUBMIT_DISPLAY_SCORE)(self)
 
     def verbose_response(self):
         return constants.ReviewResponse.verbose(self.short_response)
