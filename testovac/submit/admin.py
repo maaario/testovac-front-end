@@ -41,11 +41,18 @@ class ReviewInline(admin.StackedInline):
 
 class SubmitAdmin(admin.ModelAdmin):
     inlines = [ReviewInline]
+    list_display = ('__str__', 'receiver', 'user', 'time', 'is_accepted', 'status', 'score')
+    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'receiver__id')
+
+    def status(self, submit):
+        return submit.last_review().short_response
+
+    def score(self, submit):
+        return submit.last_review().display_score()
 
 
 class ReviewAdmin(admin.ModelAdmin):
     pass
-
 
 admin.site.register(SubmitReceiverTemplate, SubmitReceiverTemplateAdmin)
 admin.site.register(SubmitReceiver, SubmitReceiverAdmin)

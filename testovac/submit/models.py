@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from django.conf import settings as django_settings
 from django.contrib.postgres.fields import JSONField
@@ -98,7 +99,7 @@ class Submit(models.Model):
         return '%s - <%s> (%s)' % (
             self.user,
             self.receiver,
-            str(self.time),
+            self.time.strftime('%H:%M:%S %d.%m.%Y'),
         )
 
 
@@ -140,4 +141,4 @@ class Review(models.Model):
         verbose_name_plural = 'reviews'
 
     def __str__(self):
-        return str(self.id)
+        return 'review %d for submit %s' % (self.id, str(self.submit))
