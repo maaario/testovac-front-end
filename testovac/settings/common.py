@@ -130,7 +130,7 @@ USE_L10N = True
 USE_TZ = True
 
 LOCALE_PATHS = (
-    os.path.join(PROJECT_DIR, 'locale'),
+    os.path.join(PROJECT_DIR, PROJECT_MODULE_NAME, 'locale'),
 )
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.

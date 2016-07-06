@@ -30,6 +30,11 @@
         <a href="{% url 'admin:submit_submit_change' submit.id %}">
             <span class="glyphicon glyphicon-pencil"></span> {% trans 'Edit and review' %}
         </a>
+        {% if submit.receiver.configuration.send_to_judge %}
+            <a href="{% url 'rejudge_submit' submit.id %}">
+                <span class="glyphicon glyphicon-send"></span> {% trans 'Rejudge submit' %}
+            </a>
+        {% endif %}
     {% endif %}
 {% endblock %}
 

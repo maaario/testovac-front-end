@@ -16,7 +16,16 @@
         {% for receiver in task.submit_receivers.all %}
             <div class="well">
                 {% if user.is_staff %}
-                    <p><a href="{% url 'admin:submit_submit_changelist'%}?receiver__id__exact={{ receiver.id }}&o=-4"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> {% trans 'View all submits of all users' %}</a></p>
+                    <p>
+                        <a href="{% url 'admin:submit_submit_changelist'%}?receiver__id__exact={{ receiver.id }}&o=-4">
+                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span> {% trans 'View all submits of all users' %}
+                        </a>
+                        {% if receiver.configuration.send_to_judge %}
+                            <a href="{% url 'rejudge_receiver_submits' receiver.id %}">
+                                <span class="glyphicon glyphicon-send"></span> {% trans 'Rejudge last submits' %}
+                            </a>
+                        {% endif %}
+                    </p>
                 {% endif %}
                 {% submit_form receiver task.get_absolute_url _('Solution') %}
                 <p></p>

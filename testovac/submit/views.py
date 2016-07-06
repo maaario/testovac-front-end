@@ -14,7 +14,7 @@ from .constants import JudgeTestResult, ReviewResponse
 from .models import SubmitReceiverTemplate, SubmitReceiver, Submit, Review
 from .forms import FileSubmitForm
 from .submit_helpers import create_submit, write_chunks_to_file, send_file
-from .judge_helpers import prepare_raw_file, send_to_judge, parse_protocol
+from .judge_helpers import create_review_and_send_to_judge, parse_protocol, JudgeConnectionError
 
 
 class PostSubmitForm(View):
@@ -47,17 +47,7 @@ class PostSubmitForm(View):
         return _('Submit successful.')
 
     def send_to_judge(self, submit):
-        review = Review(submit=submit, score=0, short_response=ReviewResponse.SENDING_TO_JUDGE)
-        review.save()
-        prepare_raw_file(review)
-        try:
-            send_to_judge(review)
-            review.short_response = ReviewResponse.SENT_TO_JUDGE
-        except:
-            review.short_response = ReviewResponse.JUDGE_UNAVAILABLE
-            raise Exception
-        finally:
-            review.save()
+        create_review_and_send_to_judge(submit)
 
     def post(self, request, receiver_id):
         receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
@@ -88,7 +78,7 @@ class PostSubmitForm(View):
         if config.get('send_to_judge', False):
             try:
                 self.send_to_judge(submit)
-            except:
+            except JudgeConnectionError:
                 messages.add_message(request, messages.ERROR, _('Upload to judge was not successful.'))
                 return redirect(request.POST['redirect_to'])
 
