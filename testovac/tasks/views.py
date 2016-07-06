@@ -6,8 +6,13 @@ from testovac.tasks.models import Contest, Task
 
 def contest_list(request):
     contests = Contest.objects.order_by('-number')
+    visible_contests = [contest for contest in contests if contest.is_visible_for_user(request.user)]
+
+    receiver_lists = [contest.all_submit_receivers().values_list('id', flat=True) for contest in visible_contests]
+    receiver_lists_as_strings = map(lambda l: ','.join(map(str, l)), receiver_lists)
+
     template_data = {
-        'contests': (contest for contest in contests if contest.is_visible_for_user(request.user))
+        'contests_with_receivers': zip(visible_contests, receiver_lists_as_strings)
     }
     return render(
         request,

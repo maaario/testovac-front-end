@@ -41,14 +41,19 @@ class ReviewInline(admin.StackedInline):
 
 class SubmitAdmin(admin.ModelAdmin):
     inlines = [ReviewInline]
-    list_display = ('__str__', 'receiver', 'user', 'time', 'is_accepted', 'status', 'score')
-    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'receiver__id')
+    list_display = ('submit_id', 'receiver', 'user', 'time', 'is_accepted', 'status', 'score')
+    search_fields = ('user__username', 'user__first_name', 'user__last_name')
+
+    def submit_id(self, submit):
+        return 'submit %d' % (submit.id,)
 
     def status(self, submit):
-        return submit.last_review().short_response
+        review = submit.last_review()
+        return review.short_response if review is not None else ''
 
     def score(self, submit):
-        return submit.last_review().display_score()
+        review = submit.last_review()
+        return review.display_score() if review is not None else ''
 
 
 class ReviewAdmin(admin.ModelAdmin):
