@@ -27,7 +27,14 @@
         {% endif %}
             <td>{{ submit.time }}</td>
             {% if review %}
-                <td>{{ review.verbose_response }}</td>
+                <td>
+                    <span>{{ review.verbose_response }}</span>
+                    {% if submit.is_accepted == Submit.NOT_ACCEPTED %}
+                        <span class="text-danger">|&nbsp;{% trans 'Not accepted' %}</span>
+                    {% elif submit.is_accepted == Submit.ACCEPTED_WITH_PENALIZATION %}
+                        <span class="text-danger">|&nbsp;{% trans 'Accepted with penalization' %}</span>
+                    {% endif %}
+                </td>
                 <td>{{ review.display_score }}</td>
             {% else %}
                 <td>{% trans 'Not reviewed' %}</td>

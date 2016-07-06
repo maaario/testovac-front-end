@@ -37,6 +37,7 @@ def submit_list(receiver, user):
     data = {
         'submits': [(submit, submit.last_review()) for submit in submits],
         'response': ReviewResponse,
+        'Submit': Submit,
     }
     return data
 
