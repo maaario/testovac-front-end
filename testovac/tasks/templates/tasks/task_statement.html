@@ -13,10 +13,9 @@
 
 {% block page_content %}
     {% if user.is_authenticated %}
-        {% url 'task_statement' task.id as task_url %}
         {% for receiver in task.submit_receivers.all %}
             <div class="well">
-                {% submit_form receiver task_url _('Solution') %}
+                {% submit_form receiver task.get_absolute_url _('Solution') %}
                 <p></p>
                 {% if 'form' in receiver.configuration %}
                     {% submit_list receiver user %}

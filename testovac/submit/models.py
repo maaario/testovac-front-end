@@ -2,6 +2,7 @@ import os
 
 from django.conf import settings as django_settings
 from django.contrib.postgres.fields import JSONField
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.module_loading import import_string
@@ -85,6 +86,9 @@ class Submit(models.Model):
         if reviews:
             return reviews[0]
         return None
+
+    def get_absolute_url(self):
+        return reverse('testovac.submit.views.view_submit', kwargs=dict(submit_id=self.id))
 
     class Meta:
         verbose_name = 'submit'
