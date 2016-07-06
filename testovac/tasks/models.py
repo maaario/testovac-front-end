@@ -49,10 +49,14 @@ class Contest(models.Model):
     end_time = models.DateTimeField(default=default_contest_start_end_time, blank=True, null=True)
     visible = models.BooleanField(default=False)
 
+    def has_started(self):
+        return self.start_time is None or timezone.now() > self.start_time
+
+    def has_finished(self):
+        return self.end_time is not None and timezone.now() > self.end_time
+
     def is_running(self):
-        has_started = self.start_time is None or timezone.now() > self.start_time
-        has_finished = self.end_time and timezone.now() > self.end_time
-        return has_started and not has_finished
+        return self.has_started() and not self.has_finished()
 
     def is_visible_for_user(self, user):
         return (
@@ -96,7 +100,11 @@ class Task(models.Model):
         return reverse('testovac.tasks.views.task_statement', kwargs=dict(task_id=self.id))
 
     def is_visible_for_user(self, user):
-        return self.contest.is_visible_for_user(user)
+        return (
+            user.is_superuser or
+            user.is_staff or
+            (self.contest.is_visible_for_user(user) and self.contest.has_started())
+        )
 
     class Meta:
         verbose_name = _('task')

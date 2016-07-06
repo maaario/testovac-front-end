@@ -16,6 +16,9 @@
         {% for contest, receivers_string in contests_with_receivers %}
             <h4>
                 {{ contest.name }}
+                {% if contest.is_running %}
+                    <span class="label label-success">{% trans 'Runnig now' %}</span>
+                {% endif %}
                 {% if user.is_staff %}
                     {% if not contest.visible %}
                         <span class="label label-danger">{% trans 'Hidden' %}</span>
@@ -26,13 +29,9 @@
                         &nbsp;
                         <a href="{% url 'admin:submit_submit_changelist'%}?receiver__id__in={{ receivers_string }}&o=-4"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> {% trans 'View all submits of all users' %}</a>
                 </small>
-
                 {% endif %}
             </h4>
             <h5>
-                {% if contest.is_running %}
-                    <span class="label label-success">{% trans 'Runnig now' %}</span>
-                {% endif %}
                 {% if contest.start_time and contest.end_time %}
                     {{ contest.start_time|date:"d.n. H:i" }} - {{ contest.end_time|date:"d.n. H:i" }}
                 {% elif contest.start_time %}
@@ -40,12 +39,17 @@
                 {% elif contest.end_time %}
                     {% trans 'Until' %} {{ contest.end_time|date:"d.n. H:i" }}
                 {% endif %}
+                {% if user.is_staff and not contest.has_started %}
+                    <span class="text-danger">{% trans 'Tasks will become visible to contestants at the start of the contest' %}</span>
+                {% endif %}
             </h5>
-            <div class="list-group">
-                {% for task in contest.task_set.all %}
-                    <a class="list-group-item" href="{% url 'task_statement' task.id%}">{{task.name}}</a>
-                {% endfor %}
-            </div>
+            {% if user.is_staff or contest.has_started %}
+                <div class="list-group">
+                    {% for task in contest.task_set.all %}
+                        <a class="list-group-item" href="{% url 'task_statement' task.id%}">{{task.name}}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
