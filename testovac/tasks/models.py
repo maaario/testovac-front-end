@@ -18,7 +18,8 @@ class Competition(models.Model):
     """
     name = models.CharField(max_length=128)
     public = models.BooleanField(default=True)
-    users_group = models.ForeignKey(Group, blank=True, null=True)
+    users_group = models.ForeignKey(Group, blank=True, null=True, related_name='users_of_competition')
+    administrators_group = models.ForeignKey(Group, blank=True, null=True, related_name='administrators_of_competition')
 
     class Meta:
         verbose_name = _('competition')

@@ -5,14 +5,22 @@ from testovac.tasks.models import Competition, Contest, Task
 
 
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'get_access_group')
+    list_display = ('name', 'get_users_group', 'get_admins_group', 'is_public')
 
-    def get_access_group(self, obj):
-        if obj.public:
-            return _('all')
+    def get_users_group(self, competition):
+        return competition.users_group
+    get_users_group.short_description = _("official contestants' group")
+
+    def get_admins_group(self, competition):
+        if competition.administrators_group is None:
+            return _('all staff')
         else:
-            return obj.users_group
-    get_access_group.short_description = _('accessible for group')
+            return competition.administrators_group
+    get_admins_group.short_description = _("administrators' group")
+
+    def is_public(self, competition):
+        return competition.public
+    is_public.boolean = True
 
 
 class TaskInline(admin.TabularInline):
