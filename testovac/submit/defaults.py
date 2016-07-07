@@ -2,14 +2,15 @@ def display_score(review):
     return str(review.score)
 
 
-def display_submit_receiver_name(receiver):
+def submit_receiver_type(receiver):
     if receiver.configuration.get('send_to_judge', False):
-        receiver_type = 'source'
-    elif 'link' in receiver.configuration:
-        receiver_type = 'link'
-    elif 'form' in receiver.configuration:
-        receiver_type = 'description'
-    else:
-        receiver_type = 'other'
+        return 'source'
+    if 'link' in receiver.configuration:
+        return 'link'
+    if 'form' in receiver.configuration:
+        return 'description'
+    return 'other'
 
-    return '{} ({})'.format(receiver.id, receiver_type)
+
+def display_submit_receiver_name(receiver):
+    return '{} ({})'.format(receiver.id, submit_receiver_type(receiver))

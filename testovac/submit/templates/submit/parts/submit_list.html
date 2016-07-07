@@ -26,20 +26,25 @@
             <tr class="info">
         {% endif %}
             <td>{{ submit.time }}</td>
-            {% if review %}
-                <td>
+            <td>
+                {% if review %}
                     <span>{{ review.verbose_response }}</span>
-                    {% if submit.is_accepted == Submit.NOT_ACCEPTED %}
-                        <span class="text-danger">|&nbsp;{% trans 'Not accepted' %}</span>
-                    {% elif submit.is_accepted == Submit.ACCEPTED_WITH_PENALIZATION %}
-                        <span class="text-danger">|&nbsp;{% trans 'Accepted with penalization' %}</span>
-                    {% endif %}
-                </td>
-                <td>{{ review.display_score }}</td>
-            {% else %}
-                <td>{% trans 'Not reviewed' %}</td>
-                <td>..</td>
-            {% endif %}
+                {% else %}
+                    <span>{% trans 'Not reviewed' %}</span>
+                {% endif %}
+                {% if submit.is_accepted == Submit.NOT_ACCEPTED %}
+                    <span class="text-danger">|&nbsp;{% trans 'Not accepted' %}</span>
+                {% elif submit.is_accepted == Submit.ACCEPTED_WITH_PENALIZATION %}
+                    <span class="text-danger">|&nbsp;{% trans 'Accepted with penalization' %}</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if review %}
+                    <td>{{ review.display_score }}</td>
+                {% else %}
+                    <td>..</td>
+                {% endif %}
+            </td>
             <td><a class="btn btn-primary btn-xs" href="{% url 'view_submit' submit_id=submit.id %}">{% trans 'View' %}</a></td>
         </tr>
     {% endfor %}
