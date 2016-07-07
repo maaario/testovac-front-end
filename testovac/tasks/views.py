@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.conf import settings
 from django.http import Http404
+from django.shortcuts import render, get_object_or_404
+from django.utils.module_loading import import_string
 
 from testovac.tasks.models import Contest, Task
 
@@ -21,15 +23,23 @@ def contest_list(request):
     )
 
 
-def task_statement(request, task_id):
-    task = get_object_or_404(Task, pk=task_id)
+def task_statement(request, task_slug):
+    task = get_object_or_404(Task, pk=task_slug)
     if not task.is_visible_for_user(request.user):
         raise Http404
     template_data = {
         'task': task,
+        'statement': import_string(settings.TASK_STATEMENTS_BACKEND)().render_statement(request, task),
     }
     return render(
         request,
         'tasks/task_statement.html',
         template_data,
     )
+
+
+def task_statement_download(request, task_slug):
+    task = get_object_or_404(Task, pk=task_slug)
+    if not task.is_visible_for_user(request.user):
+        raise Http404
+    return import_string(settings.TASK_STATEMENTS_BACKEND)().download_statement(request, task)

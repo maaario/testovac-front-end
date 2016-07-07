@@ -5,7 +5,7 @@ from testovac.tasks.models import Competition, Contest, Task
 
 
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'get_users_group', 'get_admins_group', 'is_public')
+    list_display = ('slug', 'name', 'get_users_group', 'get_admins_group', 'is_public')
 
     def get_users_group(self, competition):
         return competition.users_group
@@ -31,7 +31,7 @@ class TaskInline(admin.TabularInline):
 
 
 class ContestAdmin(admin.ModelAdmin):
-    list_display = ('name', 'number', 'competition', 'start_time', 'end_time', 'is_visible')
+    list_display = ('slug', 'name', 'number', 'competition', 'start_time', 'end_time', 'is_visible')
     list_filter = ('competition', )
     inlines = [TaskInline]
 
@@ -54,9 +54,9 @@ class ReceiverInline(admin.TabularInline):
 
 class TaskAdmin(admin.ModelAdmin):
     exclude = ('submit_receivers', )
-    list_display = ('name', 'number', 'contest', 'max_points')
+    list_display = ('slug', 'name', 'number', 'contest', 'max_points')
     list_filter = ('contest', )
-    search_fields = ('name', )
+    search_fields = ('name', 'slug')
     inlines = [
         ReceiverInline,
     ]

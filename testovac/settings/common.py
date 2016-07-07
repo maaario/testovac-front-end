@@ -165,3 +165,6 @@ WIKI_MARKDOWN_KWARGS = {
     'safe_mode': False,
     'output_format': 'html5',
 }
+
+TASK_STATEMENTS_BACKEND = 'testovac.tasks.statements_backends.StatementsPDFBackend'
+TASK_STATEMENTS_PATH = os.path.join(PROJECT_DIR, 'statements')

@@ -46,7 +46,7 @@
             {% if user.is_staff or contest.has_started %}
                 <div class="list-group">
                     {% for task in contest.task_set.all %}
-                        <a class="list-group-item" href="{% url 'task_statement' task.id%}">{{task.name}}</a>
+                        <a class="list-group-item" href="{% url 'task_statement' task.pk %}">{{task.name}}</a>
                     {% endfor %}
                 </div>
             {% endif %}

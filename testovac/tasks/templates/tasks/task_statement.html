@@ -1,4 +1,4 @@
-{% extends "testovac/base.html" %}
+{% extends 'testovac/base.html' %}
 {% load submit_parts %}
 {% load i18n %}
 
@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block page_content %}
+    {{ statement }}
     {% if user.is_authenticated %}
         {% for receiver in task.submit_receivers.all %}
             <div class="well">

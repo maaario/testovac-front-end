@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 from django.conf import settings as django_settings
 from django.contrib.postgres.fields import JSONField

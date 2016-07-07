@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% if has_statement %}
+    <p><a class="btn btn-primary" href="{% url 'task_statement_download' task.pk %}">{% trans 'Download task statement' %}</a></p>
+{% else %}
+    <p class="text-danger">{% trans 'Task statement is not available to download.' %}</p>
+{% endif %}

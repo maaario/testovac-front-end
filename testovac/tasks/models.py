@@ -16,6 +16,7 @@ class Competition(models.Model):
     Independent competition, consists of contests.
     Competition can be made accessible only to specific group of users.
     """
+    slug = models.SlugField(primary_key=True, help_text='Must be unique, serves as part of URL.')
     name = models.CharField(max_length=128)
     public = models.BooleanField(default=True)
     users_group = models.ForeignKey(Group, blank=True, null=True, related_name='users_of_competition')
@@ -34,7 +35,7 @@ class Competition(models.Model):
         )
 
     def __str__(self):
-        return self.name
+        return u'{} ({})'.format(self.name, self.slug)
 
 
 @python_2_unicode_compatible
@@ -43,6 +44,7 @@ class Contest(models.Model):
     One round or competition event, consists of tasks.
     Holds information about deadline and visibility.
     """
+    slug = models.SlugField(primary_key=True, help_text='Must be unique among all contests, serves as part of URL.')
     name = models.CharField(max_length=128)
     competition = models.ForeignKey(Competition)
     number = models.IntegerField()
@@ -67,14 +69,14 @@ class Contest(models.Model):
         )
 
     def all_submit_receivers(self):
-        return SubmitReceiver.objects.filter(task__in=self.task_set.values_list('id', flat=True))
+        return SubmitReceiver.objects.filter(task__in=self.task_set.values_list('slug', flat=True))
 
     class Meta:
         verbose_name = _('contest')
         verbose_name_plural = _('contests')
 
     def __str__(self):
-        return '%i. %s, %s' % (self.number, self.name, self.competition)
+        return u'{}. {} ({}), {}'.format(self.number, self.name, self.slug, self.competition)
 
 
 class TaskManager(models.Manager):
@@ -89,6 +91,7 @@ class Task(models.Model):
     """
     General task data not related to testing are defined here.
     """
+    slug = models.SlugField(primary_key=True, help_text='Must be unique among all tasks, serves as part of URL.')
     name = models.CharField(max_length=128)
     contest = models.ForeignKey(Contest)
     number = models.IntegerField()
@@ -98,7 +101,7 @@ class Task(models.Model):
     objects = TaskManager()
 
     def get_absolute_url(self):
-        return reverse('testovac.tasks.views.task_statement', kwargs=dict(task_id=self.id))
+        return reverse('testovac.tasks.views.task_statement', kwargs=dict(task_slug=self.slug))
 
     def is_visible_for_user(self, user):
         return (
@@ -112,4 +115,4 @@ class Task(models.Model):
         verbose_name_plural = _('tasks')
 
     def __str__(self):
-        return self.name
+        return u'{} ({})'.format(self.name, self.slug)
