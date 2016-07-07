@@ -40,11 +40,12 @@ def wiki_articles_in_menu(request):
     items = []
 
     for url in list(chain(wiki_root, first_level_urls)):
-        items.append({
-            'url_regex': r'^' + url.article.get_absolute_url() + ('$' if url in wiki_root else ''),
-            'text': url.article.current_revision.title,
-            'link': url.article.get_absolute_url(),
-        })
+        if url.article.can_read(request.user):
+            items.append({
+                'url_regex': r'^' + url.article.get_absolute_url() + ('$' if url in wiki_root else ''),
+                'text': url.article.current_revision.title,
+                'link': url.article.get_absolute_url(),
+            })
 
     return items
 
