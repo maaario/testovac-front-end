@@ -11,6 +11,7 @@ import news.urls
 import testovac.login.urls
 import testovac.tasks.urls
 import testovac.submit.urls
+import testovac.results.urls
 from testovac.admin import admin_site_custom_index_view
 
 
@@ -29,6 +30,7 @@ urlpatterns = [
     url(r'^tasks/', include(testovac.tasks.urls)),
     url(r'^news/', include(news.urls)),
     url(r'^submit/', include(testovac.submit.urls)),
+    url(r'^results/', include(testovac.results.urls)),
     url(r'^login/', include(testovac.login.urls)),
 ]
 

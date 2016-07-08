@@ -6,6 +6,7 @@ from django.utils.html import format_html
 from testovac.submit.defaults import submit_receiver_type
 from testovac.submit.models import Submit
 from testovac.submit.views import PostSubmitForm
+from testovac.results.task_points import review_points, display_points, is_submit_accepted as submit_accepted
 
 
 class PostSubmitFormCustomized(PostSubmitForm):
@@ -16,14 +17,7 @@ class PostSubmitFormCustomized(PostSubmitForm):
         return task.is_visible_for_user(user)
 
     def is_submit_accepted(self, submit):
-        if not submit.receiver.task_set.all():
-            return Submit.NOT_ACCEPTED
-        task = submit.receiver.task_set.all()[0]
-
-        if task.contest.has_finished():
-            return Submit.NOT_ACCEPTED
-        else:
-            return Submit.ACCEPTED
+        return submit_accepted(submit)
 
     def get_success_message(self, submit):
         message = super(PostSubmitFormCustomized, self).get_success_message(submit)
@@ -47,5 +41,5 @@ def display_submit_receiver_name(receiver):
     return '{} ({})'.format(task_slug, type)
 
 
-
-
+def display_score(review):
+    return display_points(review_points(review))

@@ -33,11 +33,11 @@
             </h4>
             <h5>
                 {% if contest.start_time and contest.end_time %}
-                    {{ contest.start_time|date:"d.n. H:i" }} - {{ contest.end_time|date:"d.n. H:i" }}
+                    {{ contest.start_time|date:"j.n. H:i" }} - {{ contest.end_time|date:"j.n. H:i" }}
                 {% elif contest.start_time %}
-                    {% trans 'Since' %} {{ contest.start_time|date:"d.n. H:i" }}
+                    {% trans 'Since' %} {{ contest.start_time|date:"j.n. H:i" }}
                 {% elif contest.end_time %}
-                    {% trans 'Until' %} {{ contest.end_time|date:"d.n. H:i" }}
+                    {% trans 'Until' %} {{ contest.end_time|date:"j.n. H:i" }}
                 {% endif %}
                 {% if user.is_staff and not contest.has_started %}
                     <span class="text-danger">{% trans 'Tasks will become visible to contestants at the start of the contest' %}</span>
@@ -49,6 +49,7 @@
                         <a class="list-group-item" href="{% url 'task_statement' task.pk %}">{{task.name}}</a>
                     {% endfor %}
                 </div>
+                <a class="btn btn-primary" href="{% url 'contest_results' contest.pk %}">{% trans 'Results' %}</a>
             {% endif %}
         {% endfor %}
     </div>

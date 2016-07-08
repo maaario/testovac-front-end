@@ -22,7 +22,9 @@ class FileSubmitForm(forms.Form):
 
         if self.languages is not None:
             automatic = [[constants.DEDUCE_LANGUAGE_AUTOMATICALLY_OPTION, constants.DEDUCE_LANGUAGE_AUTOMATICALLY_VERBOSE]]
-            self.fields['language'] = forms.ChoiceField(label=_('Language'), choices=automatic + self.languages)
+            self.fields['language'] = forms.ChoiceField(label=_('Language'),
+                                                        choices=automatic + self.languages,
+                                                        required=True)
 
     submit_file = forms.FileField(
         max_length=submit_settings.SUBMIT_UPLOADED_FILENAME_MAXLENGTH,
@@ -30,7 +32,7 @@ class FileSubmitForm(forms.Form):
     )
 
     def clean_submit_file(self):
-        sfile = self.cleaned_data['submit_file']
+        sfile = self.cleaned_data.get('submit_file', None)
         if sfile:
             extension = os.path.splitext(sfile.name)[1].lower()
             if self.extensions is not None and extension not in self.extensions:
@@ -42,7 +44,7 @@ class FileSubmitForm(forms.Form):
             raise forms.ValidationError(_('No file was submitted'), code='no file')
 
     def clean(self):
-        if self.languages is not None:
+        if 'submit_file' in self.cleaned_data and 'language' in self.cleaned_data and self.languages is not None:
             filename = self.cleaned_data['submit_file'].name
             language = self.cleaned_data['language']
             allowed_languages = map(lambda choice: choice[0], self.languages)

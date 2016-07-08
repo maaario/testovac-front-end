@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-07 23:10+0200\n"
+"POT-Creation-Date: 2016-07-08 23:37+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: testovac/admin.py:28
+#: testovac/admin.py:32
 msgid "Tester-site administration"
 msgstr "Administrácia stránky testovača"
 
@@ -57,6 +57,23 @@ msgstr "Novinky"
 #: testovac/tasks/templates/tasks/contest_list.html:8
 msgid "Tasks"
 msgstr "Úlohy"
+
+#: testovac/results/templates/results/contest_result_table.html:5
+#: testovac/results/templates/results/contest_result_table.html:8
+msgid "Results for"
+msgstr "Výsledky pre"
+
+#: testovac/results/templates/results/contest_result_table.html:16
+msgid "name"
+msgstr "meno"
+
+#: testovac/results/templates/results/contest_result_table.html:17
+msgid "login name"
+msgstr "login"
+
+#: testovac/results/templates/results/contest_result_table.html:18
+msgid "sum"
+msgstr "spolu"
 
 #: testovac/submit/commands.py:22 testovac/submit/views.py:82
 msgid "Upload to judge was not successful."
@@ -124,22 +141,22 @@ msgstr "Protokol je nečitateľný"
 
 #: testovac/submit/constants.py:58
 msgid "Reviewed"
-msgstr "Hodnotenie"
+msgstr "Ohodnotené"
 
 #: testovac/submit/forms.py:25
 msgid "Language"
 msgstr "Jazyk"
 
-#: testovac/submit/forms.py:37
+#: testovac/submit/forms.py:39
 #, python-format
 msgid "Invalid file extension %(extension)s"
 msgstr "Typ súboru %(extension)s nie je podporovaný"
 
-#: testovac/submit/forms.py:42
+#: testovac/submit/forms.py:44
 msgid "No file was submitted"
 msgstr "Nebol odovzdaný žiadny súbor"
 
-#: testovac/submit/forms.py:53
+#: testovac/submit/forms.py:55
 msgid "Automatic language discovery failed. Unknown language extension."
 msgstr ""
 "Automatické určenie jazyka zlyhalo kvôli neznámej/nepodporovanej koncovke."
@@ -187,18 +204,18 @@ msgid "Actions"
 msgstr "Akcie"
 
 #: testovac/submit/templates/submit/parts/submit_list.html:33
-msgid "Not accepted"
-msgstr "Neakceptované"
-
-#: testovac/submit/templates/submit/parts/submit_list.html:35
-msgid "Accepted with penalization"
-msgstr "Akceptované s penalizáciou"
-
-#: testovac/submit/templates/submit/parts/submit_list.html:40
 msgid "Not reviewed"
 msgstr "Neohodnotené"
 
-#: testovac/submit/templates/submit/parts/submit_list.html:43
+#: testovac/submit/templates/submit/parts/submit_list.html:36
+msgid "Not accepted"
+msgstr "Neakceptované"
+
+#: testovac/submit/templates/submit/parts/submit_list.html:38
+msgid "Accepted with penalization"
+msgstr "Akceptované s penalizáciou"
+
+#: testovac/submit/templates/submit/parts/submit_list.html:48
 msgid "View"
 msgstr "Detaily"
 
@@ -301,6 +318,10 @@ msgstr ""
 msgid "Submit successful."
 msgstr "Úspešne odovzdané."
 
+#: testovac/submit_configuration.py:30
+msgid "Contest has already finished, this submit won't affect the results."
+msgstr "Súťaž sa už skončila, tento submit sa nezapočíta do výsledkovky."
+
 #: testovac/tasks/admin.py:12
 msgid "official contestants' group"
 msgstr "oficiálna skupina súťažiacich"
@@ -373,6 +394,10 @@ msgstr "Do"
 #: testovac/tasks/templates/tasks/contest_list.html:43
 msgid "Tasks will become visible to contestants at the start of the contest"
 msgstr "Súťažiaci uvidia úlohy až po začiatku contestu"
+
+#: testovac/tasks/templates/tasks/contest_list.html:52
+msgid "Results"
+msgstr "Výsledky"
 
 #: testovac/tasks/templates/tasks/parts/download_statement_button.html:4
 msgid "Download task statement"
