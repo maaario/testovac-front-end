@@ -1,3 +1,6 @@
+from . import settings as submit_settings
+
+
 def display_score(review):
     return str(review.score)
 
@@ -14,3 +17,7 @@ def submit_receiver_type(receiver):
 
 def display_submit_receiver_name(receiver):
     return '{} ({})'.format(receiver.id, submit_receiver_type(receiver))
+
+
+def default_inputs_folder_at_judge(receiver):
+    return '{}-{}'.format(submit_settings.JUDGE_INTERFACE_IDENTITY, receiver.id)

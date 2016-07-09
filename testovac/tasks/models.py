@@ -16,7 +16,8 @@ class Competition(models.Model):
     Independent competition, consists of contests.
     Competition can be made accessible only to specific group of users.
     """
-    slug = models.SlugField(primary_key=True, help_text='Must be unique, serves as part of URL.')
+    slug = models.SlugField(primary_key=True, help_text='Must be unique, serves as part of URL.<br />'
+                                                        'Must only contain characters "a-zA-Z0-9_-".')
     name = models.CharField(max_length=128)
     public = models.BooleanField(default=True)
     users_group = models.ForeignKey(Group, blank=True, null=True, related_name='users_of_competition')
@@ -44,7 +45,9 @@ class Contest(models.Model):
     One round or competition event, consists of tasks.
     Holds information about deadline and visibility.
     """
-    slug = models.SlugField(primary_key=True, help_text='Must be unique among all contests, serves as part of URL.')
+    slug = models.SlugField(primary_key=True,
+                            help_text='Must be unique among all contests, serves as part of URL.<br />'
+                                      'Must only contain characters "a-zA-Z0-9_-".')
     name = models.CharField(max_length=128)
     competition = models.ForeignKey(Competition)
     number = models.IntegerField()
@@ -91,7 +94,10 @@ class Task(models.Model):
     """
     General task data not related to testing are defined here.
     """
-    slug = models.SlugField(primary_key=True, help_text='Must be unique among all tasks, serves as part of URL.')
+    slug = models.SlugField(primary_key=True,
+                            help_text='Must be unique among all tasks, serves as part of URL.<br />'
+                                      'By default, task.slug is also used as a name of inputs folder at judge.<br />'
+                                      'Must only contain characters "a-zA-Z0-9_-".')
     name = models.CharField(max_length=128)
     contest = models.ForeignKey(Contest)
     number = models.IntegerField()

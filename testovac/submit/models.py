@@ -35,7 +35,7 @@ class SubmitReceiverTemplate(SubmitConfig):
         verbose_name_plural = 'submit receiver templates'
 
     def __str__(self):
-        return '%s' % (self.name,)
+        return self.name
 
 
 @python_2_unicode_compatible

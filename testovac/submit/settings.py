@@ -39,3 +39,6 @@ SUBMIT_DISPLAY_SCORE = getattr(django_settings, 'SUBMIT_DISPLAY_SCORE',
 # Override `SubmitReceiver.__str__()` to be more descriptive than "{}".format(id)
 SUBMIT_DISPLAY_SUBMIT_RECEIVER_NAME = getattr(django_settings, 'SUBMIT_DISPLAY_SUBMIT_RECEIVER_NAME',
                                               'testovac.submit.defaults.display_submit_receiver_name')
+
+JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER = getattr(django_settings, 'JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER',
+                                                   'testovac.submit.defaults.default_inputs_folder_at_judge')

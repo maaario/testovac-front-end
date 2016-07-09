@@ -3,6 +3,9 @@ import time
 import socket
 import xml.etree.ElementTree as ET
 from decimal import Decimal
+from unidecode import unidecode
+
+from django.utils.module_loading import import_string
 
 from .constants import JudgeTestResult, ReviewResponse
 from . import settings as submit_settings
@@ -45,10 +48,13 @@ def prepare_raw_file(review):
         submitted_source = submitted_file.read()
 
     review_id = str(review.id)
-    user_id = submit_settings.JUDGE_INTERFACE_IDENTITY + '-' + str(review.submit.user.username)
+    user_id = '%s-%s' % (submit_settings.JUDGE_INTERFACE_IDENTITY, str(review.submit.user.id))
 
-    original_filename = review.submit.filename
-    receiver_id = str(review.submit.receiver.id)
+    original_filename = unidecode(review.submit.filename)
+    receiver_id = review.submit.receiver.configuration.get(
+        'inputs_folder_at_judge',
+        import_string(submit_settings.JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER)(review.submit.receiver)
+    )
     language = os.path.splitext(original_filename)[1]
     correct_filename = receiver_id + language
 

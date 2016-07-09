@@ -45,7 +45,7 @@ def user_task_points(task, user):
 
     submits = Submit.objects\
         .filter(receiver=receiver, user=user, is_accepted__in=[Submit.ACCEPTED, Submit.ACCEPTED_WITH_PENALIZATION])\
-        .order_by('time')
+        .order_by('-time')
 
     for submit in submits:
         last_review = submit.last_review()

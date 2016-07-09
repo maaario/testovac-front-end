@@ -24,7 +24,7 @@
                 {% for test in protocol.tests %}
                     <tr class="{% if test.result == result.OK %}
                                     success
-                               {% elif test.result == result.IGN %}
+                               {% elif test.result == result.IGNORED %}
                                     warning
                                {% else %}
                                     danger

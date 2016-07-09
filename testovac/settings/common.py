@@ -173,3 +173,4 @@ TASK_STATEMENTS_PATH = os.path.join(PROJECT_DIR, 'statements')
 SUBMIT_POST_SUBMIT_FORM_VIEW = 'testovac.submit_configuration.PostSubmitFormCustomized'
 SUBMIT_DISPLAY_SUBMIT_RECEIVER_NAME = 'testovac.submit_configuration.display_submit_receiver_name'
 SUBMIT_DISPLAY_SCORE = 'testovac.submit_configuration.display_score'
+JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER = 'testovac.submit_configuration.default_inputs_folder_at_judge'
