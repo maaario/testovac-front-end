@@ -1,7 +1,9 @@
 # Django settings for testovac project.
 
 import os
+
 from django.contrib.messages import constants as message_constants
+from django.http import UnreadablePostError
 
 import testovac
 
@@ -177,3 +179,57 @@ SUBMIT_PATH = env('TESTOVAC_FRONT_SUBMIT_PATH', os.path.join(PROJECT_DIR, 'submi
 JUDGE_INTERFACE_IDENTITY = env('TESTOVAC_FRONT_JUDGE_INTERFACE_IDENTITY', 'TESTOVAC')
 JUDGE_ADDRESS = env('TESTOVAC_FRONT_JUDGE_ADDRESS', '127.0.0.1')
 JUDGE_PORT = env('TESTOVAC_FRONT_JUDGE_PORT', 12347)
+
+
+# Email for logging
+
+if 'TESTOVAC_FRONT_ADMINS' in os.environ:
+    ADMINS = tuple([tuple(admin.split(':')) for admin in env('TROJSTENWEB_ADMINS', '').split(';')])
+else:
+    ADMINS = ()
+
+if 'TROJSTENWEB_MANAGERS' in os.environ:
+    MANAGERS = tuple([tuple(manager.split(':')) for manager in env('TROJSTENWEB_MANAGERS', '').split(';')])
+else:
+    MANAGERS = ()
+
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+def skip_unreadable_post(record):
+    if record.exc_info:
+        exc_type, exc_value = record.exc_info[:2]
+        if isinstance(exc_value, UnreadablePostError):
+            return False
+    return True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+        'skip_unreadable_posts': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': skip_unreadable_post,
+        },
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false', 'skip_unreadable_posts'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
