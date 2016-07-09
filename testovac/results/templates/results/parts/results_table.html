@@ -24,15 +24,31 @@
     </thead>
     <tbody>
         {% for row in table_data %}
-            <tr {% if user == row.user %}class="info"{% endif %}>
-                <td>{% if row.rank %}{{ row.rank }}{% endif %}</td>
-                <td>{{ row.user.first_name }} {{ row.user.last_name }}</td>
-                <td>{{ row.user.username }}</td>
-                <td>{{ row.sum|points_format }}</td>
-                {% for task_score in row.task_points %}
-                    <td>{{ task_score|points_format }}</td>
-                {% endfor %}
-            </tr>
+            {% if not row.user.is_staff or show_staff %}
+                <tr {% if user == row.user %}class="info"{% endif %}>
+                    <td>{% if row.rank %}{{ row.rank }}.{% endif %}</td>
+                    <td>{{ row.user.first_name }} {{ row.user.last_name }}</td>
+                    <td>{{ row.user.username }}</td>
+                    <td>{{ row.sum|points_format }}</td>
+                    {% for task_score in row.task_points %}
+                        <td>{{ task_score|points_format }}</td>
+                    {% endfor %}
+                </tr>
+            {% endif %}
         {% endfor %}
     </tbody>
 </table>
+
+{% if user.is_staff %}
+    <div class="btn-group pull-right">
+        {% if show_staff %}
+            <a href="?show_staff=False" class="btn btn-default btn-sm">
+                {% trans 'Hide staff' %}
+            </a>
+        {% else %}
+            <a href="?show_staff=True" class="btn btn-default btn-sm">
+                {% trans 'Show staff' %}
+            </a>
+        {% endif %}
+    </div>
+{% endif %}

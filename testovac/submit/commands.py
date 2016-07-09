@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.db.models import Max, F
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
@@ -19,7 +18,7 @@ def rejudge_submit(request, submit_id):
 
     try:
         create_review_and_send_to_judge(submit)
-        messages.add_message(request, messages.SUCCESS, _('Upload to judge was not successful.'))
+        messages.add_message(request, messages.SUCCESS, _('Resubmit successful.'))
     except JudgeConnectionError:
         messages.add_message(request, messages.ERROR, _('Resubmit not successful. Judge unavailable.'))
 
@@ -38,7 +37,7 @@ def rejudge_receiver_submits(request, receiver_id):
         raise Http404
 
     submits = Submit.objects\
-        .filter(receiver__id=2, is_accepted__in=[Submit.ACCEPTED, Submit.ACCEPTED_WITH_PENALIZATION])\
+        .filter(receiver__id=receiver_id, is_accepted__in=[Submit.ACCEPTED, Submit.ACCEPTED_WITH_PENALIZATION])\
         .order_by('-time')
     users_rejudged = set()
 
