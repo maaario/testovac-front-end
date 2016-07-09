@@ -10,8 +10,7 @@ def results_index(request):
     custom_tables_data = []
     for custom_table in custom_tables:
         custom_tables_data.append({
-            'name': custom_table.name,
-            'slug': custom_table.slug,
+            'custom_table': custom_table,
             'tasks': custom_table.tasks(request.user),
         })
 

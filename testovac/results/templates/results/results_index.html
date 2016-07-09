@@ -27,13 +27,13 @@
         <ul class="nav nav-tabs" role="tablist">
             {% for table in custom_tables %}
                 <li {% if forloop.first %}class="active"{% endif %}>
-                    <a href="#{{ table.slug }}" data-toggle="tab">{{ table.name }}</a>
+                    <a href="#{{ table.custom_table.slug }}" data-toggle="tab">{{ table.custom_table.name }}</a>
                 </li>
             {% endfor %}
         </ul>
         <div class="tab-content">
             {% for table in custom_tables %}
-                <div class="tab-pane fade {% if forloop.first %}in active{% endif %}" id="{{ table.slug }}">
+                <div class="tab-pane fade {% if forloop.first %}in active{% endif %}" id="{{ table.custom_table.slug }}">
                      {% results_table table.tasks %}
                 </div>
             {% endfor %}
