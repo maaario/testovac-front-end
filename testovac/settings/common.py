@@ -16,16 +16,10 @@ def env(name, default):
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-(tu4#dd!-9x9fmxvsq*psm^1+e+=r@ofes&6tk*e-gpk5mhn9'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
-# Sites only needed for wiki
 SITE_ID = 1
+
 
 # Application definition
 INSTALLED_APPS = (
@@ -143,7 +137,9 @@ MEDIA_URL = env('TESTOVAC_FRONT_MEDIA_URL', '/media/')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-STATIC_URL = '/static/'
+STATIC_URL = env('TESTOVAC_FRONT_STATIC_URL', '/static/')
+
+STATIC_ROOT = env('TESTOVAC_FRONT_STATIC_ROOT', os.path.join(PROJECT_DIR, PROJECT_MODULE_NAME, 'static'))
 
 AUTH_USER_MODEL = 'auth.User'
 
@@ -167,10 +163,17 @@ WIKI_MARKDOWN_KWARGS = {
     'output_format': 'html5',
 }
 
+# Task statements
 TASK_STATEMENTS_BACKEND = 'testovac.tasks.statements_backends.StatementsPDFBackend'
-TASK_STATEMENTS_PATH = os.path.join(PROJECT_DIR, 'statements')
+TASK_STATEMENTS_PATH = env('TESTOVAC_FRONT_TASK_STATEMENTS_PATH', os.path.join(PROJECT_DIR, 'statements'))
 
+# Submit app
 SUBMIT_POST_SUBMIT_FORM_VIEW = 'testovac.submit_configuration.PostSubmitFormCustomized'
 SUBMIT_DISPLAY_SUBMIT_RECEIVER_NAME = 'testovac.submit_configuration.display_submit_receiver_name'
 SUBMIT_DISPLAY_SCORE = 'testovac.submit_configuration.display_score'
 JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER = 'testovac.submit_configuration.default_inputs_folder_at_judge'
+
+SUBMIT_PATH = env('TESTOVAC_FRONT_SUBMIT_PATH', os.path.join(PROJECT_DIR, 'submit'))
+JUDGE_INTERFACE_IDENTITY = env('TESTOVAC_FRONT_JUDGE_INTERFACE_IDENTITY', 'TESTOVAC')
+JUDGE_ADDRESS = env('TESTOVAC_FRONT_JUDGE_ADDRESS', '127.0.0.1')
+JUDGE_PORT = env('TESTOVAC_FRONT_JUDGE_PORT', 12347)

@@ -11,3 +11,5 @@ sorl-thumbnail==12.4a1
 wiki==0.1.2
 django-trojsten-news
 Unidecode==0.4.19
+django-dotenv
+django-debug-toolbar
