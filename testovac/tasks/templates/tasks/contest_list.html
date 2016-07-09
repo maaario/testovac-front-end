@@ -6,45 +6,57 @@
 {% block title %}{% trans 'Tasks' %}{% endblock %}
 
 {% block page_header %}
-    <h1>{% trans 'Tasks' %}</h1>
-    {% if user.is_staff %}
-        <a href="{% url 'admin:tasks_contest_add' %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {% trans 'Create new contest' %}</a>
-    {% endif %}
+    <ul class="nav nav-pills">
+        <li class="pull-left">
+            <h1>{% trans 'Tasks' %}</h1>
+        </li>
+        {% if user.is_staff %}
+            <li class="pull-right">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary btn-nav" href="{% url 'admin:tasks_contest_add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {% trans 'Create new contest' %}
+                    </a>
+                </div>
+            </li>
+        {% endif %}
+    </ul>
 {% endblock %}
 
 {% block page_content %}
     <div>
         {% for contest, receivers_string in contests_with_receivers %}
-            <h4>
+            <h3>
                 {{ contest.name }}
                 {% if contest.is_running %}
-                    <span class="label label-success">{% trans 'Runnig now' %}</span>
+                    <span class="label label-success pull-right">{% trans 'Runnig now' %}</span>
                 {% elif not contest.has_started %}
-                    <span class="label label-info">{% trans 'New contest' %}</span>
+                    <span class="label label-info pull-right">{% trans 'New contest' %}</span>
                 {% endif %}
-                {% if user.is_staff %}
-                    <small>
+            </h3>
+            <h5>
+                <p>
+                    {% if contest.start_time and contest.end_time %}
+                        {{ contest.start_time|date:"j.n. H:i" }} - {{ contest.end_time|date:"j.n. H:i" }}
+                    {% elif contest.start_time %}
+                        {% trans 'Since' %} {{ contest.start_time|date:"j.n. H:i" }}
+                    {% elif contest.end_time %}
+                        {% trans 'Until' %} {{ contest.end_time|date:"j.n. H:i" }}
+                    {% endif %}
+                    {% if user.is_staff %}
                         &nbsp;
+                        {% if not contest.visible %}
+                             <span class="text-danger">{% trans 'Contest is hidden' %}</span>
+                        {% elif not contest.has_started %}
+                            <span class="text-danger">{% trans 'Tasks will become visible to contestants at the start of the contest' %}</span>
+                        {% endif %}
+                    {% endif %}
+                </p>
+                {% if user.is_staff %}
+                    <p>
                         <a href="{% url 'admin:tasks_contest_change' contest.pk %}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {% trans 'Edit contest' %}</a>
                         &nbsp;
                         <a href="{% url 'admin:submit_submit_changelist'%}?receiver__id__in={{ receivers_string }}&o=-4"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> {% trans 'View all submits of all users' %}</a>
-                    </small>
-                {% endif %}
-            </h4>
-            <h5>
-                {% if contest.start_time and contest.end_time %}
-                    {{ contest.start_time|date:"j.n. H:i" }} - {{ contest.end_time|date:"j.n. H:i" }}
-                {% elif contest.start_time %}
-                    {% trans 'Since' %} {{ contest.start_time|date:"j.n. H:i" }}
-                {% elif contest.end_time %}
-                    {% trans 'Until' %} {{ contest.end_time|date:"j.n. H:i" }}
-                {% endif %}
-                {% if user.is_staff %}
-                    {% if not contest.visible %}
-                         <span class="text-danger">{% trans 'Contest is hidden' %}</span>
-                    {% elif not contest.has_started %}
-                        <span class="text-danger">{% trans 'Tasks will become visible to contestants at the start of the contest' %}</span>
-                    {% endif %}
+                    </p>
                 {% endif %}
             </h5>
             {% if user.is_staff or contest.has_started %}
@@ -55,8 +67,8 @@
                             <span class="pull-right">{% completed_status task=task user=user %}</span>
                         </a>
                     {% endfor %}
+                    <a class="btn btn-primary" href="{% url 'contest_results' contest.pk %}">{% trans 'Results' %}</a>
                 </div>
-                <a class="btn btn-primary" href="{% url 'contest_results' contest.pk %}">{% trans 'Results' %}</a>
             {% endif %}
         {% endfor %}
     </div>

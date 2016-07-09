@@ -1,1 +1,3 @@
-<span class="label label-{{ level }}" >{{ points }} / {{ max }}</span>
+{% if render %}
+    <span class="label label-{{ level }}" >{{ points }} / {{ max }}</span>
+{% endif %}

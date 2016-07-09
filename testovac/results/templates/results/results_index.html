@@ -6,7 +6,20 @@
 {% block title %}{% trans 'Results' %}{% endblock %}
 
 {% block page_header %}
-    <h1>{% trans 'Results' %}</h1>
+    <ul class="nav nav-pills">
+        <li class="pull-left">
+            <h1>{% trans 'Results' %}</h1>
+        </li>
+        {% if user.is_staff %}
+            <li class="pull-right">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary btn-nav" href="{% url 'admin:results_customresultstable_add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {% trans 'Create new results table' %}
+                    </a>
+                </div>
+            </li>
+        {% endif %}
+    </ul>
 {% endblock %}
 
 {% block page_content %}

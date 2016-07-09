@@ -15,9 +15,9 @@ body{
 
 /* Page header */
 
-li>h1{
-    margin-top: 0;
-}
+li>h1{ margin-top: 0; }
+li>h2{ margin-top: 0; }
+
 
 /* Left panel */
 

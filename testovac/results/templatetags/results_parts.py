@@ -30,6 +30,11 @@ def results_table(context, tasks):
 
 @register.inclusion_tag('results/parts/completed_status.html')
 def completed_status(task, user):
+    if not user.is_authenticated():
+        return {
+            'render': False,
+        }
+
     points = user_task_points(task, user)
     if Decimal(points) == 0:
         level = 'danger'
@@ -39,6 +44,7 @@ def completed_status(task, user):
         level = 'warning'
 
     return {
+        'render': True,
         'points': display_points(points),
         'max': display_points(task.max_points),
         'level': level,
