@@ -13,6 +13,7 @@
         <input type="text" name="username" placeholder="{% trans 'Username' %}" class="form-control">
         <input type="password" name="password" placeholder="{% trans 'Password' %}" class="form-control">
         <button type="submit" class="btn btn-primary">{% trans 'Log in' %}</button>
+        <input type="hidden" name="next" value="{{ request.path }}" />
     </form>
     <p class="login-form-text">{% trans "Don't have account yet?" %}<br /><a href="{% url 'registration' %}">{% trans 'Register' %}</a></p>
 {% endif %}

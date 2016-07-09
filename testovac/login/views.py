@@ -28,10 +28,11 @@ def login(request):
     """
     Displays the login form and handles the login action.
     """
-    success_redirect = reverse('contest_list')
     problem_redirect = reverse('root')
 
     if request.method == 'POST':
+        success_redirect = request.POST.get('next', reverse('contest_list'))
+
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
 

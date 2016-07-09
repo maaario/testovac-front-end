@@ -92,7 +92,7 @@ msgstr "spolu"
 
 #: testovac/results/templates/results/results_index.html:30
 msgid "Contests' results"
-msgstr "Výsledky contestu"
+msgstr "Výsledky contestov"
 
 #: testovac/results/templates/results/results_index.html:36
 msgid "Results will become visible to contestants at the start of the contest"
