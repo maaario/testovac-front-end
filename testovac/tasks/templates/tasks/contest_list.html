@@ -62,7 +62,7 @@
             {% if user.is_staff or contest.has_started %}
                 <div class="list-group">
                     {% for task in contest.task_set.all %}
-                        <a class="list-group-item" href="{% url 'task_statement' task.pk %}">
+                        <a class="list-group-item contest-list-task" href="{% url 'task_statement' task.pk %}">
                             {{task.name}}
                             <span class="pull-right">{% completed_status task=task user=user %}</span>
                         </a>
