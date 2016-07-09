@@ -6,7 +6,7 @@ from testovac.tasks.models import Contest, Task
 
 
 def results_index(request):
-    custom_tables = CustomResultsTable.objects.all()
+    custom_tables = CustomResultsTable.objects.order_by('number')
     custom_tables_data = []
     for custom_table in custom_tables:
         custom_tables_data.append({

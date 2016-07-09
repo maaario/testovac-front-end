@@ -32,6 +32,7 @@ class TaskInline(admin.TabularInline):
 
 class ContestAdmin(admin.ModelAdmin):
     list_display = ('slug', 'name', 'number', 'competition', 'start_time', 'end_time', 'is_visible')
+    list_editable = ('number', )
     list_filter = ('competition', )
     inlines = [TaskInline]
 
