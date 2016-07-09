@@ -28,16 +28,16 @@ li>h1{
     border-right: 1px solid #ccc;
 }
 
-.nav>li>a{
+.side-menu>.nav>li>a{
     border-radius: 4px;
 }
 
-.nav>li.active>a{
+.side-menu>.nav>li.active>a{
     background-color: #337ab7;
     color: #fff;
 }
 
-.nav>li.active>a:hover{
+.side-menu>.nav>li.active>a:hover{
     background-color: #286090;
 }
 

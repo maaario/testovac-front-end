@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from testovac.tasks.models import Contest
+from testovac.tasks.models import Contest, Task
 
 
 @python_2_unicode_compatible
@@ -19,3 +19,10 @@ class CustomResultsTable(models.Model):
 
     def __str__(self):
         return u'{} ({})'.format(self.name, self.slug)
+
+    def tasks(self, user):
+        task_pks = []
+        for contest in self.contests.all():
+            if contest.is_visible_for_user(user):
+                task_pks.extend(contest.task_set.all().values_list('pk', flat=True))
+        return Task.objects.filter(pk__in=task_pks).order_by('-contest__number', 'number')

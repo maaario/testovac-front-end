@@ -1,6 +1,7 @@
 {% extends 'testovac/base.html' %}
 
 {% load i18n %}
+{% load results_parts %}
 
 {% block title %}{% trans 'Results for' %} {{ contest.name }}{% endblock %}
 
@@ -9,5 +10,5 @@
 {% endblock %}
 
 {% block page_content %}
-    {% include 'results/parts/results_table.html' %}
+    {% results_table contest.task_set.all %}
 {% endblock %}

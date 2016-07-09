@@ -1,13 +1,14 @@
 {% extends 'testovac/base.html' %}
 
 {% load i18n %}
+{% load results_parts %}
 
-{% block title %}{{ custom_table.name }}{% endblock %}
+{% block title %}{{ table_object.name }}{% endblock %}
 
 {% block page_header %}
-    <h1>{{ custom_table.name }}</h1>
+    <h1>{{ table_object.name }}</h1>
 {% endblock %}
 
 {% block page_content %}
-    {% include 'results/parts/results_table.html' %}
+    {% results_table table_tasks %}
 {% endblock %}

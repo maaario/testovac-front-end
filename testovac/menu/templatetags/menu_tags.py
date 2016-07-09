@@ -22,14 +22,12 @@ def static_menu_items(request):
             'text': _('Tasks'),
             'link': reverse('contest_list'),
         },
+        {
+            'url_regex': r'^/results',
+            'text': _('Results'),
+            'link': reverse('results_index'),
+        },
     ]
-
-    if request.user.is_staff:
-        items.append({
-            'url_regex': r'^/admin',
-            'text': 'Admin',
-            'link': reverse('admin:index'),
-        })
 
     return items
 
@@ -56,4 +54,12 @@ def menu(context):
     items = static_menu_items(request) + wiki_articles_in_menu(request)
     for item in items:
         item['is_active'] = bool(re.search(item['url_regex'], request.path))
+
+    if request.user.is_staff:
+        items.append({
+            'url_regex': r'^/admin',
+            'text': 'Admin',
+            'link': reverse('admin:index'),
+        })
+
     return {'items': items}

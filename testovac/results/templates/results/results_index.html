@@ -1,0 +1,43 @@
+{% extends 'testovac/base.html' %}
+
+{% load i18n %}
+{% load results_parts %}
+
+{% block title %}{% trans 'Results' %}{% endblock %}
+
+{% block page_header %}
+    <h1>{% trans 'Results' %}</h1>
+{% endblock %}
+
+{% block page_content %}
+    {% if custom_tables %}
+        <ul class="nav nav-tabs" role="tablist">
+            {% for table in custom_tables %}
+                <li {% if forloop.first %}class="active"{% endif %}>
+                    <a href="#{{ table.slug }}" data-toggle="tab">{{ table.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content">
+            {% for table in custom_tables %}
+                <div class="tab-pane fade {% if forloop.first %}in active{% endif %}" id="{{ table.slug }}">
+                     {% results_table table.tasks %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h3>{% trans "Contests' results" %}</h3>
+    <div class="list-group">
+        {% for contest in contests %}
+            <a href="{% url 'contest_results' contest.slug %}" class="list-group-item">
+                <h4 class="list-group-item-heading">{{ contest.name }}</h4>
+                <p class="list-group-item-text">
+                    {% for task in contest.task_set.all %}
+                        {{ task.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
