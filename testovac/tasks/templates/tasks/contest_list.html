@@ -1,6 +1,7 @@
 {% extends "testovac/base.html" %}
 
 {% load i18n %}
+{% load results_parts %}
 
 {% block title %}{% trans 'Tasks' %}{% endblock %}
 
@@ -49,7 +50,10 @@
             {% if user.is_staff or contest.has_started %}
                 <div class="list-group">
                     {% for task in contest.task_set.all %}
-                        <a class="list-group-item" href="{% url 'task_statement' task.pk %}">{{task.name}}</a>
+                        <a class="list-group-item" href="{% url 'task_statement' task.pk %}">
+                            {{task.name}}
+                            <span class="pull-right">{% completed_status task=task user=user %}</span>
+                        </a>
                     {% endfor %}
                 </div>
                 <a class="btn btn-primary" href="{% url 'contest_results' contest.pk %}">{% trans 'Results' %}</a>

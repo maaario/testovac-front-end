@@ -1,7 +1,9 @@
+from decimal import Decimal
+
 from django import template
 
 from testovac.results.table_generator import generate_result_table
-from testovac.results.task_points import display_points
+from testovac.results.task_points import display_points, user_task_points
 from testovac.utils import is_true
 
 register = template.Library()
@@ -23,4 +25,21 @@ def results_table(context, tasks):
         'max_sum': max_sum,
         'show_staff': is_true(request.GET.get('show_staff', request.user.is_staff)),
         'user': request.user,
+    }
+
+
+@register.inclusion_tag('results/parts/completed_status.html')
+def completed_status(task, user):
+    points = user_task_points(task, user)
+    if Decimal(points) == 0:
+        level = 'danger'
+    elif Decimal(points) >= Decimal(task.max_points):
+        level = 'success'
+    else:
+        level = 'warning'
+
+    return {
+        'points': display_points(points),
+        'max': display_points(task.max_points),
+        'level': level,
     }
