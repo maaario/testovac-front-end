@@ -184,12 +184,12 @@ JUDGE_PORT = env('TESTOVAC_FRONT_JUDGE_PORT', 12347)
 # Email for logging
 
 if 'TESTOVAC_FRONT_ADMINS' in os.environ:
-    ADMINS = tuple([tuple(admin.split(':')) for admin in env('TROJSTENWEB_ADMINS', '').split(';')])
+    ADMINS = tuple([tuple(admin.split(':')) for admin in env('TESTOVAC_FRONT_ADMINS', '').split(';')])
 else:
     ADMINS = ()
 
-if 'TROJSTENWEB_MANAGERS' in os.environ:
-    MANAGERS = tuple([tuple(manager.split(':')) for manager in env('TROJSTENWEB_MANAGERS', '').split(';')])
+if 'TESTOVAC_FRONT_MANAGERS' in os.environ:
+    MANAGERS = tuple([tuple(manager.split(':')) for manager in env('TESTOVAC_FRONT_MANAGERS', '').split(';')])
 else:
     MANAGERS = ()
 
