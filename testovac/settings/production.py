@@ -13,4 +13,4 @@ def requiredenv(name):
 
 DEBUG = False
 SECRET_KEY = requiredenv('TESTOVAC_FRONT_SECRET_KEY')
-ALLOWED_HOSTS = requiredenv('TESTOVAC_FRONT_ALLOWED_HOSTS')
+ALLOWED_HOSTS = requiredenv('TESTOVAC_FRONT_ALLOWED_HOSTS').split(';')
