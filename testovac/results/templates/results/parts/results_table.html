@@ -1,43 +1,44 @@
 {% load i18n %}
 {% load results_parts %}
-
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>{% trans 'name' %}</th>
-            <th>{% trans 'login name' %}</th>
-            <th>{% trans 'sum' %}</th>
-            {% for task in tasks %}
-                <th><a href="{% url 'task_statement' task.pk %}">{{ task.name }}</a></th>
+<div style="overflow: scroll; overflow: auto;">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% trans 'name' %}</th>
+                <th>{% trans 'login name' %}</th>
+                <th>{% trans 'sum' %}</th>
+                {% for task in tasks %}
+                    <th><a title="{{ task.name }}" href="{% url 'task_statement' task.pk %}">{{ task.slug }}</a></th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>{{ max_sum|points_format }}</th>
+                {% for task in tasks %}
+                    <th>{{ task.max_points|points_format }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in table_data %}
+                {% if not row.user.is_staff or show_staff %}
+                    <tr {% if user == row.user %}class="info"{% endif %}>
+                        <td>{% if row.rank %}{{ row.rank }}.{% endif %}</td>
+                        <td>{{ row.user.first_name }} {{ row.user.last_name }}</td>
+                        <td>{{ row.user.username }}</td>
+                        <td>{{ row.sum|points_format }}</td>
+                        {% for task_score in row.task_points %}
+                            <td>{{ task_score|points_format }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
             {% endfor %}
-        </tr>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>{{ max_sum|points_format }}</th>
-            {% for task in tasks %}
-                <th>{{ task.max_points|points_format }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for row in table_data %}
-            {% if not row.user.is_staff or show_staff %}
-                <tr {% if user == row.user %}class="info"{% endif %}>
-                    <td>{% if row.rank %}{{ row.rank }}.{% endif %}</td>
-                    <td>{{ row.user.first_name }} {{ row.user.last_name }}</td>
-                    <td>{{ row.user.username }}</td>
-                    <td>{{ row.sum|points_format }}</td>
-                    {% for task_score in row.task_points %}
-                        <td>{{ task_score|points_format }}</td>
-                    {% endfor %}
-                </tr>
-            {% endif %}
-        {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 {% if user.is_staff %}
     <div class="btn-group pull-right">
