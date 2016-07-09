@@ -1,5 +1,6 @@
-from django.contrib import admin
 from django import forms
+from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from models import SubmitReceiverTemplate, SubmitReceiver, Submit, Review
 
@@ -39,9 +40,16 @@ class ReviewInline(admin.StackedInline):
     extra = 0
 
 
-class SubmitAdmin(admin.ModelAdmin):
+class ViewOnSiteMixin(object):
+    def view_on_site(self, obj):
+        return mark_safe(u'<a href="{}">{}</a>'.format(obj.get_absolute_url(), 'view on site'))
+    view_on_site.allow_tags = True
+    view_on_site.short_description = u'View on site'
+
+
+class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
     inlines = [ReviewInline]
-    list_display = ('submit_id', 'receiver', 'user', 'time', 'is_accepted', 'status', 'score')
+    list_display = ('submit_id', 'view_on_site', 'receiver', 'user', 'status', 'score', 'time', 'is_accepted')
     search_fields = ('user__username', 'user__first_name', 'user__last_name')
 
     def submit_id(self, submit):
