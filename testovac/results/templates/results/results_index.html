@@ -32,6 +32,9 @@
         {% for contest in contests %}
             <a href="{% url 'contest_results' contest.slug %}" class="list-group-item">
                 <h4 class="list-group-item-heading">{{ contest.name }}</h4>
+                    {% if user.is_staff and not contest.has_started %}
+                        <span class="text-danger">{% trans 'Results will become visible to contestants at the start of the contest' %}</span>
+                    {% endif %}
                 <p class="list-group-item-text">
                     {% for task in contest.task_set.all %}
                         {{ task.name }}{% if not forloop.last %}, {% endif %}

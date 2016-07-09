@@ -71,6 +71,13 @@ class Contest(models.Model):
             (self.visible and self.competition.is_visible_for_user(user))
         )
 
+    def tasks_visible_for_user(self, user):
+        return (
+            user.is_superuser or
+            user.is_staff or
+            (self.is_visible_for_user(user) and self.has_started())
+        )
+
     def all_submit_receivers(self):
         return SubmitReceiver.objects.filter(task__in=self.task_set.values_list('slug', flat=True))
 
@@ -108,13 +115,6 @@ class Task(models.Model):
 
     def get_absolute_url(self):
         return reverse('testovac.tasks.views.task_statement', kwargs=dict(task_slug=self.slug))
-
-    def is_visible_for_user(self, user):
-        return (
-            user.is_superuser or
-            user.is_staff or
-            (self.contest.is_visible_for_user(user) and self.contest.has_started())
-        )
 
     class Meta:
         verbose_name = _('task')

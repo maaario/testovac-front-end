@@ -25,7 +25,7 @@ def contest_list(request):
 
 def task_statement(request, task_slug):
     task = get_object_or_404(Task, pk=task_slug)
-    if not task.is_visible_for_user(request.user):
+    if not task.contest.tasks_visible_for_user(request.user):
         raise Http404
     template_data = {
         'task': task,
@@ -40,6 +40,6 @@ def task_statement(request, task_slug):
 
 def task_statement_download(request, task_slug):
     task = get_object_or_404(Task, pk=task_slug)
-    if not task.is_visible_for_user(request.user):
+    if not task.contest.tasks_visible_for_user(request.user):
         raise Http404
     return import_string(settings.TASK_STATEMENTS_BACKEND)().download_statement(request, task)

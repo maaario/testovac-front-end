@@ -16,7 +16,7 @@ def results_index(request):
         })
 
     contests = Contest.objects.order_by('-number')
-    visible_contests = [contest for contest in contests if contest.is_visible_for_user(request.user)]
+    visible_contests = [contest for contest in contests if contest.tasks_visible_for_user(request.user)]
 
     return render(
         request,
@@ -27,7 +27,7 @@ def results_index(request):
 
 def contest_results(request, contest_slug):
     contest = get_object_or_404(Contest, pk=contest_slug)
-    if not contest.is_visible_for_user(request.user):
+    if not contest.tasks_visible_for_user(request.user):
         raise Http404
     return render(
         request,

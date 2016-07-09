@@ -15,7 +15,7 @@ class PostSubmitFormCustomized(PostSubmitForm):
         if not receiver.task_set.all():
             return False
         task = receiver.task_set.all()[0]
-        return task.is_visible_for_user(user)
+        return task.contest.tasks_visible_for_user(user)
 
     def is_submit_accepted(self, submit):
         return submit_accepted(submit)

@@ -23,6 +23,6 @@ class CustomResultsTable(models.Model):
     def tasks(self, user):
         task_pks = []
         for contest in self.contests.all():
-            if contest.is_visible_for_user(user):
+            if contest.tasks_visible_for_user(user):
                 task_pks.extend(contest.task_set.all().values_list('pk', flat=True))
         return Task.objects.filter(pk__in=task_pks).order_by('-contest__number', 'number')

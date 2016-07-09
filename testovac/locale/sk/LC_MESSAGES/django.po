@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-08 23:37+0200\n"
+"POT-Creation-Date: 2016-07-09 13:26+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
@@ -58,22 +58,45 @@ msgstr "Novinky"
 msgid "Tasks"
 msgstr "Úlohy"
 
-#: testovac/results/templates/results/contest_result_table.html:5
-#: testovac/results/templates/results/contest_result_table.html:8
+#: testovac/menu/templatetags/menu_tags.py:27
+#: testovac/results/templates/results/results_index.html:6
+#: testovac/results/templates/results/results_index.html:9
+#: testovac/tasks/templates/tasks/contest_list.html:55
+msgid "Results"
+msgstr "Výsledky"
+
+#: testovac/results/models.py:17
+msgid "custom results table"
+msgstr "špeciálna výsledkovka"
+
+#: testovac/results/models.py:18
+msgid "custom results tables"
+msgstr "špeciálne výsledkovky"
+
+#: testovac/results/templates/results/contest_results_table.html:6
+#: testovac/results/templates/results/contest_results_table.html:9
 msgid "Results for"
 msgstr "Výsledky pre"
 
-#: testovac/results/templates/results/contest_result_table.html:16
+#: testovac/results/templates/results/parts/results_table.html:8
 msgid "name"
 msgstr "meno"
 
-#: testovac/results/templates/results/contest_result_table.html:17
+#: testovac/results/templates/results/parts/results_table.html:9
 msgid "login name"
 msgstr "login"
 
-#: testovac/results/templates/results/contest_result_table.html:18
+#: testovac/results/templates/results/parts/results_table.html:10
 msgid "sum"
 msgstr "spolu"
+
+#: testovac/results/templates/results/results_index.html:30
+msgid "Contests' results"
+msgstr "Výsledky contestu"
+
+#: testovac/results/templates/results/results_index.html:36
+msgid "Results will become visible to contestants at the start of the contest"
+msgstr "Súťažiaci uvidia výsledky až po začiatku contestu"
 
 #: testovac/submit/commands.py:22 testovac/submit/views.py:82
 msgid "Upload to judge was not successful."
@@ -318,7 +341,7 @@ msgstr ""
 msgid "Submit successful."
 msgstr "Úspešne odovzdané."
 
-#: testovac/submit_configuration.py:30
+#: testovac/submit_configuration.py:31
 msgid "Contest has already finished, this submit won't affect the results."
 msgstr "Súťaž sa už skončila, tento submit sa nezapočíta do výsledkovky."
 
@@ -338,27 +361,27 @@ msgstr "skupina administrátorov"
 msgid "visibility"
 msgstr "viditeľnosť"
 
-#: testovac/tasks/models.py:26
+#: testovac/tasks/models.py:27
 msgid "competition"
 msgstr "súťaž"
 
-#: testovac/tasks/models.py:27
+#: testovac/tasks/models.py:28
 msgid "competitions"
 msgstr "súťaže"
 
-#: testovac/tasks/models.py:75
+#: testovac/tasks/models.py:85
 msgid "contest"
 msgstr "súťažné kolo"
 
-#: testovac/tasks/models.py:76
+#: testovac/tasks/models.py:86
 msgid "contests"
 msgstr "súťažné kolá"
 
-#: testovac/tasks/models.py:114
+#: testovac/tasks/models.py:120
 msgid "task"
 msgstr "úloha"
 
-#: testovac/tasks/models.py:115
+#: testovac/tasks/models.py:121
 msgid "tasks"
 msgstr "úlohy"
 
@@ -370,34 +393,34 @@ msgstr "Vytvor nový contest"
 msgid "Runnig now"
 msgstr "Práve prebieha"
 
-#: testovac/tasks/templates/tasks/contest_list.html:24
-msgid "Hidden"
-msgstr "Skryté"
+#: testovac/tasks/templates/tasks/contest_list.html:22
+msgid "New contest"
+msgstr "Nový contest"
 
-#: testovac/tasks/templates/tasks/contest_list.html:28
+#: testovac/tasks/templates/tasks/contest_list.html:27
 msgid "Edit contest"
 msgstr "Uprav contest"
 
-#: testovac/tasks/templates/tasks/contest_list.html:30
+#: testovac/tasks/templates/tasks/contest_list.html:29
 #: testovac/tasks/templates/tasks/task_statement.html:22
 msgid "View all submits of all users"
 msgstr "Zobraz submity všetkých používateľov"
 
-#: testovac/tasks/templates/tasks/contest_list.html:38
+#: testovac/tasks/templates/tasks/contest_list.html:37
 msgid "Since"
 msgstr "Od"
 
-#: testovac/tasks/templates/tasks/contest_list.html:40
+#: testovac/tasks/templates/tasks/contest_list.html:39
 msgid "Until"
 msgstr "Do"
 
 #: testovac/tasks/templates/tasks/contest_list.html:43
+msgid "Contest is hidden"
+msgstr "Contest je skrytý"
+
+#: testovac/tasks/templates/tasks/contest_list.html:45
 msgid "Tasks will become visible to contestants at the start of the contest"
 msgstr "Súťažiaci uvidia úlohy až po začiatku contestu"
-
-#: testovac/tasks/templates/tasks/contest_list.html:52
-msgid "Results"
-msgstr "Výsledky"
 
 #: testovac/tasks/templates/tasks/parts/download_statement_button.html:4
 msgid "Download task statement"
