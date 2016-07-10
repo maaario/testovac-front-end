@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+from testovac.submit.models import SubmitReceiver, SubmitReceiverTemplate
 from testovac.tasks.models import Competition, Contest, Task
 
 
@@ -38,6 +40,23 @@ class ContestAdmin(admin.ModelAdmin):
         return obj.visible
     is_visible.boolean = True
     is_visible.short_description = _('visibility')
+
+    def save_formset(self, request, form, formset, change):
+        """
+        Create default receivers for tasks when creating contest.
+        """
+        instances = formset.save(commit=False)
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for instance in instances:
+            try:
+                if not change:
+                    template = SubmitReceiverTemplate.objects.get(name=settings.TASKS_DEFAULT_SUBMIT_RECEIVER_TEMPLATE)
+                    receiver = SubmitReceiver.objects.create(configuration=template.configuration)
+                    instance.submit_receivers.add(receiver)
+            finally:
+                instance.save()
+        formset.save_m2m()
 
 
 class ReceiverInline(admin.TabularInline):

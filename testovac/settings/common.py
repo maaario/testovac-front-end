@@ -169,8 +169,10 @@ WIKI_MARKDOWN_KWARGS = {
 }
 
 # Task statements
+TASKS_DEFAULT_SUBMIT_RECEIVER_TEMPLATE = 'source'
 TASK_STATEMENTS_BACKEND = 'testovac.tasks.statements_backends.StatementsPDFBackend'
 TASK_STATEMENTS_PATH = env('TESTOVAC_FRONT_TASK_STATEMENTS_PATH', os.path.join(PROJECT_DIR, 'statements'))
+
 
 # Submit app
 SUBMIT_POST_SUBMIT_FORM_VIEW = 'testovac.submit_configuration.PostSubmitFormCustomized'
