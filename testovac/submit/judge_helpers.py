@@ -44,7 +44,7 @@ def create_review_and_send_to_judge(submit):
 
 
 def prepare_raw_file(review):
-    with open(review.submit.file_path(), 'r') as submitted_file:
+    with open(review.submit.file_path(), 'rb') as submitted_file:
         submitted_source = submitted_file.read()
 
     review_id = str(review.id)

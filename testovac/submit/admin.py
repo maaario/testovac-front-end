@@ -41,15 +41,16 @@ class ReviewInline(admin.StackedInline):
 
 
 class ViewOnSiteMixin(object):
-    def view_on_site(self, obj):
+    def view_on_site_list_display(self, obj):
         return mark_safe(u'<a href="{}">{}</a>'.format(obj.get_absolute_url(), 'view on site'))
-    view_on_site.allow_tags = True
-    view_on_site.short_description = u'View on site'
+    view_on_site_list_display.allow_tags = True
+    view_on_site_list_display.short_description = u'View on site'
 
 
 class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
     inlines = [ReviewInline]
-    list_display = ('submit_id', 'view_on_site', 'receiver', 'user', 'status', 'score', 'time', 'is_accepted')
+    list_display = ('submit_id', 'view_on_site_list_display', 'receiver', 'user', 'status', 'score', 'time',
+                    'is_accepted')
     search_fields = ('user__username', 'user__first_name', 'user__last_name')
 
     def submit_id(self, submit):

@@ -1,3 +1,5 @@
+import urlparse
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -134,7 +136,8 @@ def download_review(request, review_id):
 def receive_protocol(request):
     review_id = request.POST['submit_id']
     review = get_object_or_404(Review, pk=review_id)
-    write_chunks_to_file(review.protocol_path(), request.FILES['protocol'].chunks())
+    protocol = request.POST['protocol'].encode('utf-8')
+    write_chunks_to_file(review.protocol_path(), protocol)
 
     protocol_data = parse_protocol(review.protocol_path())
     if protocol_data['ready']:
