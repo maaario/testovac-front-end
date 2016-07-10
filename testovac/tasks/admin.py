@@ -33,13 +33,9 @@ class TaskInline(admin.TabularInline):
 
 
 class ContestAdmin(admin.ModelAdmin):
-    list_display = ('slug', 'name', 'start_time', 'end_time', 'is_visible')
+    list_display = ('slug', 'name', 'start_time', 'end_time', 'visible')
+    list_editable = ('visible', )
     inlines = [TaskInline]
-
-    def is_visible(self, obj):
-        return obj.visible
-    is_visible.boolean = True
-    is_visible.short_description = _('visibility')
 
     def save_formset(self, request, form, formset, change):
         """
