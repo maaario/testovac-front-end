@@ -31,9 +31,7 @@ class TaskInline(admin.TabularInline):
 
 
 class ContestAdmin(admin.ModelAdmin):
-    list_display = ('slug', 'name', 'number', 'competition', 'start_time', 'end_time', 'is_visible')
-    list_editable = ('number', )
-    list_filter = ('competition', )
+    list_display = ('slug', 'name', 'start_time', 'end_time', 'is_visible')
     inlines = [TaskInline]
 
     def is_visible(self, obj):

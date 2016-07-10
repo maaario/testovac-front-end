@@ -1,42 +1,14 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import Group
 
-from django.utils import timezone
+from sortedm2m.fields import SortedManyToManyField
 
 from testovac.tasks.utils import default_contest_start_end_time
 from testovac.submit.models import SubmitReceiver
-
-
-@python_2_unicode_compatible
-class Competition(models.Model):
-    """
-    Independent competition, consists of contests.
-    Competition can be made accessible only to specific group of users.
-    """
-    slug = models.SlugField(primary_key=True, help_text='Must be unique, serves as part of URL.<br />'
-                                                        'Must only contain characters "a-zA-Z0-9_-".')
-    name = models.CharField(max_length=128)
-    public = models.BooleanField(default=True)
-    users_group = models.ForeignKey(Group, blank=True, null=True, related_name='users_of_competition')
-    administrators_group = models.ForeignKey(Group, blank=True, null=True, related_name='administrators_of_competition')
-
-    class Meta:
-        verbose_name = _('competition')
-        verbose_name_plural = _('competitions')
-
-    def is_visible_for_user(self, user):
-        return (
-            self.public or
-            user.is_superuser or
-            user.is_staff or
-            self.users_group in user.groups.all()
-        )
-
-    def __str__(self):
-        return u'{} ({})'.format(self.name, self.slug)
 
 
 @python_2_unicode_compatible
@@ -49,8 +21,6 @@ class Contest(models.Model):
                             help_text='Must be unique among all contests, serves as part of URL.<br />'
                                       'Must only contain characters "a-zA-Z0-9_-".')
     name = models.CharField(max_length=128)
-    competition = models.ForeignKey(Competition)
-    number = models.IntegerField()
     start_time = models.DateTimeField(default=default_contest_start_end_time, blank=True, null=True)
     end_time = models.DateTimeField(default=default_contest_start_end_time, blank=True, null=True)
     visible = models.BooleanField(default=False)
@@ -68,7 +38,7 @@ class Contest(models.Model):
         return (
             user.is_superuser or
             user.is_staff or
-            (self.visible and self.competition.is_visible_for_user(user))
+            self.visible
         )
 
     def tasks_visible_for_user(self, user):
@@ -86,7 +56,7 @@ class Contest(models.Model):
         verbose_name_plural = _('contests')
 
     def __str__(self):
-        return u'{}. {} ({}), {}'.format(self.number, self.name, self.slug, self.competition)
+        return u'{} ({})'.format(self.name, self.slug)
 
 
 class TaskManager(models.Manager):
@@ -119,6 +89,42 @@ class Task(models.Model):
     class Meta:
         verbose_name = _('task')
         verbose_name_plural = _('tasks')
+
+    def __str__(self):
+        return u'{} ({})'.format(self.name, self.slug)
+
+
+@python_2_unicode_compatible
+class Competition(models.Model):
+    """
+    Independent competition, consists of contests.
+    Competition can be made accessible only to specific group of users.
+    """
+    slug = models.SlugField(primary_key=True, help_text='Must be unique, serves as part of URL.<br />'
+                                                        'Must only contain characters "a-zA-Z0-9_-".')
+    name = models.CharField(max_length=128)
+    public = models.BooleanField(default=True)
+    users_group = models.ForeignKey(Group, blank=True, null=True, related_name='users_of_competition')
+    administrators_group = models.ForeignKey(Group, blank=True, null=True, related_name='administrators_of_competition')
+    contests = SortedManyToManyField(Contest)
+
+    class Meta:
+        verbose_name = _('competition')
+        verbose_name_plural = _('competitions')
+
+    def is_visible_for_user(self, user):
+        return (
+            self.public or
+            user.is_superuser or
+            user.is_staff or
+            self.users_group in user.groups.all()
+        )
+
+    def get_visible_contests(self, user):
+        if user.is_staff:
+            return self.contests.all()
+        else:
+            return self.contests.filter(visible=True)
 
     def __str__(self):
         return u'{} ({})'.format(self.name, self.slug)

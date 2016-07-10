@@ -34,7 +34,7 @@
         <div class="tab-content">
             {% for table in custom_tables %}
                 <div class="tab-pane fade {% if forloop.first %}in active{% endif %}" id="{{ table.custom_table.slug }}">
-                     {% results_table table.tasks %}
+                     {% results_table table.task_list %}
                 </div>
             {% endfor %}
         </div>
@@ -45,8 +45,12 @@
         {% for contest in contests %}
             <a href="{% url 'contest_results' contest.slug %}" class="list-group-item">
                 <h4 class="list-group-item-heading">{{ contest.name }}</h4>
-                    {% if user.is_staff and not contest.has_started %}
-                        <span class="text-danger">{% trans 'Results will become visible to contestants at the start of the contest' %}</span>
+                    {% if user.is_staff %}
+                        {% if not contest.visible %}
+                            <span class="text-danger">{% trans 'Contest and its results are hidden' %}</span>
+                        {% elif not contest.has_started %}
+                            <span class="text-danger">{% trans 'Results will become visible to contestants at the start of the contest' %}</span>
+                        {% endif %}
                     {% endif %}
                 <p class="list-group-item-text">
                     {% for task in contest.task_set.all %}

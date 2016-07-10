@@ -1,6 +1,10 @@
+from itertools import chain
+
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+
+from sortedm2m.fields import SortedManyToManyField
 
 from testovac.tasks.models import Contest, Task
 
@@ -12,7 +16,7 @@ class CustomResultsTable(models.Model):
                                       'Must only contain characters "a-zA-Z0-9_-".')
     name = models.CharField(max_length=128)
     number = models.IntegerField()
-    contests = models.ManyToManyField(Contest)
+    contests = SortedManyToManyField(Contest)
 
     class Meta:
         verbose_name = _('custom results table')
@@ -21,9 +25,9 @@ class CustomResultsTable(models.Model):
     def __str__(self):
         return u'{} ({})'.format(self.name, self.slug)
 
-    def tasks(self, user):
-        task_pks = []
+    def task_list(self, user):
+        tasks = []
         for contest in self.contests.all():
             if contest.tasks_visible_for_user(user):
-                task_pks.extend(contest.task_set.all().values_list('pk', flat=True))
-        return Task.objects.filter(pk__in=task_pks).order_by('-contest__number', 'number')
+                tasks.append(contest.task_set.all())
+        return list(chain(*tasks))

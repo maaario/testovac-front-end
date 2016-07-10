@@ -3,12 +3,11 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.utils.module_loading import import_string
 
-from testovac.tasks.models import Contest, Task
+from testovac.tasks.models import Competition, Task
 
 
 def contest_list(request):
-    contests = Contest.objects.order_by('-number')
-    visible_contests = [contest for contest in contests if contest.is_visible_for_user(request.user)]
+    visible_contests = Competition.objects.get(pk=settings.CURRENT_COMPETITION_PK).get_visible_contests(request.user)
 
     receiver_lists = [contest.all_submit_receivers().values_list('id', flat=True) for contest in visible_contests]
     receiver_lists_as_strings = map(lambda l: ','.join(map(str, l)), receiver_lists)

@@ -15,12 +15,12 @@ def points_format(points):
 
 
 @register.inclusion_tag('results/parts/results_table.html', takes_context=True)
-def results_table(context, tasks):
+def results_table(context, task_list):
     request = context['request']
-    max_sum = sum(tasks.values_list('max_points', flat=True))
-    table_data = generate_result_table(tasks)
+    max_sum = sum(task.max_points for task in task_list)
+    table_data = generate_result_table(task_list)
     return {
-        'tasks': tasks,
+        'tasks': task_list,
         'table_data': table_data,
         'max_sum': max_sum,
         'show_staff': is_true(request.GET.get('show_staff', request.user.is_staff)),

@@ -22,6 +22,8 @@ ALLOWED_HOSTS = []
 
 SITE_ID = 1
 
+# HACK: competition and site should be connected
+CURRENT_COMPETITION_PK = 'letna-skola'
 
 # Application definition
 INSTALLED_APPS = (
@@ -35,6 +37,7 @@ INSTALLED_APPS = (
     'easy_select2',
     'taggit',
     'bootstrapform',
+    'sortedm2m',
     'testovac',
     'testovac.login',
     'testovac.menu',

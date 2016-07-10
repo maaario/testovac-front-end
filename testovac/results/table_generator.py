@@ -6,9 +6,9 @@ from testovac.results.task_points import user_task_points
 from testovac.submit.models import Submit
 
 
-def generate_result_table(tasks):
+def generate_result_table(task_list):
     def users():
-        receivers = [task.submit_receivers.values_list('pk', flat=True) for task in tasks]
+        receivers = [task.submit_receivers.values_list('pk', flat=True) for task in task_list]
         user_ids = Submit.objects\
             .filter(receiver__in=chain(*receivers),
                     is_accepted__in=[Submit.ACCEPTED, Submit.ACCEPTED_WITH_PENALIZATION])\
@@ -19,7 +19,7 @@ def generate_result_table(tasks):
         row_data = {
             'user': user,
             'is_ranked': not user.is_staff,
-            'task_points': [user_task_points(task, user) for task in tasks],
+            'task_points': [user_task_points(task, user) for task in task_list],
         }
         row_data['sum'] = sum(row_data['task_points'])
         return row_data

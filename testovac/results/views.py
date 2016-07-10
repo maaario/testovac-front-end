@@ -1,8 +1,9 @@
+from django.conf import settings
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 
 from testovac.results.models import CustomResultsTable
-from testovac.tasks.models import Contest, Task
+from testovac.tasks.models import Contest, Competition
 
 
 def results_index(request):
@@ -11,10 +12,10 @@ def results_index(request):
     for custom_table in custom_tables:
         custom_tables_data.append({
             'custom_table': custom_table,
-            'tasks': custom_table.tasks(request.user),
+            'task_list': custom_table.task_list(request.user),
         })
 
-    contests = Contest.objects.order_by('-number')
+    contests = Competition.objects.get(pk=settings.CURRENT_COMPETITION_PK).contests.all()
     visible_contests = [contest for contest in contests if contest.tasks_visible_for_user(request.user)]
 
     return render(
@@ -31,15 +32,15 @@ def contest_results(request, contest_slug):
     return render(
         request,
         'results/contest_results_table.html',
-        {'contest': contest}
+        {'contest': contest, 'task_list': [task for task in contest.task_set.all()]}
     )
 
 
 def custom_results(request, results_table_slug):
     results_table = get_object_or_404(CustomResultsTable, pk=results_table_slug)
-    table_tasks = results_table.tasks(request.user)
+    task_list = results_table.task_list(request.user)
     return render(
         request,
         'results/custom_results_table.html',
-        {'table_tasks': table_tasks, 'table_object': results_table},
+        {'task_list': task_list, 'table_object': results_table},
     )
