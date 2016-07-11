@@ -115,6 +115,10 @@ li>h2{ margin-top: 0; }
     padding: 10px;
 }
 
+.results-table>tbody>tr>td{
+    white-space: nowrap;
+}
+
 .contest-list-task{
     padding: 8px 10px;
 }
