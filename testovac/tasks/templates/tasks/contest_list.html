@@ -66,7 +66,7 @@
                 <div class="list-group">
                     {% for task in contest.task_set.all %}
                         <a class="list-group-item contest-list-task" href="{% url 'task_statement' task.pk %}">
-                            {{task.name}}
+                            {{ task.number }}. {{task.name}}
                             <span class="pull-right">{% completed_status task=task user=user %}</span>
                         </a>
                     {% endfor %}

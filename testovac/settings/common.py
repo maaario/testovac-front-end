@@ -162,7 +162,7 @@ WIKI_ATTACHMENTS_PATH = env(
     'TESTOVAC_WIKI_ATTACHMENTS_PATH',
     os.path.join(MEDIA_ROOT, 'wiki_attachments/%aid/')
 )
-WIKI_ATTACHMENTS_EXTENSIONS = ['pdf', 'doc', 'odt', 'docx', 'txt', 'jpg', 'png', 'gif']
+WIKI_ATTACHMENTS_EXTENSIONS = ['pdf', 'doc', 'odt', 'docx', 'txt', 'jpg', 'png', 'gif', 'zip']
 WIKI_MARKDOWN_KWARGS = {
     'safe_mode': False,
     'output_format': 'html5',
