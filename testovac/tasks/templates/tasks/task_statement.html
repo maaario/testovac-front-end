@@ -18,7 +18,7 @@
                 </a>
             </div>
             {% else %}
-                <h2>{% completed_status task=task user=user %}</h2>
+                <h2>{% completed_status task user user_task_points %}</h2>
             {% endif %}
         </li>
     </ul>

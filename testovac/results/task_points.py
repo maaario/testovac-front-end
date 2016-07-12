@@ -34,24 +34,6 @@ def review_points(review, task=None):
 
 
 def display_points(points):
+    if points is None:
+        return ""
     return "{:.2f}".format(points)
-
-
-def user_task_points(task, user):
-    possible_receivers = task.submit_receivers.all()
-    if not possible_receivers:
-        return 0
-    receiver = possible_receivers[0]
-
-    submits = Submit.objects\
-        .filter(receiver=receiver, user=user, is_accepted__in=[Submit.ACCEPTED, Submit.ACCEPTED_WITH_PENALIZATION])\
-        .order_by('-time')
-
-    for submit in submits:
-        last_review = submit.last_review()
-        if last_review is not None:
-            break
-    else:
-        return 0
-
-    return review_points(last_review, task)

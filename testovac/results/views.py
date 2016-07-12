@@ -7,7 +7,7 @@ from testovac.tasks.models import Contest, Competition
 
 
 def results_index(request):
-    custom_tables = CustomResultsTable.objects.order_by('number')
+    custom_tables = CustomResultsTable.objects.order_by('number').prefetch_related('contests__task_set')
     custom_tables_data = []
     for custom_table in custom_tables:
         custom_tables_data.append({
@@ -15,7 +15,7 @@ def results_index(request):
             'task_list': custom_table.task_list(request.user),
         })
 
-    contests = Competition.objects.get(pk=settings.CURRENT_COMPETITION_PK).contests.all()
+    contests = Competition.objects.get(pk=settings.CURRENT_COMPETITION_PK).contests.all().prefetch_related('task_set')
     visible_contests = [contest for contest in contests if contest.tasks_visible_for_user(request.user)]
 
     return render(

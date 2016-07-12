@@ -48,9 +48,6 @@ class Contest(models.Model):
             (self.is_visible_for_user(user) and self.has_started())
         )
 
-    def all_submit_receivers(self):
-        return SubmitReceiver.objects.filter(task__in=self.task_set.values_list('slug', flat=True))
-
     class Meta:
         verbose_name = _('contest')
         verbose_name_plural = _('contests')

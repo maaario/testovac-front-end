@@ -1,8 +1,6 @@
 import re
-from itertools import chain
 
 from django import template
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from wiki.models import URLPath
@@ -33,14 +31,18 @@ def static_menu_items(request):
 
 
 def wiki_articles_in_menu(request):
-    wiki_root = URLPath.objects.filter(slug=None, site=get_current_site(request))
-    first_level_urls = URLPath.objects.filter(parent=wiki_root)
+    wiki_root = URLPath.root()
+
+    urls = [wiki_root]
+    for subroot in wiki_root.children.all():
+        urls.append(subroot)
+
     items = []
 
-    for url in list(chain(wiki_root, first_level_urls)):
+    for url in urls:
         if url.article.can_read(request.user):
             items.append({
-                'url_regex': r'^' + url.article.get_absolute_url() + ('$' if url in wiki_root else ''),
+                'url_regex': r'^' + str(url) + ('$' if url.parent is None else ''),
                 'text': url.article.current_revision.title,
                 'link': url.article.get_absolute_url(),
             })

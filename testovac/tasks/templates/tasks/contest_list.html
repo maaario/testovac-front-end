@@ -67,7 +67,7 @@
                     {% for task in contest.task_set.all %}
                         <a class="list-group-item contest-list-task" href="{% url 'task_statement' task.pk %}">
                             {{ task.number }}. {{task.name}}
-                            <span class="pull-right">{% completed_status task=task user=user %}</span>
+                            <span class="pull-right">{% completed_status task user user_task_points %}</span>
                         </a>
                     {% endfor %}
                     <a class="btn btn-primary" href="{% url 'contest_results' contest.pk %}">{% trans 'Results' %}</a>
