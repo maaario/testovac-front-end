@@ -3,8 +3,7 @@ from decimal import Decimal
 from django import template
 from django.contrib.auth.models import User
 
-from testovac.results.generator import ResultsGenerator
-from testovac.results.task_points import display_points
+from testovac.results.generator import ResultsGenerator, display_points
 from testovac.utils import is_true
 
 register = template.Library()

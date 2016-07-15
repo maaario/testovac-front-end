@@ -1,4 +1,5 @@
 # When the submit app gets its own repository, these definitions will be moved to testovac/submit/
+from collections import defaultdict
 
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -7,7 +8,7 @@ from django.utils.html import format_html
 from testovac.submit.defaults import submit_receiver_type
 from testovac.submit.models import Submit
 from testovac.submit.views import PostSubmitForm
-from testovac.results.task_points import review_points, display_points, is_submit_accepted as submit_accepted
+from testovac.results.generator import ResultsGenerator, display_points
 
 
 class PostSubmitFormCustomized(PostSubmitForm):
@@ -18,7 +19,19 @@ class PostSubmitFormCustomized(PostSubmitForm):
         return task.contest.tasks_visible_for_user(user)
 
     def is_submit_accepted(self, submit):
-        return submit_accepted(submit)
+        """
+        Submits after the contest has finished are automatically set to `not accepted`.
+        Submit.is_accepted can be modified manually however.
+        """
+
+        if not submit.receiver.task_set.all():
+            return Submit.NOT_ACCEPTED
+        task = submit.receiver.task_set.all()[0]
+
+        if task.contest.has_finished():
+            return Submit.NOT_ACCEPTED
+        else:
+            return Submit.ACCEPTED
 
     def get_success_message(self, submit):
         message = super(PostSubmitFormCustomized, self).get_success_message(submit)
@@ -43,7 +56,15 @@ def display_submit_receiver_name(receiver):
 
 
 def display_score(review):
-    return display_points(review_points(review))
+    possible_tasks = review.submit.receiver.task_set.all()
+    if not possible_tasks:
+        return 0
+    task = possible_tasks[0]
+
+    scores = defaultdict(lambda: None)
+    scores[review.submit.receiver.pk] = review.score
+
+    return display_points(ResultsGenerator.score_to_points(scores, task))
 
 
 def default_inputs_folder_at_judge(receiver):

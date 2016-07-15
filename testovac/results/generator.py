@@ -12,6 +12,8 @@ class ResultsGenerator(object):
         :param task: a task object with prefetched receivers
 
         This function calculates the final task points from review.score.
+
+        This implementation treats all submit receivers as equal - task points are split between them equally.
         """
         sum_of_scores = 0
         for receiver in task.submit_receivers.all():
@@ -31,8 +33,6 @@ class ResultsGenerator(object):
         From lists (one list per receiver)
         of all reviews (last review for each accepted submit)
         calculates points for task for user.
-
-        This implementation treats all submit receivers as equal - task points are split between them.
         """
         score_for_receiver = defaultdict(lambda: None)
         for receiver in task.submit_receivers.all():
@@ -128,3 +128,9 @@ class ResultsGenerator(object):
         table = sorted(table, key=lambda r: r['sum'], reverse=True)
         calculate_ranking(table)
         return table
+
+
+def display_points(points):
+    if points is None:
+        return ""
+    return "{:.2f}".format(points)
