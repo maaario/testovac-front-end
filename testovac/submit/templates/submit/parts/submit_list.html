@@ -1,6 +1,19 @@
 {% load i18n %}
 {% load submit_parts %}
 
+{% if user_has_admin_privileges %}
+    <p>
+        <a href="{% url 'admin:submit_submit_changelist'%}?receiver__id__exact={{ receiver.id }}&o=-7">
+            <span class="glyphicon glyphicon-list" aria-hidden="true"></span> {% trans 'View all submits of all users' %}
+        </a>
+        {% if receiver.configuration.send_to_judge %}
+            <a href="{% url 'rejudge_receiver_submits' receiver.id %}">
+                <span class="glyphicon glyphicon-send"></span> {% trans 'Rejudge last submits' %}
+            </a>
+        {% endif %}
+    </p>
+{% endif %}
+
 <table class="table table-hover">
     <thead>
         <tr>
@@ -38,13 +51,11 @@
                     <span class="text-danger">|&nbsp;{% trans 'Accepted with penalization' %}</span>
                 {% endif %}
             </td>
-            <td>
-                {% if review %}
-                    <td>{{ review.display_score }}</td>
-                {% else %}
-                    <td>..</td>
-                {% endif %}
-            </td>
+            {% if review %}
+                <td>{{ review.display_score }}</td>
+            {% else %}
+                <td>..</td>
+            {% endif %}
             <td><a class="btn btn-primary btn-xs" href="{% url 'view_submit' submit_id=submit.id %}">{% trans 'View' %}</a></td>
         </tr>
     {% endfor %}

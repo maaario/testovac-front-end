@@ -179,6 +179,7 @@ SUBMIT_POST_SUBMIT_FORM_VIEW = 'testovac.submit_configuration.PostSubmitFormCust
 SUBMIT_DISPLAY_SUBMIT_RECEIVER_NAME = 'testovac.submit_configuration.display_submit_receiver_name'
 SUBMIT_DISPLAY_SCORE = 'testovac.submit_configuration.display_score'
 JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER = 'testovac.submit_configuration.default_inputs_folder_at_judge'
+SUBMIT_CAN_POST_SUBMIT = 'testovac.submit_configuration.can_post_submit'
 
 SUBMIT_PATH = env('TESTOVAC_FRONT_SUBMIT_PATH', os.path.join(PROJECT_DIR, 'submit'))
 JUDGE_INTERFACE_IDENTITY = env('TESTOVAC_FRONT_JUDGE_INTERFACE_IDENTITY', 'TESTOVAC')

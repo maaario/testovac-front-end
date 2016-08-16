@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-09 13:26+0200\n"
+"POT-Creation-Date: 2016-08-16 16:00+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
@@ -30,11 +30,11 @@ msgstr "Heslo"
 msgid "Log in"
 msgstr "Prihlásiť"
 
-#: testovac/login/templates/login/login_form.html:17
+#: testovac/login/templates/login/login_form.html:18
 msgid "Don't have account yet?"
 msgstr "Ešte nemáš účet?"
 
-#: testovac/login/templates/login/login_form.html:17
+#: testovac/login/templates/login/login_form.html:18
 #: testovac/login/templates/login/registration.html:8
 #: testovac/login/templates/login/registration.html:16
 msgid "Register"
@@ -44,32 +44,32 @@ msgstr "Zaregistruj sa"
 msgid "Registration"
 msgstr "Registrácia"
 
-#: testovac/login/views.py:66
+#: testovac/login/views.py:67
 msgid "Thanks for registering. You are now logged in."
 msgstr "Vďaka za registráciu."
 
-#: testovac/menu/templatetags/menu_tags.py:17
+#: testovac/menu/templatetags/menu_tags.py:15
 msgid "News"
 msgstr "Novinky"
 
-#: testovac/menu/templatetags/menu_tags.py:22
-#: testovac/tasks/templates/tasks/contest_list.html:5
-#: testovac/tasks/templates/tasks/contest_list.html:8
+#: testovac/menu/templatetags/menu_tags.py:20
+#: testovac/tasks/templates/tasks/contest_list.html:6
+#: testovac/tasks/templates/tasks/contest_list.html:11
 msgid "Tasks"
 msgstr "Úlohy"
 
-#: testovac/menu/templatetags/menu_tags.py:27
+#: testovac/menu/templatetags/menu_tags.py:25
 #: testovac/results/templates/results/results_index.html:6
-#: testovac/results/templates/results/results_index.html:9
-#: testovac/tasks/templates/tasks/contest_list.html:55
+#: testovac/results/templates/results/results_index.html:11
+#: testovac/tasks/templates/tasks/contest_list.html:73
 msgid "Results"
 msgstr "Výsledky"
 
-#: testovac/results/models.py:17
+#: testovac/results/models.py:22
 msgid "custom results table"
 msgstr "špeciálna výsledkovka"
 
-#: testovac/results/models.py:18
+#: testovac/results/models.py:23
 msgid "custom results tables"
 msgstr "špeciálne výsledkovky"
 
@@ -90,27 +90,43 @@ msgstr "login"
 msgid "sum"
 msgstr "spolu"
 
-#: testovac/results/templates/results/results_index.html:30
+#: testovac/results/templates/results/parts/results_table.html:47
+msgid "Hide staff"
+msgstr "Skryť vedúcich"
+
+#: testovac/results/templates/results/parts/results_table.html:51
+msgid "Show staff"
+msgstr "Zobraz vedúcich"
+
+#: testovac/results/templates/results/results_index.html:17
+msgid "Create new results table"
+msgstr "Vytvor novú výsledkovku"
+
+#: testovac/results/templates/results/results_index.html:43
 msgid "Contests' results"
 msgstr "Výsledky contestov"
 
-#: testovac/results/templates/results/results_index.html:36
+#: testovac/results/templates/results/results_index.html:50
+msgid "Contest and its results are hidden"
+msgstr "Contest a jeho výsledkovka sú skryté"
+
+#: testovac/results/templates/results/results_index.html:52
 msgid "Results will become visible to contestants at the start of the contest"
 msgstr "Súťažiaci uvidia výsledky až po začiatku contestu"
 
-#: testovac/submit/commands.py:22 testovac/submit/views.py:82
-msgid "Upload to judge was not successful."
-msgstr "Pri odosielaní na testovač nastala chyba."
+#: testovac/submit/commands.py:21
+msgid "Resubmit successful."
+msgstr "Úspešne znovu-odovzdané."
 
-#: testovac/submit/commands.py:24
+#: testovac/submit/commands.py:23
 msgid "Resubmit not successful. Judge unavailable."
 msgstr "Resubmit sa nepodaril. Testovač nie je dostupný."
 
-#: testovac/submit/commands.py:55
+#: testovac/submit/commands.py:54
 msgid "Failed submits"
 msgstr "Nepodarené submity"
 
-#: testovac/submit/commands.py:57
+#: testovac/submit/commands.py:56
 msgid "Everything OK"
 msgstr "Všetko v poriadku"
 
@@ -184,27 +200,31 @@ msgid "Automatic language discovery failed. Unknown language extension."
 msgstr ""
 "Automatické určenie jazyka zlyhalo kvôli neznámej/nepodporovanej koncovke."
 
-#: testovac/submit/models.py:68
+#: testovac/submit/models.py:74
 msgid "no"
 msgstr "nie"
 
-#: testovac/submit/models.py:69
+#: testovac/submit/models.py:75
 msgid "with penalization"
 msgstr "s penalizáciou"
 
-#: testovac/submit/models.py:70
+#: testovac/submit/models.py:76
 msgid "yes"
 msgstr "áno"
 
-#: testovac/submit/templates/submit/parts/submit_form.html:12
+#: testovac/submit/templates/submit/parts/submit_form.html:13
 msgid "Submit solution"
 msgstr "Odovzdaj riešenie"
 
 #: testovac/submit/templates/submit/parts/submit_form.html:17
+msgid "You can't submit solutions for this task."
+msgstr "Pre túto úlohu nemôžete odovzdávať riešenia."
+
+#: testovac/submit/templates/submit/parts/submit_form.html:21
 msgid "Use a special page to submit."
 msgstr "Na odovzdávanie slúži samostatná stránka."
 
-#: testovac/submit/templates/submit/parts/submit_form.html:18
+#: testovac/submit/templates/submit/parts/submit_form.html:22
 msgid "Page with external submit"
 msgstr "Stránka s odovzdávaním"
 
@@ -328,7 +348,7 @@ msgstr "Protokol"
 msgid "All submits"
 msgstr "Všetky submity"
 
-#: testovac/submit/views.py:44
+#: testovac/submit/views.py:39
 #, python-brace-format
 msgid ""
 "Submit successful. Testing protocol will be soon available <a href="
@@ -337,90 +357,90 @@ msgstr ""
 "Úspešne odovzdané. Protokol z testovania bude čoskoro dostupný <a href="
 "\"{link}\">tu</a>."
 
-#: testovac/submit/views.py:47
+#: testovac/submit/views.py:42
 msgid "Submit successful."
 msgstr "Úspešne odovzdané."
 
-#: testovac/submit_configuration.py:31
+#: testovac/submit/views.py:77
+msgid "Upload to judge was not successful."
+msgstr "Pri odosielaní na testovač nastala chyba."
+
+#: testovac/submit_configuration.py:38
 msgid "Contest has already finished, this submit won't affect the results."
 msgstr "Súťaž sa už skončila, tento submit sa nezapočíta do výsledkovky."
 
-#: testovac/tasks/admin.py:12
+#: testovac/tasks/admin.py:14
 msgid "official contestants' group"
 msgstr "oficiálna skupina súťažiacich"
 
-#: testovac/tasks/admin.py:16
+#: testovac/tasks/admin.py:18
 msgid "all staff"
 msgstr "všetci vedúci"
 
-#: testovac/tasks/admin.py:19
+#: testovac/tasks/admin.py:21
 msgid "administrators' group"
 msgstr "skupina administrátorov"
 
-#: testovac/tasks/admin.py:41
-msgid "visibility"
-msgstr "viditeľnosť"
-
-#: testovac/tasks/models.py:27
-msgid "competition"
-msgstr "súťaž"
-
-#: testovac/tasks/models.py:28
-msgid "competitions"
-msgstr "súťaže"
-
-#: testovac/tasks/models.py:85
+#: testovac/tasks/models.py:52
 msgid "contest"
 msgstr "súťažné kolo"
 
-#: testovac/tasks/models.py:86
+#: testovac/tasks/models.py:53
 msgid "contests"
 msgstr "súťažné kolá"
 
-#: testovac/tasks/models.py:120
+#: testovac/tasks/models.py:87
 msgid "task"
 msgstr "úloha"
 
-#: testovac/tasks/models.py:121
+#: testovac/tasks/models.py:88
 msgid "tasks"
 msgstr "úlohy"
 
-#: testovac/tasks/templates/tasks/contest_list.html:10
+#: testovac/tasks/models.py:109
+msgid "competition"
+msgstr "súťaž"
+
+#: testovac/tasks/models.py:110
+msgid "competitions"
+msgstr "súťaže"
+
+#: testovac/tasks/templates/tasks/contest_list.html:17
 msgid "Create new contest"
 msgstr "Vytvor nový contest"
 
-#: testovac/tasks/templates/tasks/contest_list.html:20
+#: testovac/tasks/templates/tasks/contest_list.html:31
 msgid "Runnig now"
 msgstr "Práve prebieha"
 
-#: testovac/tasks/templates/tasks/contest_list.html:22
+#: testovac/tasks/templates/tasks/contest_list.html:33
 msgid "New contest"
 msgstr "Nový contest"
 
-#: testovac/tasks/templates/tasks/contest_list.html:27
-msgid "Edit contest"
-msgstr "Uprav contest"
-
-#: testovac/tasks/templates/tasks/contest_list.html:29
-#: testovac/tasks/templates/tasks/task_statement.html:22
-msgid "View all submits of all users"
-msgstr "Zobraz submity všetkých používateľov"
-
-#: testovac/tasks/templates/tasks/contest_list.html:37
+#: testovac/tasks/templates/tasks/contest_list.html:42
 msgid "Since"
 msgstr "Od"
 
-#: testovac/tasks/templates/tasks/contest_list.html:39
+#: testovac/tasks/templates/tasks/contest_list.html:44
 msgid "Until"
 msgstr "Do"
 
-#: testovac/tasks/templates/tasks/contest_list.html:43
+#: testovac/tasks/templates/tasks/contest_list.html:49
 msgid "Contest is hidden"
 msgstr "Contest je skrytý"
 
-#: testovac/tasks/templates/tasks/contest_list.html:45
+#: testovac/tasks/templates/tasks/contest_list.html:51
 msgid "Tasks will become visible to contestants at the start of the contest"
 msgstr "Súťažiaci uvidia úlohy až po začiatku contestu"
+
+#: testovac/tasks/templates/tasks/contest_list.html:59
+msgid "Edit contest"
+msgstr "Uprav contest"
+
+#: testovac/tasks/templates/tasks/contest_list.html:61
+#: testovac/tasks/templates/tasks/task_statement.html:35
+msgid "View all submits of all users"
+msgstr "Zobraz submity všetkých používateľov"
 
 #: testovac/tasks/templates/tasks/parts/download_statement_button.html:4
 msgid "Download task statement"
@@ -430,24 +450,28 @@ msgstr "Stiahni zadanie"
 msgid "Task statement is not available to download."
 msgstr "Zadanie sa nedá stiahnuť."
 
-#: testovac/tasks/templates/tasks/task_statement.html:10
+#: testovac/tasks/templates/tasks/parts/download_statement_button.html:8
+msgid "Admins only"
+msgstr "Iba administrátori"
+
+#: testovac/tasks/templates/tasks/task_statement.html:17
 #: testovac/templates/news/parts/news_list.html:16
 msgid "Edit"
 msgstr "Upraviť"
 
-#: testovac/tasks/templates/tasks/task_statement.html:26
+#: testovac/tasks/templates/tasks/task_statement.html:39
 msgid "Rejudge last submits"
 msgstr "Pretestovať posledné submity"
 
-#: testovac/tasks/templates/tasks/task_statement.html:31
+#: testovac/tasks/templates/tasks/task_statement.html:44
 msgid "Solution"
 msgstr "Riešenie"
 
-#: testovac/tasks/templates/tasks/task_statement.html:38
+#: testovac/tasks/templates/tasks/task_statement.html:51
 msgid "Solutions for this task can't be submitted yet."
 msgstr "K tejto úlohe sa zatiaľ nedajú odovzdávať riešenia."
 
-#: testovac/tasks/templates/tasks/task_statement.html:41
+#: testovac/tasks/templates/tasks/task_statement.html:54
 msgid "You must log in to submit a solution."
 msgstr "Na odovzdanie riešenia sa musíš prihlásiť."
 
@@ -462,3 +486,6 @@ msgstr "zamknuté"
 #: testovac/templates/wiki/article.html:33
 msgid "This article was last modified:"
 msgstr ""
+
+#~ msgid "visibility"
+#~ msgstr "viditeľnosť"

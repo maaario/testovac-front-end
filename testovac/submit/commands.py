@@ -9,10 +9,11 @@ from . models import Submit, SubmitReceiver
 
 
 def rejudge_submit(request, submit_id):
-    if not request.user.is_staff:
+    submit = get_object_or_404(Submit.objects.select_related('receiver'), pk=submit_id)
+
+    if not submit.receiver.has_admin_privileges(request.user):
         raise PermissionDenied
 
-    submit = get_object_or_404(Submit, pk=submit_id)
     if not submit.receiver.configuration.get('send_to_judge', False):
         raise Http404
 
@@ -29,26 +30,24 @@ def rejudge_receiver_submits(request, receiver_id):
     """
     For selected receiver send last accepted (acc. with penalization) submit of each user to judge.
     """
-    if not request.user.is_staff:
+    receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
+
+    if not receiver.has_admin_privileges(request.user):
         raise PermissionDenied
 
-    receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
     if not receiver.configuration.get('send_to_judge', False):
         raise Http404
 
     submits = Submit.objects\
         .filter(receiver__id=receiver_id, is_accepted__in=[Submit.ACCEPTED, Submit.ACCEPTED_WITH_PENALIZATION])\
-        .order_by('-time')
-    users_rejudged = set()
+        .order_by('time', 'pk')
 
     failed_submits = []
     for submit in submits:
-        if submit.user not in users_rejudged:
-            try:
-                users_rejudged.add(submit.user)
-                create_review_and_send_to_judge(submit)
-            except:
-                failed_submits.append(submit)
+        try:
+            create_review_and_send_to_judge(submit)
+        except:
+            failed_submits.append(submit)
 
     if failed_submits:
         messages.add_message(request, messages.ERROR, u"{}: {}".format(_('Failed submits'), map(str, failed_submits)))

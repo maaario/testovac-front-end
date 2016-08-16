@@ -47,6 +47,12 @@ class SubmitReceiver(SubmitConfig):
         verbose_name = 'submit receiver'
         verbose_name_plural = 'submit receivers'
 
+    def can_post_submit(self, user):
+        return import_string(submit_settings.SUBMIT_CAN_POST_SUBMIT)(self, user)
+
+    def has_admin_privileges(self, user):
+        return import_string(submit_settings.SUBMIT_HAS_ADMIN_PRIVILEGES_FOR_RECEIVER)(self, user)
+
     def __str__(self):
         return import_string(submit_settings.SUBMIT_DISPLAY_SUBMIT_RECEIVER_NAME)(self)
 

@@ -30,7 +30,7 @@ JUDGE_INTERFACE_IDENTITY = getattr(django_settings, 'JUDGE_INTERFACE_IDENTITY', 
 JUDGE_ADDRESS = getattr(django_settings, 'JUDGE_ADDRESS', '127.0.0.1')
 JUDGE_PORT = getattr(django_settings, 'JUDGE_PORT', 12347)
 
-# Override view methods to set who can submit, `submit.is_accepted` field or submit success message
+# Override view methods to set `submit.is_accepted` field or submit success message
 SUBMIT_POST_SUBMIT_FORM_VIEW = getattr(django_settings, 'SUBMIT_POST_SUBMIT_FORM_VIEW',
                                        'testovac.submit.views.PostSubmitForm')
 # Format of displayed score can depend on competition
@@ -42,3 +42,9 @@ SUBMIT_DISPLAY_SUBMIT_RECEIVER_NAME = getattr(django_settings, 'SUBMIT_DISPLAY_S
 
 JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER = getattr(django_settings, 'JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER',
                                                    'testovac.submit.defaults.default_inputs_folder_at_judge')
+
+# Override these functions to set access rights for receivers
+SUBMIT_CAN_POST_SUBMIT = getattr(django_settings, 'SUBMIT_CAN_POST_SUBMIT',
+                                 'testovac.submit.defaults.can_post_submit')
+SUBMIT_HAS_ADMIN_PRIVILEGES_FOR_RECEIVER = getattr(django_settings, 'SUBMIT_HAS_ADMIN_PRIVILEGES_FOR_RECEIVER',
+                                                   'testovac.submit.defaults.has_admin_privileges_for_receiver')

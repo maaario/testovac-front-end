@@ -22,13 +22,6 @@ from .judge_helpers import create_review_and_send_to_judge, parse_protocol, Judg
 class PostSubmitForm(View):
     login_required = True
 
-    def can_post_submit(self, receiver, user):
-        """
-        Override this method to set, who can submit to this receiver.
-        E.g. users not allowed in this competition can't submit solutions for this task.
-        """
-        return True
-
     def is_submit_accepted(self, submit):
         """
         Override this method to decide which submits will be accepted, penalized or not accepted.
@@ -55,7 +48,7 @@ class PostSubmitForm(View):
         receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
         config = receiver.configuration
 
-        if not self.can_post_submit(receiver, request.user):
+        if not receiver.can_post_submit(request.user):
             raise PermissionDenied()
 
         if 'form' in config:
@@ -90,8 +83,10 @@ class PostSubmitForm(View):
 
 @login_required
 def view_submit(request, submit_id):
-    submit = get_object_or_404(Submit, pk=submit_id)
-    if submit.user != request.user and not request.user.is_staff:
+    submit = get_object_or_404(Submit.objects.select_related('receiver'), pk=submit_id)
+    user_has_admin_privileges = submit.receiver.has_admin_privileges(request.user)
+
+    if submit.user != request.user and not user_has_admin_privileges:
         raise PermissionDenied()
 
     conf = submit.receiver.configuration
@@ -99,6 +94,7 @@ def view_submit(request, submit_id):
     data = {
         'submit': submit,
         'review': review,
+        'user_has_admin_privileges': user_has_admin_privileges,
         'show_submitted_file': conf.get('show_submitted_file', False),
         'protocol_expected': conf.get('send_to_judge', False),
     }
@@ -108,7 +104,7 @@ def view_submit(request, submit_id):
             data['submitted_file'] = submitted_file.read().decode('utf-8', 'replace')
 
     if data['protocol_expected'] and review and review.protocol_exists():
-        force_show_details = conf.get('show_all_details', False) or request.user.is_staff
+        force_show_details = conf.get('show_all_details', False) or user_has_admin_privileges
         data['protocol'] = parse_protocol(review.protocol_path(), force_show_details)
         data['result'] = JudgeTestResult
 
@@ -117,16 +113,16 @@ def view_submit(request, submit_id):
 
 @login_required
 def download_submit(request, submit_id):
-    submit = get_object_or_404(Submit, pk=submit_id)
-    if submit.user != request.user and not request.user.is_staff:
+    submit = get_object_or_404(Submit.objects.select_related('receiver'), pk=submit_id)
+    if submit.user != request.user and not submit.receiver.has_admin_privileges(request.user):
         raise PermissionDenied()
     return send_file(request, submit.file_path(), submit.filename)
 
 
 @login_required
 def download_review(request, review_id):
-    review = get_object_or_404(Review, pk=review_id)
-    if review.submit.user != request.user and not request.user.is_staff:
+    review = get_object_or_404(Review.objects.select_related('submit', 'submit__receiver'), pk=review_id)
+    if review.submit.user != request.user and not review.submit.receiver.has_admin_privileges(request.user):
         raise PermissionDenied()
     return send_file(request, review.file_path(), review.filename)
 
@@ -134,6 +130,9 @@ def download_review(request, review_id):
 @csrf_exempt
 @require_POST
 def receive_protocol(request):
+    """
+    Receive protocol from judge via POST and save it to review.protocol_path()
+    """
     review_id = request.POST['submit_id']
     review = get_object_or_404(Review, pk=review_id)
     protocol = request.POST['protocol'].encode('utf-8')
@@ -152,6 +151,9 @@ def receive_protocol(request):
 
 @login_required
 def get_receiver_templates(request):
+    """
+    Send receiver templates to JavaScript at page admin:submit_submitreceiver_change/add
+    """
     if not request.user.is_staff:
         raise PermissionDenied()
     templates = SubmitReceiverTemplate.objects.all()

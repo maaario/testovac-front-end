@@ -26,7 +26,7 @@
 {% block page_header %}
     <h1>{% trans 'Submit details' %}</h1>
 
-    {% if user.is_staff %}
+    {% if user_has_admin_privileges %}
         <a href="{% url 'admin:submit_submit_change' submit.id %}">
             <span class="glyphicon glyphicon-pencil"></span> {% trans 'Edit and review' %}
         </a>

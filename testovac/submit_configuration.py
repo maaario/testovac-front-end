@@ -12,12 +12,6 @@ from testovac.results.generator import ResultsGenerator, display_points
 
 
 class PostSubmitFormCustomized(PostSubmitForm):
-    def can_post_submit(self, receiver, user):
-        if not receiver.task_set.all():
-            return False
-        task = receiver.task_set.all()[0]
-        return task.contest.tasks_visible_for_user(user)
-
     def is_submit_accepted(self, submit):
         """
         Submits after the contest has finished are automatically set to `not accepted`.
@@ -43,6 +37,13 @@ class PostSubmitFormCustomized(PostSubmitForm):
                 message=message,
                 comment=_("Contest has already finished, this submit won't affect the results.")
             )
+
+
+def can_post_submit(receiver, user):
+    possible_tasks = receiver.task_set.all().prefetch_related('contest')
+    if not possible_tasks:
+        return False
+    return possible_tasks[0].contest.tasks_visible_for_user(user)
 
 
 def display_submit_receiver_name(receiver):

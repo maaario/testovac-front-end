@@ -5,6 +5,6 @@
 {% else %}
     <p class="text-danger">{% trans 'Task statement is not available to download.' %}</p>
     {% if user.is_staff %}
-        <p class="text-danger">{% trans 'Amins only' %}: {{ message }}</p>
+        <p class="text-danger">{% trans 'Admins only' %}: {{ message }}</p>
     {% endif %}
 {% endif %}

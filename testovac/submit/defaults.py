@@ -21,3 +21,11 @@ def display_submit_receiver_name(receiver):
 
 def default_inputs_folder_at_judge(receiver):
     return '{}-{}'.format(submit_settings.JUDGE_INTERFACE_IDENTITY, receiver.id)
+
+
+def can_post_submit(receiver, user):
+    return True
+
+
+def has_admin_privileges_for_receiver(receiver, user):
+    return user.is_staff
