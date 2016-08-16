@@ -48,15 +48,14 @@ class PostSubmitFormCustomized(PostSubmitForm):
 def display_submit_receiver_name(receiver):
     type = submit_receiver_type(receiver)
 
-    if not receiver.task_set.all():
+    possible_tasks = receiver.task_set.all()
+    if not possible_tasks:
         return 'no-task {} ({})'.format(receiver.id, type)
-    task_slug = receiver.task_set.all()[0].slug
-
-    return '{} ({})'.format(task_slug, type)
+    return '{} ({})'.format(possible_tasks[0].slug, type)
 
 
 def display_score(review):
-    possible_tasks = review.submit.receiver.task_set.all()
+    possible_tasks = review.submit.receiver.task_set.all().prefetch_related('submit_receivers')
     if not possible_tasks:
         return 0
     task = possible_tasks[0]

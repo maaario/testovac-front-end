@@ -8,6 +8,13 @@ body{
     min-height: 100%;
 }
 
+.page{
+    max-width: 1170px;
+    padding: auto;
+    bottom: 0;
+    height: 100%;
+}
+
 /* Top panel */
 
 a.navbar-brand{
@@ -62,13 +69,6 @@ li>h2{ margin-top: 0; }
 }
 
 /* Content panel */
-
-.page{
-    max-width: 1170px;
-    padding: auto;
-    bottom: 0;
-    height: 100%;
-}
 
 .page-content{
     background-color: #eee;

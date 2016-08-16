@@ -82,10 +82,7 @@ class Submit(models.Model):
         return os.path.exists(self.file_path())
 
     def last_review(self):
-        reviews = self.review_set.order_by('-time')
-        if reviews:
-            return reviews[0]
-        return None
+        return self.review_set.order_by('-time', '-pk').first()
 
     def get_absolute_url(self):
         return reverse('testovac.submit.views.view_submit', kwargs=dict(submit_id=self.id))
