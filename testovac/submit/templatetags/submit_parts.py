@@ -17,12 +17,12 @@ def submit_form(receiver, redirect, user, caption=None):
         'user_can_post_submit': receiver.can_post_submit(user),
         'receiver': receiver,
         'redirect_to': redirect,
-        'caption': caption,
     }
 
     conf = receiver.configuration
     if 'form' in conf:
         data['submit_form'] = FileSubmitForm(configuration=conf['form'])
+        data['caption'] = conf['form'].get('caption', None) or caption
     if 'link' in conf:
         data['submit_link'] = conf['link']
 
