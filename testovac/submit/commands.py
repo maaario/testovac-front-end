@@ -28,7 +28,7 @@ def rejudge_submit(request, submit_id):
 
 def rejudge_receiver_submits(request, receiver_id):
     """
-    For selected receiver send last accepted (acc. with penalization) submit of each user to judge.
+    For selected receiver send each accepted (acc. with penalization) submit of each user to judge.
     """
     receiver = get_object_or_404(SubmitReceiver, pk=receiver_id)
 
