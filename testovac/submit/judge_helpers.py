@@ -51,10 +51,9 @@ def prepare_raw_file(review):
     user_id = '%s-%s' % (submit_settings.JUDGE_INTERFACE_IDENTITY, str(review.submit.user.id))
 
     original_filename = unidecode(review.submit.filename)
-    receiver_id = review.submit.receiver.configuration.get(
-        'inputs_folder_at_judge',
-        import_string(submit_settings.JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER)(review.submit.receiver)
-    )
+    receiver_id = review.submit.receiver.configuration.get('inputs_folder_at_judge', None) \
+                  or import_string(submit_settings.JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER)(review.submit.receiver)
+
     language = os.path.splitext(original_filename)[1]
     correct_filename = receiver_id + language
 

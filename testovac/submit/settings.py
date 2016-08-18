@@ -65,11 +65,15 @@ SUBMIT_CONFIG_JSON_SCHEMA = getattr(django_settings, 'SUBMIT_CONFIG_JSON_SCHEMA'
             "type": "object",
             "description": "Form to upload submits will be rendered for this receiver.",
             "properties": {
+                "caption": {
+                    "type": "string",
+                    "description": "Caption next to submit form.",
+                },
                 "extensions": {
                     "type": "array",
                     "format": "table",
                     "description": "Extensions that can be submitted. Leave empty to allow any extension.",
-                    "items": {"$ref": "#definitions/extension"},
+                    "items": {"$ref": "#/definitions/extension"},
                 },
                 "languages": {
                     "type": "array",
@@ -77,13 +81,15 @@ SUBMIT_CONFIG_JSON_SCHEMA = getattr(django_settings, 'SUBMIT_CONFIG_JSON_SCHEMA'
                     "items": {
                         "type": "array",
                         "items": [
-                            {"$ref": "#definitions/extension"},
+                            {"$ref": "#/definitions/extension"},
                             {
                                 "type": "string",
-                                "description": "Description",
+                                "description": "Description, shown in drop-down",
                                 "maxLength": 25,
                             }
                         ],
+                        "minItems": 2,
+                        "maxItems": 2,
                         "additionalItems": False
                     }
                 }
@@ -93,6 +99,11 @@ SUBMIT_CONFIG_JSON_SCHEMA = getattr(django_settings, 'SUBMIT_CONFIG_JSON_SCHEMA'
         "send_to_judge": {
             "type": "boolean",
             "default": False
+        },
+        "inputs_folder_at_judge": {
+            "type": "string",
+            "default": "",
+            "description": "Name of folder with inputs at judge, default is set by custom function to receiver.pk",
         },
         "show_submitted_file": {
             "type": "boolean",
@@ -108,6 +119,11 @@ SUBMIT_CONFIG_JSON_SCHEMA = getattr(django_settings, 'SUBMIT_CONFIG_JSON_SCHEMA'
         "link": {
             "type": "string",
             "description": "Link to page with external submit. A button with link will be rendered for this receiver."
+        },
+        "payload": {
+            "type": "object",
+            "additionalProperties": True,
+            "description": "Data stored by external application - not defined by submit app."
         }
     },
 
