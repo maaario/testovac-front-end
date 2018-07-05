@@ -15,6 +15,16 @@ PROJECT_DIR, PROJECT_MODULE_NAME = os.path.split(
 def env(name, default):
     return os.environ.get(name, default)
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'results-cache',
+        'TIMEOUT': 60 * 5,
+        'MAX_ENTRIES': 100,
+    }
+}
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
