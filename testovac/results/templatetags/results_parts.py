@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django import template
 from django.contrib.auth.models import User
+from django.core.cache import cache
 
 from testovac.results.generator import ResultsGenerator, display_points
 from testovac.utils import is_true
@@ -15,10 +16,15 @@ def points_format(points):
 
 
 @register.inclusion_tag('results/parts/results_table.html', takes_context=True)
-def results_table(context, task_list):
+def results_table(context, slug, task_list):
     request = context['request']
     max_sum = sum(task.max_points for task in task_list)
-    table_data = ResultsGenerator(User.objects.all(), task_list).generate_result_table_context()
+
+    table_data = cache.get(slug)
+    if table_data is None:
+        table_data = ResultsGenerator(User.objects.all(), task_list).generate_result_table_context()
+        cache.set(slug, table_data)
+
     return {
         'tasks': task_list,
         'table_data': table_data,
