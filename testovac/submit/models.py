@@ -91,7 +91,7 @@ class Submit(models.Model):
         return self.review_set.order_by('-time', '-pk').first()
 
     def get_absolute_url(self):
-        return reverse('testovac.submit.views.view_submit', kwargs=dict(submit_id=self.id))
+        return reverse('view_submit', kwargs=dict(submit_id=self.id))
 
     class Meta:
         verbose_name = 'submit'

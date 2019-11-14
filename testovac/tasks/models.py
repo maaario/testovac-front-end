@@ -81,7 +81,7 @@ class Task(models.Model):
     objects = TaskManager()
 
     def get_absolute_url(self):
-        return reverse('testovac.tasks.views.task_statement', kwargs=dict(task_slug=self.slug))
+        return reverse('task_statement', kwargs=dict(task_slug=self.slug))
 
     class Meta:
         verbose_name = _('task')

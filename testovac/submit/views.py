@@ -1,4 +1,4 @@
-import urlparse
+import urllib.parse
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
